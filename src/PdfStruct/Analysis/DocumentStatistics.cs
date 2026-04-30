@@ -49,7 +49,7 @@ public sealed class DocumentStatistics
             .Select(b => b.IsBold ? BoldFontWeight : RegularFontWeight)
             .ToArray();
 
-        FontSizeRarity = new RarityTable(sizes, scoreMin: 6.0, scoreMax: 96.0);
+        FontSizeRarity = new RarityTable(sizes, scoreMin: 6.0, scoreMax: 200.0);
         FontWeightRarity = new RarityTable(weights, scoreMin: RegularFontWeight, scoreMax: 900.0);
         MedianFontSize = Median(sizes);
     }

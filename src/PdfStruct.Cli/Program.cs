@@ -26,17 +26,17 @@ internal static class App
             return 0;
         }
 
-        if (!string.Equals(args[0], "extract", StringComparison.OrdinalIgnoreCase))
-        {
-            Console.Error.WriteLine($"Unknown command: {args[0]}");
-            PrintUsage(Console.Error);
-            return 2;
-        }
+        var verb = args[0];
+        var rest = args.Skip(1).ToArray();
 
         try
         {
-            var options = ExtractOptions.Parse(args.Skip(1).ToArray());
-            return Extract(options);
+            return verb.ToLowerInvariant() switch
+            {
+                "extract" => Extract(ExtractOptions.Parse(rest)),
+                "diagnose" => Diagnose(DiagnoseOptions.Parse(rest)),
+                _ => UnknownCommand(verb)
+            };
         }
         catch (CliException ex)
         {
@@ -49,6 +49,14 @@ internal static class App
             Console.Error.WriteLine(ex.Message);
             return 1;
         }
+    }
+
+    /// <summary>Reports an unknown verb and prints usage to stderr.</summary>
+    private static int UnknownCommand(string verb)
+    {
+        Console.Error.WriteLine($"Unknown command: {verb}");
+        PrintUsage(Console.Error);
+        return 2;
     }
 
     /// <summary>Runs the <c>extract</c> command: parses the input PDF and writes Markdown or JSON output.</summary>
@@ -105,6 +113,91 @@ internal static class App
         return 0;
     }
 
+    /// <summary>
+    /// Runs the <c>diagnose</c> command: scores every block on the heading
+    /// probability axis and writes a CSV row per block. Used to calibrate
+    /// the heading-probability threshold against fixture expectations.
+    /// </summary>
+    private static int Diagnose(DiagnoseOptions options)
+    {
+        if (options.ShowHelp)
+        {
+            PrintUsage(Console.Out);
+            return 0;
+        }
+
+        var parser = new PdfStructParser();
+        var rows = parser.AnalyzeHeadingProbabilities(options.InputPath);
+
+        TextWriter writer;
+        FileStream? fileStream = null;
+        StreamWriter? fileWriter = null;
+        if (options.OutputPath is null)
+        {
+            writer = Console.Out;
+        }
+        else
+        {
+            var outputPath = Path.GetFullPath(options.OutputPath);
+            var outputDirectory = Path.GetDirectoryName(outputPath);
+            if (!string.IsNullOrEmpty(outputDirectory))
+                Directory.CreateDirectory(outputDirectory);
+
+            fileStream = File.Create(outputPath);
+            fileWriter = new StreamWriter(fileStream, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+            writer = fileWriter;
+        }
+
+        try
+        {
+            WriteDiagnosticCsv(writer, rows);
+            writer.Flush();
+        }
+        finally
+        {
+            fileWriter?.Dispose();
+            fileStream?.Dispose();
+        }
+
+        return 0;
+    }
+
+    /// <summary>Writes heading-probability diagnostic rows as CSV.</summary>
+    private static void WriteDiagnosticCsv(TextWriter writer, IReadOnlyList<HeadingDiagnosticRow> rows)
+    {
+        writer.WriteLine("page,classified,total,base,size_rarity,weight_rarity,bulleted,font_size,is_bold,is_standalone,line_count,font,content");
+        foreach (var row in rows)
+        {
+            var b = row.Block;
+            var bd = row.Breakdown;
+            var content = Csv(Truncate(b.Text.ReplaceLineEndings(" ⏎ "), 80));
+            writer.Write($"{row.PageNumber},");
+            writer.Write($"{(row.ClassifiedAsHeading ? "H" : "P")},");
+            writer.Write($"{bd.Total:F3},");
+            writer.Write($"{bd.Base:F3},");
+            writer.Write($"{bd.FontSizeRarity:F3},");
+            writer.Write($"{bd.FontWeightRarity:F3},");
+            writer.Write($"{bd.Bulleted:F3},");
+            writer.Write($"{b.FontSize:F1},");
+            writer.Write($"{(b.IsBold ? "1" : "0")},");
+            writer.Write($"{(b.IsStandalone ? "1" : "0")},");
+            writer.Write($"{b.LineCount},");
+            writer.Write($"{Csv(b.FontName)},");
+            writer.WriteLine(content);
+        }
+    }
+
+    /// <summary>Trims a string to <paramref name="max"/> characters.</summary>
+    private static string Truncate(string value, int max) =>
+        value.Length <= max ? value : value[..max];
+
+    /// <summary>Quotes a CSV field if it contains the delimiter, a quote, or a newline.</summary>
+    private static string Csv(string value)
+    {
+        if (value.IndexOfAny([',', '"', '\n', '\r']) < 0) return value;
+        return $"\"{value.Replace("\"", "\"\"")}\"";
+    }
+
     /// <summary>Returns <c>true</c> when the value matches a top-level help token (<c>-h</c>, <c>--help</c>, or <c>help</c>).</summary>
     private static bool IsHelp(string value) =>
         string.Equals(value, "-h", StringComparison.OrdinalIgnoreCase) ||
@@ -116,12 +209,17 @@ internal static class App
     {
         writer.WriteLine("Usage:");
         writer.WriteLine("  pdfstruct extract <input.pdf> [options]");
+        writer.WriteLine("  pdfstruct diagnose <input.pdf> [options]");
         writer.WriteLine();
-        writer.WriteLine("Options:");
+        writer.WriteLine("Extract options:");
         writer.WriteLine("  -o, --output <path>       Write output to a file instead of stdout.");
         writer.WriteLine("      --format <format>     Output format: markdown, json. Default: markdown, or inferred from -o.");
         writer.WriteLine("      --debug-image <dir>   Write per-page PNG overlays with extracted element bounding boxes.");
         writer.WriteLine("      --sanitize            Mask common sensitive values in extracted text.");
+        writer.WriteLine();
+        writer.WriteLine("Diagnose options:");
+        writer.WriteLine("  -o, --output <path>       Write the heading-probability CSV to a file. Default: stdout.");
+        writer.WriteLine();
         writer.WriteLine("  -h, --help                Show help.");
         writer.WriteLine();
         writer.WriteLine("Examples:");
@@ -129,6 +227,7 @@ internal static class App
         writer.WriteLine("  pdfstruct extract document.pdf -o out.md");
         writer.WriteLine("  pdfstruct extract document.pdf -o out.json --format json");
         writer.WriteLine("  pdfstruct extract document.pdf --debug-image out");
+        writer.WriteLine("  pdfstruct diagnose document.pdf -o scores.csv");
     }
 }
 
@@ -256,6 +355,67 @@ internal sealed class ExtractOptions
 
         index++;
         return args[index];
+    }
+}
+
+/// <summary>Parsed options for the <c>diagnose</c> command.</summary>
+internal sealed class DiagnoseOptions
+{
+    /// <summary>Absolute path to the input PDF.</summary>
+    public string InputPath { get; private set; } = string.Empty;
+
+    /// <summary>CSV output path, or <c>null</c> to write to stdout.</summary>
+    public string? OutputPath { get; private set; }
+
+    /// <summary><c>true</c> when the parsed arguments only request that help be displayed.</summary>
+    public bool ShowHelp { get; private set; }
+
+    /// <summary>Parses arguments that follow the <c>diagnose</c> verb.</summary>
+    /// <exception cref="CliException">Thrown when arguments are malformed or the input PDF cannot be located.</exception>
+    public static DiagnoseOptions Parse(string[] args)
+    {
+        if (args.Length == 0)
+            throw new CliException("Missing input PDF path.");
+
+        if (args.Any(a => string.Equals(a, "-h", StringComparison.OrdinalIgnoreCase)
+                       || string.Equals(a, "--help", StringComparison.OrdinalIgnoreCase)))
+        {
+            return new DiagnoseOptions { ShowHelp = true };
+        }
+
+        string? inputPath = null;
+        var options = new DiagnoseOptions();
+
+        for (var index = 0; index < args.Length; index++)
+        {
+            var arg = args[index];
+            switch (arg)
+            {
+                case "-o":
+                case "--output":
+                    if (index + 1 >= args.Length || args[index + 1].StartsWith("-", StringComparison.Ordinal))
+                        throw new CliException($"Missing value for {arg}.");
+                    options.OutputPath = args[++index];
+                    break;
+                default:
+                    if (arg.StartsWith("-", StringComparison.Ordinal))
+                        throw new CliException($"Unknown option: {arg}");
+                    if (inputPath is not null)
+                        throw new CliException($"Unexpected argument: {arg}");
+                    inputPath = arg;
+                    break;
+            }
+        }
+
+        if (inputPath is null)
+            throw new CliException("Missing input PDF path.");
+
+        var fullInputPath = Path.GetFullPath(inputPath);
+        if (!File.Exists(fullInputPath))
+            throw new CliException($"Input PDF not found: {inputPath}");
+
+        options.InputPath = fullInputPath;
+        return options;
     }
 }
 

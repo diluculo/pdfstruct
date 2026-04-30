@@ -6,6 +6,24 @@ using PdfStruct.Models;
 namespace PdfStruct.Analysis;
 
 /// <summary>
+/// Per-signal breakdown of a block's heading probability. Useful for
+/// calibration: emitting these to CSV reveals which signals discriminate
+/// headings from body text on a given fixture and whether the threshold
+/// produces clean separations.
+/// </summary>
+/// <param name="Base">Layout-only base probability (font ratio, standalone, single-line-short).</param>
+/// <param name="FontSizeRarity">Font-size rarity rank, weighted by the classifier's size weight.</param>
+/// <param name="FontWeightRarity">Font-weight rarity rank, weighted by the classifier's weight weight.</param>
+/// <param name="Bulleted">Bonus added when the block begins with a list-label glyph.</param>
+/// <param name="Total">Sum of the four contributing signals; classification compares this against the threshold.</param>
+public readonly record struct HeadingProbabilityBreakdown(
+    double Base,
+    double FontSizeRarity,
+    double FontWeightRarity,
+    double Bulleted,
+    double Total);
+
+/// <summary>
 /// Defines a classifier that determines the semantic type of text blocks.
 /// </summary>
 public interface IElementClassifier
@@ -109,20 +127,36 @@ public sealed class FontBasedElementClassifier : IElementClassifier
 
     /// <summary>
     /// Computes a block's heading probability as the sum of the base
-    /// probability and document-wide rarity boosts. Exposed for use by
-    /// diagnostic tooling (calibration dumps).
+    /// probability and document-wide rarity boosts.
+    /// </summary>
+    public double ComputeHeadingProbability(TextBlock block, DocumentStatistics stats) =>
+        ComputeHeadingProbabilityBreakdown(block, stats).Total;
+
+    /// <summary>
+    /// Computes the per-signal breakdown of a block's heading probability.
+    /// Exposed for use by diagnostic tooling (calibration dumps): the same
+    /// numbers consumed by classification, separated so they can be written
+    /// to CSV and inspected against fixture expectations.
     /// </summary>
     /// <param name="block">The candidate block.</param>
     /// <param name="stats">Document statistics produced by <see cref="DocumentStatistics"/>.</param>
-    /// <returns>The total heading probability, unbounded above (typically <c>[0, 1.3]</c>).</returns>
-    public double ComputeHeadingProbability(TextBlock block, DocumentStatistics stats)
+    /// <returns>The signal-by-signal breakdown plus the summed total.</returns>
+    public HeadingProbabilityBreakdown ComputeHeadingProbabilityBreakdown(TextBlock block, DocumentStatistics stats)
     {
         var baseProbability = BaseHeadingProbability(block, stats);
         var sizeRarityBoost = stats.FontSizeRarity.GetBoost(stats.RoundFontSize(block.FontSize)) * _fontSizeRarityWeight;
         var weightRarityBoost = stats.FontWeightRarity.GetBoost(DocumentStatistics.WeightFor(block.IsBold)) * _fontWeightRarityWeight;
         var bulletedBoost = IsBulleted(block.Text) ? _bulletedBoost : 0.0;
-        return baseProbability + sizeRarityBoost + weightRarityBoost + bulletedBoost;
+        return new HeadingProbabilityBreakdown(
+            Base: baseProbability,
+            FontSizeRarity: sizeRarityBoost,
+            FontWeightRarity: weightRarityBoost,
+            Bulleted: bulletedBoost,
+            Total: baseProbability + sizeRarityBoost + weightRarityBoost + bulletedBoost);
     }
+
+    /// <summary>The probability threshold above which a block is classified as a heading.</summary>
+    public double HeadingProbabilityThreshold => _headingProbabilityThreshold;
 
     /// <summary>
     /// Computes the base heading probability from layout-only signals: how

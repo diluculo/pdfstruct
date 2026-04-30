@@ -21,6 +21,20 @@ public sealed record PdfStructResult(
     string? Json);
 
 /// <summary>
+/// One row of heading-probability diagnostic output, produced by
+/// <see cref="PdfStructParser.AnalyzeHeadingProbabilities"/>.
+/// </summary>
+/// <param name="PageNumber">1-indexed page number where the block appears.</param>
+/// <param name="Block">The extracted text block, including font and layout signals.</param>
+/// <param name="Breakdown">Per-signal contributions and total heading probability.</param>
+/// <param name="ClassifiedAsHeading">Whether the total exceeds the configured threshold.</param>
+public readonly record struct HeadingDiagnosticRow(
+    int PageNumber,
+    Analysis.TextBlock Block,
+    Analysis.HeadingProbabilityBreakdown Breakdown,
+    bool ClassifiedAsHeading);
+
+/// <summary>
 /// Main entry point for RAG-optimized PDF extraction.
 /// Coordinates PdfPig → word grouping → XY-Cut++ reading order →
 /// element classification → Markdown/JSON rendering.
@@ -81,6 +95,57 @@ public sealed class PdfStructParser
     {
         using var pdf = UglyToad.PdfPig.PdfDocument.Open(bytes);
         return ParseInternal(pdf, fileName);
+    }
+
+    /// <summary>
+    /// Runs the parser pipeline up to (but not through) classification and
+    /// returns the per-block heading-probability breakdown produced by the
+    /// default <see cref="FontBasedElementClassifier"/>. Intended for
+    /// threshold calibration and false-positive diagnosis — emit the rows
+    /// to CSV and inspect score distributions across fixtures.
+    /// </summary>
+    /// <param name="filePath">Path to the input PDF.</param>
+    /// <returns>One row per block, in extraction order, with score components and the threshold-based classification.</returns>
+    /// <exception cref="FileNotFoundException">Thrown when the file does not exist.</exception>
+    public IReadOnlyList<HeadingDiagnosticRow> AnalyzeHeadingProbabilities(string filePath)
+    {
+        if (!File.Exists(filePath))
+            throw new FileNotFoundException("PDF file not found.", filePath);
+
+        using var pdf = UglyToad.PdfPig.PdfDocument.Open(filePath);
+        return AnalyzeHeadingProbabilitiesInternal(pdf);
+    }
+
+    /// <summary>Per-page extraction + scoring for diagnostic output.</summary>
+    private IReadOnlyList<HeadingDiagnosticRow> AnalyzeHeadingProbabilitiesInternal(UglyToad.PdfPig.PdfDocument pdf)
+    {
+        var pageBlocks = new List<(int Page, IReadOnlyList<TextBlock> Blocks)>(pdf.NumberOfPages);
+        var allBlocks = new List<TextBlock>();
+        for (var p = 1; p <= pdf.NumberOfPages; p++)
+        {
+            var blocks = ExtractPageBlocks(pdf.GetPage(p));
+            pageBlocks.Add((p, blocks));
+            allBlocks.AddRange(blocks);
+        }
+
+        var classifier = new FontBasedElementClassifier(_options.HeadingProbabilityThreshold);
+        classifier.Prepare(allBlocks);
+        var stats = new DocumentStatistics(allBlocks);
+
+        var rows = new List<HeadingDiagnosticRow>(allBlocks.Count);
+        foreach (var (page, blocks) in pageBlocks)
+        {
+            foreach (var block in blocks)
+            {
+                var breakdown = classifier.ComputeHeadingProbabilityBreakdown(block, stats);
+                rows.Add(new HeadingDiagnosticRow(
+                    PageNumber: page,
+                    Block: block,
+                    Breakdown: breakdown,
+                    ClassifiedAsHeading: breakdown.Total > classifier.HeadingProbabilityThreshold));
+            }
+        }
+        return rows;
     }
 
     private PdfStructResult ParseInternal(UglyToad.PdfPig.PdfDocument pdf, string fileName)
