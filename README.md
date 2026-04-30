@@ -74,8 +74,8 @@ PdfStruct's heading detection is **typography-driven**, following [OpenDataLoade
 
 Where this works well:
 
-- **Academic papers** (`tests/fixtures/plos_*.pdf`) — bold sub-headings + larger title font give clean separations across H1/H2/H3.
-- **Display-typeset documents** (`tests/fixtures/letter.pdf`, `tests/fixtures/lorem_ipsum.pdf`) — large title, small body, no ambiguity.
+- **Academic papers** (`src/PdfStruct.Tests/Fixtures/plos_*.pdf`) — bold sub-headings + larger title font give clean separations across H1/H2/H3.
+- **Display-typeset documents** (`src/PdfStruct.Tests/Fixtures/letter.pdf`, `src/PdfStruct.Tests/Fixtures/lorem_ipsum.pdf`) — large title, small body, no ambiguity.
 - **Documents with explicit typographic hierarchy** — the U.S. Constitution's Article numbers at 24pt vs section labels at 20pt get distinct levels automatically.
 
 Where it doesn't (yet):

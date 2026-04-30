@@ -18,7 +18,7 @@ namespace PdfStruct.Tests;
 public class FixtureRegressionTests
 {
     private static string FixturePath(string name) =>
-        Path.Combine(AppContext.BaseDirectory, "fixtures", name);
+        Path.Combine(AppContext.BaseDirectory, "Fixtures", name);
 
     /// <summary>
     /// Article numbers (제1조 ...) in the main constitution body must

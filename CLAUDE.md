@@ -19,8 +19,8 @@ src/
     Safety/          Prompt-injection filter, text sanitizer
     PdfStructParser  Public entry point
   PdfStruct.Cli/     Console app, packaged later as `dotnet tool` (command name `pdfstruct`)
-  PdfStruct.Tests/   xUnit
-tests/fixtures/      PDFs that ship with the repo (must be copyright-clean)
+  PdfStruct.Tests/
+    Fixtures/        PDFs that ship with the repo (must be copyright-clean) + Korean fixture pattern helpers
 playground/          Gitignored sandbox for local user PDFs (see playground/README.md)
 todo/                Local planning notes (gitignored)
 ```
@@ -60,14 +60,14 @@ Drop test PDFs into `playground/` (gitignored). The build also copies the apphos
 
 ## Fixtures
 
-`tests/fixtures/` holds copyright-clean PDFs that ship with the repo. The primary regression fixture is `대한민국헌법.pdf` (Constitution of Korea, public domain under Article 7 of the Korean Copyright Act). It is uniquely useful for layout-analysis testing because:
+`src/PdfStruct.Tests/Fixtures/` holds copyright-clean PDFs that ship with the repo. The primary regression fixture is `kr_constitution.pdf` (Constitution of Korea, public domain under Article 7 of the Korean Copyright Act). It is uniquely useful for layout-analysis testing because:
 
 - Article numbers `제1조` ... `제130조` form a strict monotonic sequence — perfect for reading-order regression assertions.
 - Section markers (`제N편`, `제N장`, `제N절`, `제N관`) form a clean four-level heading hierarchy.
 - Running headers (`대한민국헌법`) and footers (`법제처 N 국가법령정보센터`) repeat across all 14 pages — exercise the running-header detector.
 - Justified single-column body produces orphan tail lines (e.g. `한다.`) that exercise paragraph-merge logic.
 
-When adding a new fixture, follow the source/license rules in `tests/fixtures/README.md`. Never commit copyrighted scans, marketing PDFs, or web-scraped content.
+When adding a new fixture, follow the source/license rules in `src/PdfStruct.Tests/Fixtures/README.md`. Never commit copyrighted scans, marketing PDFs, or web-scraped content.
 
 For PDFs that are private, large, or uncertain copyright-wise, drop them into `playground/` instead — that directory is gitignored.
 
@@ -80,5 +80,5 @@ PdfStruct is **early alpha**. The public API and JSON output schema may still ch
 - The change builds clean (`dotnet build` with no warnings on Release).
 - Tests pass (`dotnet test`).
 - Format check passes (`dotnet format --verify-no-changes`).
-- For library changes that affect output: run the CLI against `tests/fixtures/대한민국헌법.pdf` and eyeball the Markdown / JSON output. Layout regressions are not always caught by unit tests yet.
+- For library changes that affect output: run the CLI against `src/PdfStruct.Tests/Fixtures/kr_constitution.pdf` and eyeball the Markdown / JSON output. Layout regressions are not always caught by unit tests yet.
 - XML doc comments are present on every new public/internal API, with `<summary>` at minimum on private members.

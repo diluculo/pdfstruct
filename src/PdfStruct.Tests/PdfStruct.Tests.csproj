@@ -19,9 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\..\tests\fixtures\*.pdf"
-             Link="fixtures\%(Filename)%(Extension)"
-             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Fixtures\*.pdf" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
