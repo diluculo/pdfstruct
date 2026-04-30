@@ -52,19 +52,39 @@ File.WriteAllText("output.json", result.Json);
 | Feature | Status |
 |---------|--------|
 | XY-Cut++ reading order (multi-column) | ✅ |
-| Heading hierarchy detection (font-based) | ✅ |
-| Paragraph grouping | ✅ |
+| Probabilistic heading detection (font + standalone signals) | ✅ |
+| Heading-level assignment by typographic-style clustering | ✅ |
+| Paragraph grouping with line-continuation merge | ✅ |
+| Running header / footer filtering | ✅ |
 | Bounding box per element | ✅ |
 | Markdown output | ✅ |
-| JSON output (OpenDataLoader-compatible) | ✅ |
+| JSON output (OpenDataLoader-compatible, ISO 8601 dates) | ✅ |
 | Prompt injection filtering | ✅ |
 | Invalid character replacement | ✅ |
 | Sensitive text sanitization (optional) | ✅ |
+| Pluggable regex-based heading patterns (per-corpus customization) | ✅ |
 | Table extraction (bordered) | 🔜 Phase 2 |
 | List detection | 🔜 Phase 2 |
 | Image extraction | 🔜 Phase 2 |
 | Tagged PDF structure tree | 🔜 Phase 3 |
-| Header/footer filtering | 🔜 Phase 2 |
+
+## What works, what doesn't
+
+PdfStruct's heading detection is **typography-driven**, following [OpenDataLoader-pdf](https://github.com/datactivist/opendataloader-pdf)'s probabilistic model: blocks are scored on font-size rarity, font-weight rarity, standalone-row layout, and short-single-line shape, and the document's distinct heading styles are clustered into a 1..N hierarchy.
+
+Where this works well:
+
+- **Academic papers** (`tests/fixtures/plos_*.pdf`) — bold sub-headings + larger title font give clean separations across H1/H2/H3.
+- **Display-typeset documents** (`tests/fixtures/letter.pdf`, `tests/fixtures/lorem_ipsum.pdf`) — large title, small body, no ambiguity.
+- **Documents with explicit typographic hierarchy** — the U.S. Constitution's Article numbers at 24pt vs section labels at 20pt get distinct levels automatically.
+
+Where it doesn't (yet):
+
+- **Documents whose section markers carry no typographic distinction** — the Korean constitution's `제1장`, `제1절`, `제1관` are typeset in the same font and size as body paragraphs. Without language-specific patterns, only the document title is detected as a heading. Inject patterns via [`RegexHeadingClassifier`](src/PdfStruct/Analysis/RegexHeadingClassifier.cs) when the corpus needs it (see "Custom heading patterns" below).
+- **Magazine pull-quotes** — large display type that visually quotes body text scores high on font rarity and is sometimes misclassified as a heading. Layout-level disambiguation (pull-quote shape, position offset) is not yet implemented.
+- **Tables of contents with prominent page numbers** — the page-number column at heading-sized type is misclassified.
+- **Inline bold or italic runs inside paragraphs** are not preserved — paragraphs are flattened to plain text on the way to Markdown and JSON, matching ODL's behavior.
+- **Tables, lists, and inline images** are not yet detected (Phase 2 roadmap).
 
 ## Output
 
@@ -127,6 +147,41 @@ dotnet run --project src/PdfStruct.Cli -- extract playground/document.pdf --debu
 
 `--sanitize` masks common sensitive values (emails, phone numbers, etc.) in the extracted text. `--debug-image` writes one PNG per page with extracted element bounding boxes over a page-sized canvas; it redraws the PdfPig word layer with SkiaSharp and overlays the detected regions for layout debugging.
 
+A `diagnose` subcommand emits a per-block CSV with the heading-probability breakdown (base, font-size rarity, font-weight rarity, bulleted boost, total) — useful for calibrating the threshold against new fixtures:
+
+```bash
+dotnet run --project src/PdfStruct.Cli -- diagnose playground/document.pdf -o scores.csv
+```
+
+## Custom heading patterns
+
+When a corpus has section markers that are not typographically distinct (Korean legal documents, contracts using "Article N." conventions, etc.), wire a `RegexHeadingClassifier` ahead of the default font-based classifier:
+
+```csharp
+using System.Text.RegularExpressions;
+using PdfStruct;
+using PdfStruct.Analysis;
+
+var koreanLegalPatterns = new[]
+{
+    new HeadingPattern(new Regex(@"^(제\s*\d+\s*(편|장)|전문|부칙)(\s|$)"), HeadingLevel: 2),
+    new HeadingPattern(new Regex(@"^제\s*\d+\s*절(\s|$)"), HeadingLevel: 3),
+    new HeadingPattern(new Regex(@"^제\s*\d+\s*(관|항)(\s|$)"), HeadingLevel: 4),
+};
+
+var options = new PdfStructOptions();
+var parser = new PdfStructParser(
+    options,
+    new XyCutLayoutAnalyzer(options.MinGapRatioX, options.MinGapRatioY),
+    new CompositeElementClassifier(
+        new RegexHeadingClassifier(koreanLegalPatterns),
+        new FontBasedElementClassifier(options.HeadingProbabilityThreshold)));
+
+var result = parser.Parse("kr_constitution.pdf");
+```
+
+The composite tries each classifier in order and takes the first non-paragraph result for any block. The library ships no patterns by default — corpus knowledge stays with the caller.
+
 ## Development
 
 ### Prerequisites
@@ -153,9 +208,9 @@ dotnet format PdfStruct.sln --verify-no-changes --no-restore
 
 ## Roadmap
 
-- **Phase 1** (current): Reading order, heading/paragraph classification, Markdown/JSON output
-- **Phase 2**: Table detection, list detection, image extraction, header/footer filtering
-- **Phase 3**: Tagged PDF support, borderless table detection
+- **Phase 1** (current): Reading order, heading/paragraph classification, running header/footer filtering, Markdown/JSON output
+- **Phase 2**: Table detection, list detection, image extraction, layout-strategy auto-selection (single-column content-stream order vs. XY-Cut), pull-quote disambiguation
+- **Phase 3**: Tagged PDF support, borderless table detection, inline emphasis runs
 
 ## License
 
