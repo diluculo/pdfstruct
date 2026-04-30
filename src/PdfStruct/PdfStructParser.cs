@@ -420,23 +420,36 @@ public sealed class PdfStructParser
     {
         if (words.Count == 0) return [];
 
-        // Sort top-to-bottom, then left-to-right
+        // Sort top-to-bottom, then left-to-right. PdfPig's Word.BoundingBox.Bottom
+        // is the higher visual Y for rotated glyphs and the lower visual Y for
+        // regular glyphs, so sorting on it descending happens to keep
+        // top-of-page words first in either orientation.
         var sorted = words
             .OrderByDescending(w => w.BoundingBox.Bottom)
             .ThenBy(w => w.BoundingBox.Left)
             .ToList();
 
-        // Group into lines by baseline proximity
+
+        // Group words into lines by baseline proximity AND horizontal proximity.
+        // The X-gap check prevents words at similar Y but in different columns
+        // (e.g. an arxiv left-margin watermark glyph next to a body line, or
+        // the left and right columns of a two-column paper) from being merged
+        // into a single line just because they share a baseline.
         var lines = new List<LineGroup>();
         var current = new LineGroup(sorted[0]);
 
         for (int i = 1; i < sorted.Count; i++)
         {
             var w = sorted[i];
-            var dist = Math.Abs(w.BoundingBox.Bottom - current.BaselineY);
+            var wLowerY = Math.Min(w.BoundingBox.Bottom, w.BoundingBox.Top);
+            var yDist = Math.Abs(wLowerY - current.BaselineY);
+            var xGap = w.BoundingBox.Left - current.Right;
+            var maxXGap = Math.Max(15.0, current.AvgHeight * 1.5);
 
-            if (dist <= current.AvgHeight * 0.5)
+            if (yDist <= current.AvgHeight * 0.5 && xGap <= maxXGap)
+            {
                 current.Add(w);
+            }
             else
             {
                 lines.Add(current);
@@ -445,53 +458,61 @@ public sealed class PdfStructParser
         }
         lines.Add(current);
 
-        // Merge lines into blocks by spacing and horizontal overlap
-        var blocks = new List<TextBlock>();
-        var blockLines = new List<LineGroup> { lines[0] };
-        // Per-page column width estimate. The widest line is treated as full
-        // column width; lines noticeably shorter than this are not body
-        // wrap-arounds and should not trigger the continuation-merge path.
-        var maxLineWidth = lines.Max(l => l.Width);
+        // Detect column right edges: lines that wrap inside a paragraph end
+        // at the column's right edge, so the most common Right values across
+        // the page are treated as column boundaries. Lines NOT ending at any
+        // common right are short standalone elements (headings, captions).
+        var rightBuckets = lines
+            .GroupBy(l => Math.Round(l.Right / 5.0) * 5.0)
+            .Where(g => g.Count() >= Math.Max(3, lines.Count / 8))
+            .OrderByDescending(g => g.Count())
+            .Take(3)
+            .Select(g => g.Key)
+            .ToHashSet();
 
-        for (int i = 1; i < lines.Count; i++)
+        bool LineEndsAtColumnRight(LineGroup line) =>
+            rightBuckets.Contains(Math.Round(line.Right / 5.0) * 5.0);
+
+        // Merge lines into blocks with column awareness. For each new line we
+        // search the open blocks (one per active column) for the closest
+        // previous line whose horizontal extent overlaps; ODL's
+        // ParagraphProcessor calls this the "areOverlapping" check and uses
+        // it as the column firewall without explicit column detection.
+        var openBlocks = new List<List<LineGroup>>();
+        foreach (var curr in lines)
         {
-            var prev = lines[i - 1];
-            var curr = lines[i];
+            var bestIdx = -1;
+            var bestGap = double.MaxValue;
 
-            var overlap = Math.Min(prev.Right, curr.Right) - Math.Max(prev.Left, curr.Left);
-            var gap = prev.Bottom - curr.Top;
-            // Gate continuation merging on a font-size match so a heading like
-            // "대한민국헌법" (12pt) does not absorb the body line below it (10pt),
-            // and on prev being near full column width so that short standalone
-            // lines like "제4장 정부" do not absorb the next heading line.
-            var prevShort = prev.Width < 0.6 * maxLineWidth;
-            var currShort = curr.Width < 0.6 * maxLineWidth;
-            // Two consecutive short standalone lines (e.g. "제4장 정부" followed
-            // by "제1절 대통령") are usually two distinct elements, not a single
-            // wrapped block — keep them apart even when overlap and gap pass.
-            var bothShortStandalone = prevShort && currShort;
-            var continues = IsLineContinuation(prev.Text)
-                && IsSameFontSize(prev, curr)
-                && !prevShort;
-            // For continuation lines, measure overlap against the shorter line so a
-            // short tail like "한다." still registers as horizontally contained.
-            var overlapBasis = continues
-                ? Math.Min(prev.Width, curr.Width)
-                : Math.Max(prev.Width, curr.Width);
-            var overlapRatio = overlapBasis > 0 ? overlap / overlapBasis : 0;
-            var maxGap = prev.AvgHeight * 1.5;
-
-            if (overlapRatio > 0.3 && gap >= 0 && gap < maxGap && !bothShortStandalone)
-                blockLines.Add(curr);
-            else
+            for (var j = openBlocks.Count - 1; j >= 0; j--)
             {
-                blocks.Add(MergeLines(blockLines));
-                blockLines = [curr];
-            }
-        }
-        if (blockLines.Count > 0) blocks.Add(MergeLines(blockLines));
+                var lastLine = openBlocks[j][^1];
+                var hasOverlap = lastLine.Right > curr.Left && curr.Right > lastLine.Left;
+                if (!hasOverlap) continue;
 
-        return blocks;
+                var gap = lastLine.Bottom - curr.Top;
+                if (gap < 0) continue;
+
+                var continues = IsLineContinuation(lastLine.Text)
+                    && IsSameFontSize(lastLine, curr)
+                    && LineEndsAtColumnRight(lastLine);
+                var maxGap = lastLine.AvgHeight * (continues ? 3.0 : 1.5);
+                if (gap > maxGap) continue;
+
+                if (gap < bestGap)
+                {
+                    bestGap = gap;
+                    bestIdx = j;
+                }
+            }
+
+            if (bestIdx >= 0)
+                openBlocks[bestIdx].Add(curr);
+            else
+                openBlocks.Add([curr]);
+        }
+
+        return openBlocks.Select(MergeLines).ToList();
     }
 
     private static TextBlock MergeLines(List<LineGroup> lines)
@@ -568,13 +589,16 @@ public sealed class PdfStructParser
         public LineGroup(Word w) => _words.Add(w);
         public void Add(Word w) => _words.Add(w);
 
-        public double BaselineY => _words[0].BoundingBox.Bottom;
+        public double BaselineY => Math.Min(_words[0].BoundingBox.Bottom, _words[0].BoundingBox.Top);
         public double Left => _words.Min(w => w.BoundingBox.Left);
         public double Right => _words.Max(w => w.BoundingBox.Right);
-        public double Bottom => _words.Min(w => w.BoundingBox.Bottom);
-        public double Top => _words.Max(w => w.BoundingBox.Top);
+        // PdfPig's bounding box can have Bottom > Top for rotated text (left-margin
+        // arxiv watermarks, vertical sidebars). Normalise with min/max so downstream
+        // gap and overlap math stays correct on mixed-orientation pages.
+        public double Bottom => _words.Min(w => Math.Min(w.BoundingBox.Bottom, w.BoundingBox.Top));
+        public double Top => _words.Max(w => Math.Max(w.BoundingBox.Bottom, w.BoundingBox.Top));
         public double Width => Right - Left;
-        public double AvgHeight => _words.Average(w => w.BoundingBox.Height);
+        public double AvgHeight => _words.Average(w => Math.Abs(w.BoundingBox.Top - w.BoundingBox.Bottom));
         public double AvgFontSize => _words.Average(w => w.Letters.FirstOrDefault()?.PointSize ?? 12.0);
         public string FontName => _words[0].Letters.FirstOrDefault()?.FontName ?? "";
         public bool IsBold => FontName.Contains("Bold", StringComparison.OrdinalIgnoreCase);
