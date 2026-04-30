@@ -157,8 +157,8 @@ public sealed class PdfStructParser
             NumberOfPages = pdf.NumberOfPages,
             Author = info.Author,
             Title = info.Title,
-            CreationDate = info.CreationDate,
-            ModificationDate = info.ModifiedDate
+            CreationDate = NormalizePdfDate(info.CreationDate),
+            ModificationDate = NormalizePdfDate(info.ModifiedDate)
         };
 
         var pageBlocks = new Dictionary<int, IReadOnlyList<TextBlock>>(pdf.NumberOfPages);
@@ -297,6 +297,61 @@ public sealed class PdfStructParser
     /// <summary>Buckets a Y coordinate into <see cref="ReadingOrderYTolerance"/>-point rows.</summary>
     private static double QuantizeY(double y) =>
         Math.Floor(y / ReadingOrderYTolerance) * ReadingOrderYTolerance;
+
+    /// <summary>
+    /// Converts a PDF date string in the form
+    /// <c>D:YYYYMMDDHHmmSS[+|-]HH'mm'</c> (or its truncated variants) to an
+    /// ISO 8601 representation like <c>2026-04-30T11:30:09+09:00</c>. Returns
+    /// the input unchanged if it cannot be parsed.
+    /// </summary>
+    /// <remarks>
+    /// PdfPig surfaces the PDF date dictionary as the raw string PDF stores
+    /// it. Emitting that string directly into the OpenDataLoader-compatible
+    /// JSON makes the field hostile to anyone reading it; ISO 8601 keeps
+    /// the field usable while preserving the documented JSON shape.
+    /// </remarks>
+    private static string? NormalizePdfDate(string? raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw)) return raw;
+
+        var s = raw.Trim();
+        if (s.StartsWith("D:", StringComparison.Ordinal)) s = s[2..];
+
+        var match = System.Text.RegularExpressions.Regex.Match(
+            s,
+            @"^(\d{4})(\d{2})?(\d{2})?(\d{2})?(\d{2})?(\d{2})?(?:([+\-Z])(\d{2})?(?:'(\d{2})'?)?)?$");
+        if (!match.Success) return raw;
+
+        try
+        {
+            var year = int.Parse(match.Groups[1].Value);
+            var month = match.Groups[2].Success ? int.Parse(match.Groups[2].Value) : 1;
+            var day = match.Groups[3].Success ? int.Parse(match.Groups[3].Value) : 1;
+            var hour = match.Groups[4].Success ? int.Parse(match.Groups[4].Value) : 0;
+            var minute = match.Groups[5].Success ? int.Parse(match.Groups[5].Value) : 0;
+            var second = match.Groups[6].Success ? int.Parse(match.Groups[6].Value) : 0;
+
+            TimeSpan offset;
+            if (!match.Groups[7].Success || match.Groups[7].Value == "Z")
+            {
+                offset = TimeSpan.Zero;
+            }
+            else
+            {
+                var sign = match.Groups[7].Value == "+" ? 1 : -1;
+                var offsetHours = match.Groups[8].Success ? int.Parse(match.Groups[8].Value) : 0;
+                var offsetMinutes = match.Groups[9].Success ? int.Parse(match.Groups[9].Value) : 0;
+                offset = new TimeSpan(sign * offsetHours, sign * offsetMinutes, 0);
+            }
+
+            var dto = new DateTimeOffset(year, month, day, hour, minute, second, offset);
+            return dto.ToString("yyyy-MM-ddTHH:mm:sszzz", System.Globalization.CultureInfo.InvariantCulture);
+        }
+        catch
+        {
+            return raw;
+        }
+    }
 
     /// <summary>
     /// Extracts ordered text blocks for a single page: word grouping, hidden-text
