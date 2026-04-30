@@ -10,12 +10,13 @@ using Xunit;
 namespace PdfStruct.Tests;
 
 /// <summary>
-/// Regression tests anchored to the PDF fixtures under <c>tests/fixtures/</c>.
-/// They guard against silent regressions in reading order, paragraph
-/// merging, and heading classification by leaning on the Korean
-/// constitution's quantitatively verifiable structure.
+/// Content regression tests anchored to <c>kr_constitution.pdf</c>. The
+/// Korean constitution is uniquely valuable as a fixture because article
+/// numbers (제1조 through 제130조) form a strict sequence, giving us a
+/// quantitative reading-order assertion that catches classifier and
+/// layout-analysis regressions immediately.
 /// </summary>
-public class FixtureRegressionTests
+public class KoreanConstitutionFixtureTests
 {
     private static string FixturePath(string name) =>
         Path.Combine(AppContext.BaseDirectory, "Fixtures", name);
@@ -28,7 +29,7 @@ public class FixtureRegressionTests
     /// the bulk of the constitution (≥ 100 articles).
     /// </summary>
     [Fact]
-    public void KoreanConstitution_ArticleNumbersAreMonotonicInMainBody()
+    public void ArticleNumbersAreMonotonicInMainBody()
     {
         var path = FixturePath("kr_constitution.pdf");
         var parser = new PdfStructParser();
@@ -61,7 +62,7 @@ public class FixtureRegressionTests
     /// preceding line by the line-continuation rule.
     /// </summary>
     [Fact]
-    public void KoreanConstitution_NoOrphanedSentenceTails()
+    public void NoOrphanedSentenceTails()
     {
         var path = FixturePath("kr_constitution.pdf");
         var parser = new PdfStructParser();
@@ -85,7 +86,7 @@ public class FixtureRegressionTests
     /// composition path works end-to-end.
     /// </summary>
     [Fact]
-    public void KoreanConstitution_SectionMarkersBecomeHeadingsWhenPatternsInjected()
+    public void SectionMarkersBecomeHeadingsWhenPatternsInjected()
     {
         var path = FixturePath("kr_constitution.pdf");
         var options = new PdfStructOptions();
