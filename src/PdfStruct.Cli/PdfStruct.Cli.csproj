@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PdfStruct\PdfStruct.csproj" />
+    <PackageReference Include="Docnet.Core" />
     <PackageReference Include="PdfPig" />
     <PackageReference Include="SkiaSharp" />
     <PackageReference Include="SkiaSharp.NativeAssets.Win32" />

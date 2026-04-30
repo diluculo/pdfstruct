@@ -1,6 +1,9 @@
 // Copyright (c) Jong Hyun Kim. All rights reserved.
 // Licensed under the Apache License, Version 2.0.
 
+using System.Runtime.InteropServices;
+using Docnet.Core;
+using Docnet.Core.Models;
 using PdfStruct.Models;
 using SkiaSharp;
 using UglyToad.PdfPig.Content;
@@ -9,16 +12,20 @@ namespace PdfStruct.Cli;
 
 /// <summary>
 /// Renders per-page PNG overlays of extracted layout for debugging.
-/// Each output image redraws the PdfPig word layer in place and overlays
-/// the bounding boxes of detected <see cref="ContentElement"/>s, color-coded
-/// by element type and labeled <c>{id}:{type}</c>.
+/// Each output image rasterises the source PDF page with PDFium (via
+/// Docnet.Core) as the background and overlays the bounding boxes of
+/// detected <see cref="ContentElement"/>s, color-coded by element type
+/// and labeled <c>{id}:{type}</c>. Using the actual page raster makes
+/// bbox positions verifiable against the visible layout — fonts,
+/// embedded images, and vector graphics all render exactly as the PDF
+/// would display them.
 /// </summary>
 internal static class DebugImageRenderer
 {
     private const int TargetPageWidth = 1600;
 
     /// <summary>Renders one debug image per page of the supplied PDF.</summary>
-    /// <param name="inputPdfPath">Path to the source PDF, opened to obtain page geometry and the word layer.</param>
+    /// <param name="inputPdfPath">Path to the source PDF, opened to obtain page geometry and the rendered raster.</param>
     /// <param name="document">The parsed structured document whose elements are overlaid.</param>
     /// <param name="outputDirectory">Directory to write <c>page-NNN.png</c> files to. Created if it does not exist.</param>
     /// <returns>The output paths of every PNG written, in page order.</returns>
@@ -30,6 +37,7 @@ internal static class DebugImageRenderer
         Directory.CreateDirectory(outputDirectory);
 
         using var pdf = UglyToad.PdfPig.PdfDocument.Open(inputPdfPath);
+        var pdfiumLib = DocLib.Instance;
         var outputFiles = new List<string>(pdf.NumberOfPages);
 
         for (var pageNumber = 1; pageNumber <= pdf.NumberOfPages; pageNumber++)
@@ -41,7 +49,7 @@ internal static class DebugImageRenderer
                 .ToList();
 
             var outputPath = Path.Combine(outputDirectory, $"page-{pageNumber:000}.png");
-            RenderPage(outputPath, page, elements);
+            RenderPage(outputPath, inputPdfPath, pdfiumLib, pageNumber, page, elements);
             outputFiles.Add(outputPath);
         }
 
@@ -51,6 +59,9 @@ internal static class DebugImageRenderer
     /// <summary>Renders a single page's overlay PNG to <paramref name="outputPath"/>.</summary>
     private static void RenderPage(
         string outputPath,
+        string inputPdfPath,
+        IDocLib pdfiumLib,
+        int pageNumber,
         Page page,
         IReadOnlyList<ContentElement> elements)
     {
@@ -60,11 +71,9 @@ internal static class DebugImageRenderer
         var width = Math.Max(1, (int)Math.Ceiling(pageWidth * scale));
         var height = Math.Max(1, (int)Math.Ceiling(pageHeight * scale));
 
-        using var bitmap = new SKBitmap(width, height);
+        using var bitmap = RasterizePage(pdfiumLib, inputPdfPath, pageNumber - 1, width, height);
         using var canvas = new SKCanvas(bitmap);
-        canvas.Clear(SKColors.White);
 
-        DrawTextLayer(canvas, page, pageHeight, scale);
         DrawPageBorder(canvas, width, height);
 
         foreach (var element in elements)
@@ -78,30 +87,22 @@ internal static class DebugImageRenderer
         data.SaveTo(stream);
     }
 
-    /// <summary>Draws the PdfPig word layer onto the canvas at the page-relative scale, flipping the y-axis from PDF space to canvas space.</summary>
-    private static void DrawTextLayer(SKCanvas canvas, Page page, double pageHeight, float scale)
+    /// <summary>
+    /// Rasterises a single PDF page to a fresh <see cref="SKBitmap"/> by
+    /// asking PDFium for BGRA pixel data and copying it into a Skia bitmap.
+    /// PDFium produces premultiplied BGRA in row-major order, exactly the
+    /// layout Skia expects for <see cref="SKColorType.Bgra8888"/>.
+    /// </summary>
+    private static SKBitmap RasterizePage(IDocLib pdfiumLib, string pdfPath, int pageIndex, int width, int height)
     {
-        using var paint = new SKPaint
-        {
-            Color = new SKColor(30, 30, 30, 210),
-            IsAntialias = true
-        };
+        var dimensions = new PageDimensions(width, height);
+        using var docReader = pdfiumLib.GetDocReader(pdfPath, dimensions);
+        using var pageReader = docReader.GetPageReader(pageIndex);
+        var rawBytes = pageReader.GetImage();
 
-        foreach (var word in page.GetWords())
-        {
-            if (string.IsNullOrWhiteSpace(word.Text))
-            {
-                continue;
-            }
-
-            var pointSize = word.Letters.FirstOrDefault()?.PointSize ?? word.BoundingBox.Height;
-            var fontSize = Math.Clamp((float)(pointSize * scale), 6f, 48f);
-            using var font = new SKFont(SKTypeface.Default, fontSize);
-
-            var x = (float)(word.BoundingBox.Left * scale);
-            var y = (float)((pageHeight - word.BoundingBox.Bottom) * scale);
-            canvas.DrawText(word.Text, x, y, SKTextAlign.Left, font, paint);
-        }
+        var bitmap = new SKBitmap(new SKImageInfo(width, height, SKColorType.Bgra8888, SKAlphaType.Premul));
+        Marshal.Copy(rawBytes, 0, bitmap.GetPixels(), rawBytes.Length);
+        return bitmap;
     }
 
     /// <summary>Strokes a thin rectangle around the page bounds.</summary>
@@ -134,7 +135,7 @@ internal static class DebugImageRenderer
         var color = GetColor(element.Type);
         using var fill = new SKPaint
         {
-            Color = color.WithAlpha(35),
+            Color = color.WithAlpha(45),
             IsAntialias = true,
             Style = SKPaintStyle.Fill
         };
@@ -163,7 +164,7 @@ internal static class DebugImageRenderer
         };
         using var backgroundPaint = new SKPaint
         {
-            Color = color.WithAlpha(220),
+            Color = color.WithAlpha(230),
             IsAntialias = true,
             Style = SKPaintStyle.Fill
         };
