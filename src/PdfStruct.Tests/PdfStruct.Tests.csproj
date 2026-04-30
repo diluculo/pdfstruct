@@ -18,4 +18,10 @@
     <ProjectReference Include="..\PdfStruct\PdfStruct.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="..\..\tests\fixtures\*.pdf"
+             Link="fixtures\%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
