@@ -93,6 +93,7 @@ public sealed class RegexHeadingClassifier : IElementClassifier
         return null;
     }
 
+    /// <summary>Creates a fallback <see cref="ParagraphElement"/> for blocks that did not match any heading pattern.</summary>
     private static ParagraphElement CreateParagraph(TextBlock block, int pageNumber, ref int id) => new()
     {
         Id = id++,
@@ -113,6 +114,7 @@ public sealed class RegexHeadingClassifier : IElementClassifier
         return (newline >= 0 ? text[..newline] : text).Trim();
     }
 
+    /// <summary>Returns the default <see cref="HeadingElement.Level"/> string for a heading level, used when a pattern does not supply its own label.</summary>
     private static string DefaultLevelLabel(int level) => level switch
     {
         1 => "Title",

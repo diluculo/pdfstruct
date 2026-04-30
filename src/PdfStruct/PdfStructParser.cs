@@ -285,6 +285,12 @@ public sealed class PdfStructParser
         return true;
     }
 
+    /// <summary>
+    /// Korean sentence-final endings (verb/adjective inflections plus
+    /// rhetorical/exclamatory variants). A line ending with one of these is
+    /// treated as a complete sentence, so the line-grouper does not pull the
+    /// next line in as a continuation.
+    /// </summary>
     private static readonly string[] s_koreanSentenceTerminators =
     [
         "다.", "요.", "오.", "음.", "함.", "임.", "라.", "자.",
