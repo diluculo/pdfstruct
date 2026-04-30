@@ -162,10 +162,13 @@ public sealed class PdfStructParser
         };
 
         var pageBlocks = new Dictionary<int, IReadOnlyList<TextBlock>>(pdf.NumberOfPages);
+        var pageHeights = new Dictionary<int, double>(pdf.NumberOfPages);
         var allBlocks = new List<TextBlock>();
         for (var p = 1; p <= pdf.NumberOfPages; p++)
         {
-            var blocks = ExtractPageBlocks(pdf.GetPage(p));
+            var page = pdf.GetPage(p);
+            pageHeights[p] = page.Height;
+            var blocks = ExtractPageBlocks(page);
             pageBlocks[p] = blocks;
             allBlocks.AddRange(blocks);
         }
@@ -180,6 +183,14 @@ public sealed class PdfStructParser
         }
 
         AssignHeadingLevels(doc.Kids);
+
+        if (_options.ExcludeHeadersFooters)
+        {
+            var repeatingIds = RunningFurnitureDetector.DetectRepeatingIds(doc.Kids, pageHeights);
+            if (repeatingIds.Count > 0)
+                doc.Kids.RemoveAll(e => repeatingIds.Contains(e.Id));
+        }
+
         SortByReadingOrderAndRenumber(doc.Kids);
 
         string? markdown = _options.Format.HasFlag(OutputFormat.Markdown)
