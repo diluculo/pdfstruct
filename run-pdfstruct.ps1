@@ -17,8 +17,6 @@ param(
     [switch] $Clean
 )
 
-$ErrorActionPreference = 'Stop'
-
 if (-not (Test-Path -LiteralPath $Cli -PathType Leaf)) {
     Write-Error "CLI not found: $Cli`nBuild PdfStruct.Cli first, or pass -Cli <path>."
     exit 1
@@ -55,10 +53,13 @@ foreach ($pdf in $pdfs) {
     New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
 
     $start = Get-Date
-    & $Cli extract $pdf.FullName --output $mdPath --debug-image $outputDir 2>&1 |
-        ForEach-Object { Write-Host "  $_" -ForegroundColor DarkGray }
+    # Capture stdout+stderr into a variable rather than piping; piping a native
+    # command's stderr through the cmdlet pipeline produces NativeCommandError
+    # records that abort the script under the default ErrorActionPreference.
+    $output   = & $Cli extract $pdf.FullName --output $mdPath --debug-image $outputDir 2>&1
     $exitCode = $LASTEXITCODE
     $elapsed  = (Get-Date) - $start
+    foreach ($line in $output) { Write-Host "  $line" -ForegroundColor DarkGray }
 
     $results += [PSCustomObject]@{
         Name     = $name
