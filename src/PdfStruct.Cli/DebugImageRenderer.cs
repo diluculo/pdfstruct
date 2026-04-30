@@ -65,20 +65,28 @@ internal static class DebugImageRenderer
         Page page,
         IReadOnlyList<ContentElement> elements)
     {
-        var pageWidth = page.Width;
-        var pageHeight = page.Height;
-        var scale = (float)Math.Min(2.0, TargetPageWidth / pageWidth);
-        var width = Math.Max(1, (int)Math.Ceiling(pageWidth * scale));
-        var height = Math.Max(1, (int)Math.Ceiling(pageHeight * scale));
+        var mediaBox = page.MediaBox.Bounds;
+        var pageWidth = mediaBox.Width;
+        var pageHeight = mediaBox.Height;
+        var requestedWidth = Math.Max(1, (int)Math.Ceiling(pageWidth * (float)Math.Min(2.0, TargetPageWidth / pageWidth)));
+        var requestedHeight = Math.Max(1, (int)Math.Ceiling(pageHeight * (float)Math.Min(2.0, TargetPageWidth / pageWidth)));
 
-        using var bitmap = RasterizePage(pdfiumLib, inputPdfPath, pageNumber - 1, width, height);
+        using var bitmap = RasterizePage(pdfiumLib, inputPdfPath, pageNumber - 1, requestedWidth, requestedHeight);
+        var actualWidth = bitmap.Width;
+        var actualHeight = bitmap.Height;
+        // Re-derive the page-to-canvas scale from PDFium's actual returned
+        // dimensions: PDFium can shave a pixel off either axis when fitting
+        // the page into the requested box, and using the requested scale
+        // would offset every overlaid bbox by a row/column per scan line —
+        // which manifests as a diagonal drift across the page.
+        var scale = (float)((double)actualWidth / pageWidth);
         using var canvas = new SKCanvas(bitmap);
 
-        DrawPageBorder(canvas, width, height);
+        DrawPageBorder(canvas, actualWidth, actualHeight);
 
         foreach (var element in elements)
         {
-            DrawElement(canvas, element, pageHeight, scale);
+            DrawElement(canvas, element, mediaBox.Left, mediaBox.Bottom, mediaBox.Top, scale);
         }
 
         using var image = SKImage.FromBitmap(bitmap);
@@ -100,12 +108,19 @@ internal static class DebugImageRenderer
         var dimensions = new PageDimensions(width, height);
         using var docReader = pdfiumLib.GetDocReader(pdfPath, dimensions);
         using var pageReader = docReader.GetPageReader(pageIndex);
+        // Use PDFium's actual rendered page size, not the requested dimensions.
+        // PDFium may produce a slightly smaller image (off by 1 pixel on either
+        // axis) while still filling the byte buffer at its own dimensions —
+        // allocating against the requested size leaves stale bytes per row and
+        // shears the content diagonally.
+        var actualWidth = pageReader.GetPageWidth();
+        var actualHeight = pageReader.GetPageHeight();
         var rawBytes = pageReader.GetImage();
 
-        using var pageBitmap = new SKBitmap(new SKImageInfo(width, height, SKColorType.Bgra8888, SKAlphaType.Unpremul));
+        using var pageBitmap = new SKBitmap(new SKImageInfo(actualWidth, actualHeight, SKColorType.Bgra8888, SKAlphaType.Unpremul));
         Marshal.Copy(rawBytes, 0, pageBitmap.GetPixels(), rawBytes.Length);
 
-        var canvasBitmap = new SKBitmap(new SKImageInfo(width, height, SKColorType.Bgra8888, SKAlphaType.Opaque));
+        var canvasBitmap = new SKBitmap(new SKImageInfo(actualWidth, actualHeight, SKColorType.Bgra8888, SKAlphaType.Opaque));
         using var canvas = new SKCanvas(canvasBitmap);
         canvas.Clear(SKColors.White);
         canvas.DrawBitmap(pageBitmap, 0, 0);
@@ -130,10 +145,12 @@ internal static class DebugImageRenderer
     private static void DrawElement(
         SKCanvas canvas,
         ContentElement element,
-        double pageHeight,
+        double mediaBoxLeft,
+        double mediaBoxBottom,
+        double mediaBoxTop,
         float scale)
     {
-        var rect = ToCanvasRect(element.BoundingBox, pageHeight, scale);
+        var rect = ToCanvasRect(element.BoundingBox, mediaBoxLeft, mediaBoxBottom, mediaBoxTop, scale);
         if (rect.Width <= 0 || rect.Height <= 0)
         {
             return;
@@ -187,13 +204,22 @@ internal static class DebugImageRenderer
         canvas.DrawText(label, labelRect.Left + 4, labelRect.Bottom - 4, SKTextAlign.Left, font, textPaint);
     }
 
-    /// <summary>Converts a PDF-space bounding box (origin bottom-left) to a canvas-space rectangle (origin top-left), applying the supplied scale.</summary>
-    private static SKRect ToCanvasRect(BoundingBox box, double pageHeight, float scale)
+    /// <summary>
+    /// Converts a PDF-space bounding box (origin bottom-left, absolute
+    /// user-space coordinates) to a canvas-space rectangle (origin top-left,
+    /// MediaBox-relative). Subtracts the MediaBox origin so PDFs whose page
+    /// is offset from <c>(0, 0)</c> in user space still align with the
+    /// PDFium raster.
+    /// </summary>
+    private static SKRect ToCanvasRect(BoundingBox box, double mediaBoxLeft, double mediaBoxBottom, double mediaBoxTop, float scale)
     {
-        var left = (float)(box.Left * scale);
-        var top = (float)((pageHeight - box.Top) * scale);
-        var right = (float)(box.Right * scale);
-        var bottom = (float)((pageHeight - box.Bottom) * scale);
+        var left = (float)((box.Left - mediaBoxLeft) * scale);
+        var right = (float)((box.Right - mediaBoxLeft) * scale);
+        // Y inversion: the canvas origin is at the top, PDF origin is at
+        // bottom-left of the MediaBox. Distance from canvas top equals
+        // (mediaBoxTop - boxEdge) since both are measured in user space.
+        var top = (float)((mediaBoxTop - box.Top) * scale);
+        var bottom = (float)((mediaBoxTop - box.Bottom) * scale);
         return new SKRect(left, top, right, bottom);
     }
 
