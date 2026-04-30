@@ -179,6 +179,7 @@ public sealed class PdfStructParser
             doc.Kids.AddRange(elements);
         }
 
+        AssignHeadingLevels(doc.Kids);
         SortByReadingOrderAndRenumber(doc.Kids);
 
         string? markdown = _options.Format.HasFlag(OutputFormat.Markdown)
@@ -188,6 +189,66 @@ public sealed class PdfStructParser
 
         return new PdfStructResult(doc, markdown, json);
     }
+
+    /// <summary>
+    /// Assigns numeric heading levels 1..N to <see cref="Models.HeadingElement"/>
+    /// instances by clustering them on typographic style (font size, font name,
+    /// derived bold flag) and ordering style groups from largest/heaviest to
+    /// smallest/lightest. Levels are capped at 6 (Markdown maximum).
+    /// </summary>
+    /// <remarks>
+    /// Ports the OpenDataLoader-pdf <c>HeadingProcessor</c> level-assignment
+    /// pass: a document's distinct heading styles form a hierarchy without
+    /// the parser needing to reason about specific heading semantics. If
+    /// every heading shares the same style, all become level 1, which is
+    /// consistent if uninformative.
+    /// </remarks>
+    private static void AssignHeadingLevels(List<Models.ContentElement> kids)
+    {
+        var headings = kids.OfType<Models.HeadingElement>().ToList();
+        if (headings.Count == 0) return;
+
+        var styleGroups = headings
+            .GroupBy(h => new TextStyleKey(h.Text.FontSize, IsBoldFontName(h.Text.Font), h.Text.Font))
+            .OrderByDescending(g => g.Key.FontSize)
+            .ThenByDescending(g => g.Key.IsBold)
+            .ThenBy(g => g.Key.FontName, StringComparer.Ordinal)
+            .ToList();
+
+        for (var i = 0; i < styleGroups.Count; i++)
+        {
+            var level = Math.Min(i + 1, 6);
+            var label = HeadingLevelLabel(level);
+            foreach (var heading in styleGroups[i])
+            {
+                heading.HeadingLevel = level;
+                heading.Level = label;
+            }
+        }
+    }
+
+    /// <summary>Composite typographic-style key used for grouping headings.</summary>
+    private readonly record struct TextStyleKey(double FontSize, bool IsBold, string FontName);
+
+    /// <summary>
+    /// Heuristic bold detection from a font name. Mirrors the
+    /// <see cref="LineGroup.IsBold"/> derivation but is repeated here because
+    /// only the rendered <see cref="Models.TextProperties.Font"/> string is
+    /// preserved on the heading element.
+    /// </summary>
+    private static bool IsBoldFontName(string fontName) =>
+        fontName.Contains("Bold", StringComparison.OrdinalIgnoreCase) ||
+        fontName.Contains("Heavy", StringComparison.OrdinalIgnoreCase) ||
+        fontName.Contains("Black", StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>Returns the structural label for a heading level, matching the convention used elsewhere in the library.</summary>
+    private static string HeadingLevelLabel(int level) => level switch
+    {
+        1 => "Title",
+        2 => "Section",
+        3 => "Subsection",
+        _ => $"Level {level}"
+    };
 
     /// <summary>
     /// Sorts elements into natural reading order (page top-to-bottom, then
