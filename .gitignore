@@ -30,3 +30,8 @@ packages/
 .DS_Store
 Thumbs.db
 
+# Plans
+todo/
+
+# Claude
+.claude/

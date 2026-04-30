@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <PackageId>PdfStruct.Cli</PackageId>
+    <RootNamespace>PdfStruct.Cli</RootNamespace>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PdfStruct\PdfStruct.csproj" />
+    <PackageReference Include="PdfPig" />
+    <PackageReference Include="SkiaSharp" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Win32" />
+  </ItemGroup>
+
+  <Target Name="CopyAppHostAsPdfstruct" AfterTargets="Build" Condition="'$(OutputType)' == 'Exe'">
+    <PropertyGroup>
+      <_PdfstructAppHost>$(TargetDir)pdfstruct$(_NativeExecutableExtension)</_PdfstructAppHost>
+    </PropertyGroup>
+    <Copy SourceFiles="$(TargetDir)$(TargetName)$(_NativeExecutableExtension)"
+          DestinationFiles="$(_PdfstructAppHost)"
+          SkipUnchangedFiles="true" />
+  </Target>
+</Project>

@@ -113,6 +113,20 @@ PdfStruct
 
 Built on [PdfPig](https://github.com/UglyToad/PdfPig) (Apache-2.0) for low-level PDF access.
 
+## CLI
+
+The repo includes a small local console app for trying PdfStruct against real PDFs. Drop your input documents into [`playground/`](playground/) (gitignored) and run:
+
+```bash
+dotnet run --project src/PdfStruct.Cli -- extract playground/document.pdf
+dotnet run --project src/PdfStruct.Cli -- extract playground/document.pdf -o out.md
+dotnet run --project src/PdfStruct.Cli -- extract playground/document.pdf -o out.json --format json
+dotnet run --project src/PdfStruct.Cli -- extract playground/document.pdf --sanitize -o out.md
+dotnet run --project src/PdfStruct.Cli -- extract playground/document.pdf --debug-image out/debug
+```
+
+`--sanitize` masks common sensitive values (emails, phone numbers, etc.) in the extracted text. `--debug-image` writes one PNG per page with extracted element bounding boxes over a page-sized canvas; it redraws the PdfPig word layer with SkiaSharp and overlays the detected regions for layout debugging.
+
 ## Development
 
 ### Prerequisites

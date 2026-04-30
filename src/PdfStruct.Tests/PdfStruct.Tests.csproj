@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\PdfStruct\PdfStruct.csproj" />
+    <ProjectReference Include="..\PdfStruct\PdfStruct.csproj" />
   </ItemGroup>
 
 </Project>

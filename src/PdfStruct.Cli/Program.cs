@@ -1,0 +1,282 @@
+// Copyright (c) Jong Hyun Kim. All rights reserved.
+// Licensed under the Apache License, Version 2.0.
+
+namespace PdfStruct.Cli;
+
+/// <summary>Process entry point for the <c>pdfstruct</c> CLI.</summary>
+internal static class Program
+{
+    /// <summary>Forwards command-line arguments to <see cref="App.Run"/>.</summary>
+    /// <param name="args">Command-line arguments.</param>
+    /// <returns>Process exit code: <c>0</c> on success, <c>1</c> on runtime error, <c>2</c> on usage error.</returns>
+    public static int Main(string[] args) => App.Run(args);
+}
+
+/// <summary>Top-level command dispatcher for the CLI.</summary>
+internal static class App
+{
+    /// <summary>Parses the leading verb and dispatches to the matching command.</summary>
+    /// <param name="args">Command-line arguments. The first token is treated as the verb.</param>
+    /// <returns>Process exit code: <c>0</c> on success, <c>1</c> on runtime error, <c>2</c> on usage error.</returns>
+    public static int Run(string[] args)
+    {
+        if (args.Length == 0 || IsHelp(args[0]))
+        {
+            PrintUsage(Console.Out);
+            return 0;
+        }
+
+        if (!string.Equals(args[0], "extract", StringComparison.OrdinalIgnoreCase))
+        {
+            Console.Error.WriteLine($"Unknown command: {args[0]}");
+            PrintUsage(Console.Error);
+            return 2;
+        }
+
+        try
+        {
+            var options = ExtractOptions.Parse(args.Skip(1).ToArray());
+            return Extract(options);
+        }
+        catch (CliException ex)
+        {
+            Console.Error.WriteLine(ex.Message);
+            PrintUsage(Console.Error);
+            return 2;
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine(ex.Message);
+            return 1;
+        }
+    }
+
+    /// <summary>Runs the <c>extract</c> command: parses the input PDF and writes Markdown or JSON output.</summary>
+    private static int Extract(ExtractOptions options)
+    {
+        if (options.ShowHelp)
+        {
+            PrintUsage(Console.Out);
+            return 0;
+        }
+
+        var format = options.ResolveFormat();
+        var parser = new PdfStructParser(new PdfStructOptions
+        {
+            Format = format == OutputKind.Json ? OutputFormat.Json : OutputFormat.Markdown,
+            SanitizeText = options.SanitizeText
+        });
+
+        var result = parser.Parse(options.InputPath);
+        var content = format == OutputKind.Json
+            ? result.Json ?? string.Empty
+            : result.Markdown ?? string.Empty;
+
+        if (options.OutputPath is null)
+        {
+            Console.Out.Write(content);
+            if (!content.EndsWith(Environment.NewLine, StringComparison.Ordinal))
+            {
+                Console.Out.WriteLine();
+            }
+        }
+        else
+        {
+            var outputPath = Path.GetFullPath(options.OutputPath);
+            var outputDirectory = Path.GetDirectoryName(outputPath);
+            if (!string.IsNullOrEmpty(outputDirectory))
+            {
+                Directory.CreateDirectory(outputDirectory);
+            }
+
+            File.WriteAllText(outputPath, content);
+        }
+
+        if (options.DebugImageDirectory is not null)
+        {
+            var files = DebugImageRenderer.Render(
+                options.InputPath,
+                result.Document,
+                options.DebugImageDirectory);
+
+            Console.Error.WriteLine($"Wrote {files.Count} debug image(s) to {Path.GetFullPath(options.DebugImageDirectory)}");
+        }
+
+        return 0;
+    }
+
+    /// <summary>Returns <c>true</c> when the value matches a top-level help token (<c>-h</c>, <c>--help</c>, or <c>help</c>).</summary>
+    private static bool IsHelp(string value) =>
+        string.Equals(value, "-h", StringComparison.OrdinalIgnoreCase) ||
+        string.Equals(value, "--help", StringComparison.OrdinalIgnoreCase) ||
+        string.Equals(value, "help", StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>Writes the top-level usage banner to the supplied writer.</summary>
+    private static void PrintUsage(TextWriter writer)
+    {
+        writer.WriteLine("Usage:");
+        writer.WriteLine("  pdfstruct extract <input.pdf> [options]");
+        writer.WriteLine();
+        writer.WriteLine("Options:");
+        writer.WriteLine("  -o, --output <path>       Write output to a file instead of stdout.");
+        writer.WriteLine("      --format <format>     Output format: markdown, json. Default: markdown, or inferred from -o.");
+        writer.WriteLine("      --debug-image <dir>   Write per-page PNG overlays with extracted element bounding boxes.");
+        writer.WriteLine("      --sanitize            Mask common sensitive values in extracted text.");
+        writer.WriteLine("  -h, --help                Show help.");
+        writer.WriteLine();
+        writer.WriteLine("Examples:");
+        writer.WriteLine("  pdfstruct extract document.pdf");
+        writer.WriteLine("  pdfstruct extract document.pdf -o out.md");
+        writer.WriteLine("  pdfstruct extract document.pdf -o out.json --format json");
+        writer.WriteLine("  pdfstruct extract document.pdf --debug-image out");
+    }
+}
+
+/// <summary>Parsed options for the <c>extract</c> command.</summary>
+internal sealed class ExtractOptions
+{
+    private string? _format;
+
+    /// <summary>Absolute path to the input PDF.</summary>
+    public string InputPath { get; private set; } = string.Empty;
+
+    /// <summary>Output file path, or <c>null</c> to write to stdout.</summary>
+    public string? OutputPath { get; private set; }
+
+    /// <summary>Directory where per-page debug PNG overlays are written, or <c>null</c> to skip rendering.</summary>
+    public string? DebugImageDirectory { get; private set; }
+
+    /// <summary><c>true</c> when sensitive text should be masked in the extracted output.</summary>
+    public bool SanitizeText { get; private set; }
+
+    /// <summary><c>true</c> when the parsed arguments only request that help be displayed.</summary>
+    public bool ShowHelp { get; private set; }
+
+    /// <summary>Parses arguments that follow the <c>extract</c> verb.</summary>
+    /// <param name="args">Arguments after the leading verb.</param>
+    /// <returns>The parsed options, or a help-only instance when <c>-h</c>/<c>--help</c> is present.</returns>
+    /// <exception cref="CliException">Thrown when an option is missing a required value, an unknown option is supplied, or the input PDF cannot be located.</exception>
+    public static ExtractOptions Parse(string[] args)
+    {
+        if (args.Length == 0)
+        {
+            throw new CliException("Missing input PDF path.");
+        }
+
+        if (args.Any(AppHelp.IsHelp))
+        {
+            return new ExtractOptions { InputPath = string.Empty, ShowHelp = true };
+        }
+
+        string? inputPath = null;
+        var options = new ExtractOptions { InputPath = string.Empty };
+
+        for (var index = 0; index < args.Length; index++)
+        {
+            var arg = args[index];
+            switch (arg)
+            {
+                case "-o":
+                case "--output":
+                    options.OutputPath = ReadValue(args, ref index, arg);
+                    break;
+
+                case "--format":
+                    options._format = ReadValue(args, ref index, arg);
+                    break;
+
+                case "--debug-image":
+                    options.DebugImageDirectory = ReadValue(args, ref index, arg);
+                    break;
+
+                case "--sanitize":
+                    options.SanitizeText = true;
+                    break;
+
+                default:
+                    if (arg.StartsWith("-", StringComparison.Ordinal))
+                    {
+                        throw new CliException($"Unknown option: {arg}");
+                    }
+
+                    if (inputPath is not null)
+                    {
+                        throw new CliException($"Unexpected argument: {arg}");
+                    }
+
+                    inputPath = arg;
+                    break;
+            }
+        }
+
+        if (inputPath is null)
+        {
+            throw new CliException("Missing input PDF path.");
+        }
+
+        var fullInputPath = Path.GetFullPath(inputPath);
+        if (!File.Exists(fullInputPath))
+        {
+            throw new CliException($"Input PDF not found: {inputPath}");
+        }
+
+        options.InputPath = fullInputPath;
+        return options;
+    }
+
+    /// <summary>Resolves the requested output format, defaulting to Markdown unless a JSON extension is implied by <see cref="OutputPath"/>.</summary>
+    /// <returns>The resolved output kind.</returns>
+    /// <exception cref="CliException">Thrown when an explicit <c>--format</c> value is not recognized.</exception>
+    public OutputKind ResolveFormat()
+    {
+        if (_format is null && OutputPath is not null)
+        {
+            var extension = Path.GetExtension(OutputPath);
+            if (string.Equals(extension, ".json", StringComparison.OrdinalIgnoreCase))
+            {
+                return OutputKind.Json;
+            }
+        }
+
+        return (_format ?? "markdown").ToLowerInvariant() switch
+        {
+            "markdown" or "md" => OutputKind.Markdown,
+            "json" => OutputKind.Json,
+            var value => throw new CliException($"Unsupported format: {value}")
+        };
+    }
+
+    /// <summary>Reads the value following an option token, treating values that begin with <c>-</c> as missing.</summary>
+    private static string ReadValue(string[] args, ref int index, string option)
+    {
+        if (index + 1 >= args.Length || args[index + 1].StartsWith("-", StringComparison.Ordinal))
+        {
+            throw new CliException($"Missing value for {option}.");
+        }
+
+        index++;
+        return args[index];
+    }
+}
+
+/// <summary>Output formats supported by the <c>extract</c> command.</summary>
+internal enum OutputKind
+{
+    /// <summary>Render as Markdown.</summary>
+    Markdown,
+
+    /// <summary>Render as OpenDataLoader-compatible JSON.</summary>
+    Json
+}
+
+/// <summary>Signals a usage or argument error to the top-level dispatcher, which converts it into exit code <c>2</c> plus a usage banner.</summary>
+internal sealed class CliException(string message) : Exception(message);
+
+/// <summary>Help-flag detection helper scoped to this file (the <c>help</c> verb is only valid at the top level).</summary>
+file static class AppHelp
+{
+    /// <summary>Returns <c>true</c> when the value is a recognized help flag (<c>-h</c> or <c>--help</c>).</summary>
+    public static bool IsHelp(string value) =>
+        string.Equals(value, "-h", StringComparison.OrdinalIgnoreCase) ||
+        string.Equals(value, "--help", StringComparison.OrdinalIgnoreCase);
+}
