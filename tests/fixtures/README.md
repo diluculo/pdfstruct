@@ -10,6 +10,7 @@ copyrighted material lives in this folder.
 | File | Pages | Layout | Purpose |
 |------|-------|--------|---------|
 | `대한민국헌법.pdf` | 14 | Single column, Korean | Reading order, heading hierarchy, running header/footer detection |
+| `us_constitution.pdf` | 18 | Double columns, English | Article/Amendment hierarchy, Latin-script reading order |
 
 ## Sources and copyright
 
@@ -35,6 +36,33 @@ This fixture is well-suited to layout-analysis testing because:
   the page-furniture detector.
 - Justified single-column body text produces short orphan tail lines
   (e.g. `한다.`) that exercise the paragraph-merge logic.
+
+### `us_constitution.pdf`
+
+The Constitution of the United States, comprising the original 1787
+text and all 27 ratified amendments. Cover page removed; body content
+only.
+
+The constitutional text is in the public domain on two independent
+grounds: it was drafted in 1787 (well past any conceivable copyright
+term), and U.S. federal government works are excluded from copyright
+protection by **17 U.S.C. § 105**.
+
+Originally distributed by the National Constitution Center
+([constitutioncenter.org](https://constitutioncenter.org/)).
+
+This fixture exercises:
+
+- Double-column reading order — the principal value-add over the
+  Korean constitution fixture, which is single-column.
+- Roman numeral article hierarchy (`Article. I.` through `Article. VII.`)
+  as a counterpart to Korean `제N장` patterns.
+- Inconsistent section markers (`SECTION. 1`, `SECTION. 5.`, `SECTION 1`
+  appear across different parts of the document) — useful for testing
+  pattern-matching robustness.
+- Bracketed amended text with footnote markers (`[ ... ]*`) as inline
+  annotations.
+- Multi-column signatory list grouped by state (Article VII closing).
 
 ## Adding new fixtures
 
