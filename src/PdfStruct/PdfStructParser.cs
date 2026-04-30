@@ -191,7 +191,7 @@ public sealed class PdfStructParser
                 doc.Kids.RemoveAll(e => repeatingIds.Contains(e.Id));
         }
 
-        SortByReadingOrderAndRenumber(doc.Kids);
+        RenumberInReadingOrder(doc.Kids);
 
         string? markdown = _options.Format.HasFlag(OutputFormat.Markdown)
             ? new MarkdownRenderer().Render(doc) : null;
@@ -262,41 +262,28 @@ public sealed class PdfStructParser
     };
 
     /// <summary>
-    /// Sorts elements into natural reading order (page top-to-bottom, then
-    /// left-to-right) and renumbers their IDs sequentially. The XY-Cut
-    /// analyzer emits elements cluster-by-cluster, so the parse-time IDs do
-    /// not match the spatial order a reader expects; this pass corrects both
-    /// the iteration order used by renderers and the IDs surfaced in JSON.
+    /// Stable-sorts elements top-to-bottom within each page and renumbers
+    /// IDs sequentially. The per-page extraction pipeline emits blocks in
+    /// reading order, but two blocks at very similar Y values can flip
+    /// because XY-Cut chooses splits arbitrarily when gaps tie; sorting on
+    /// Top descending corrects this without disturbing column structure
+    /// (left/right column blocks have distinct Tops in practice, since
+    /// each is a multi-line paragraph). Crucially, no Left-edge tiebreaker
+    /// is applied — that was the cause of the multi-column interleaving
+    /// observed before this commit.
     /// </summary>
-    /// <remarks>
-    /// Y-coordinates are quantized into <see cref="ReadingOrderYTolerance"/>-point
-    /// buckets so that sub-point measurement noise does not flip the order of
-    /// elements that visually share a row.
-    /// </remarks>
-    private static void SortByReadingOrderAndRenumber(List<Models.ContentElement> elements)
+    private static void RenumberInReadingOrder(List<Models.ContentElement> elements)
     {
-        elements.Sort(static (a, b) =>
+        elements.Sort((a, b) =>
         {
             var pageCmp = a.PageNumber.CompareTo(b.PageNumber);
             if (pageCmp != 0) return pageCmp;
-
-            var aTop = QuantizeY(a.BoundingBox.Top);
-            var bTop = QuantizeY(b.BoundingBox.Top);
-            var topCmp = bTop.CompareTo(aTop);
-            if (topCmp != 0) return topCmp;
-
-            return a.BoundingBox.Left.CompareTo(b.BoundingBox.Left);
+            return b.BoundingBox.Top.CompareTo(a.BoundingBox.Top);
         });
 
         for (var i = 0; i < elements.Count; i++)
             elements[i].Id = i + 1;
     }
-
-    private const double ReadingOrderYTolerance = 5.0;
-
-    /// <summary>Buckets a Y coordinate into <see cref="ReadingOrderYTolerance"/>-point rows.</summary>
-    private static double QuantizeY(double y) =>
-        Math.Floor(y / ReadingOrderYTolerance) * ReadingOrderYTolerance;
 
     /// <summary>
     /// Converts a PDF date string in the form
