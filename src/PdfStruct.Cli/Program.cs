@@ -198,11 +198,9 @@ internal static class App
         return $"\"{value.Replace("\"", "\"\"")}\"";
     }
 
-    /// <summary>Returns <c>true</c> when the value matches a top-level help token (<c>-h</c>, <c>--help</c>, or <c>help</c>).</summary>
-    private static bool IsHelp(string value) =>
-        string.Equals(value, "-h", StringComparison.OrdinalIgnoreCase) ||
-        string.Equals(value, "--help", StringComparison.OrdinalIgnoreCase) ||
-        string.Equals(value, "help", StringComparison.OrdinalIgnoreCase);
+    /// <summary>Returns <c>true</c> when the value is any recognised help token (<c>-h</c>, <c>--help</c>, or the standalone verb <c>help</c>).</summary>
+    internal static bool IsHelp(string value) =>
+        value is "-h" or "--help" or "help";
 
     /// <summary>Writes the top-level usage banner to the supplied writer.</summary>
     private static void PrintUsage(TextWriter writer)
@@ -262,7 +260,7 @@ internal sealed class ExtractOptions
             throw new CliException("Missing input PDF path.");
         }
 
-        if (args.Any(AppHelp.IsHelp))
+        if (args.Any(App.IsHelp))
         {
             return new ExtractOptions { InputPath = string.Empty, ShowHelp = true };
         }
@@ -377,8 +375,7 @@ internal sealed class DiagnoseOptions
         if (args.Length == 0)
             throw new CliException("Missing input PDF path.");
 
-        if (args.Any(a => string.Equals(a, "-h", StringComparison.OrdinalIgnoreCase)
-                       || string.Equals(a, "--help", StringComparison.OrdinalIgnoreCase)))
+        if (args.Any(App.IsHelp))
         {
             return new DiagnoseOptions { ShowHelp = true };
         }
@@ -431,12 +428,3 @@ internal enum OutputKind
 
 /// <summary>Signals a usage or argument error to the top-level dispatcher, which converts it into exit code <c>2</c> plus a usage banner.</summary>
 internal sealed class CliException(string message) : Exception(message);
-
-/// <summary>Help-flag detection helper scoped to this file (the <c>help</c> verb is only valid at the top level).</summary>
-file static class AppHelp
-{
-    /// <summary>Returns <c>true</c> when the value is a recognized help flag (<c>-h</c> or <c>--help</c>).</summary>
-    public static bool IsHelp(string value) =>
-        string.Equals(value, "-h", StringComparison.OrdinalIgnoreCase) ||
-        string.Equals(value, "--help", StringComparison.OrdinalIgnoreCase);
-}
