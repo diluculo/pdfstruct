@@ -210,10 +210,19 @@ public sealed class PdfStructParser
             var curr = lines[i];
 
             var overlap = Math.Min(prev.Right, curr.Right) - Math.Max(prev.Left, curr.Left);
-            var overlapRatio = overlap / Math.Max(prev.Width, curr.Width);
             var gap = prev.Bottom - curr.Top;
+            // Gate continuation merging on a font-size match so a heading like
+            // "대한민국헌법" (12pt) does not absorb the body line below it (10pt).
+            var continues = IsLineContinuation(prev.Text) && IsSameFontSize(prev, curr);
+            // For continuation lines, measure overlap against the shorter line so a
+            // short tail like "한다." still registers as horizontally contained.
+            var overlapBasis = continues
+                ? Math.Min(prev.Width, curr.Width)
+                : Math.Max(prev.Width, curr.Width);
+            var overlapRatio = overlapBasis > 0 ? overlap / overlapBasis : 0;
+            var maxGap = prev.AvgHeight * 1.5;
 
-            if (overlapRatio > 0.3 && gap >= 0 && gap < prev.AvgHeight * 1.5)
+            if (overlapRatio > 0.3 && gap >= 0 && gap < maxGap)
                 blockLines.Add(curr);
             else
             {
@@ -232,6 +241,53 @@ public sealed class PdfStructParser
         var bbox = lines.Select(l => l.Bbox).Aggregate((a, b) => a.Merge(b));
         var first = lines[0];
         return new TextBlock(bbox, text, first.FontName, first.AvgFontSize, first.IsBold);
+    }
+
+    /// <summary>
+    /// Returns <c>true</c> when a line ends mid-sentence — no Korean sentence
+    /// terminator and no Latin period/colon/etc. at end-of-line. Such a line
+    /// must merge with the next line even when the vertical gap is large
+    /// (e.g. justified-paragraph trailing whitespace).
+    /// </summary>
+    /// <remarks>
+    /// Closing quotes/brackets are stripped before checking the terminator
+    /// so that <c>다."</c> still counts as terminated.
+    /// </remarks>
+    private static bool IsLineContinuation(string lineText)
+    {
+        var trimmed = lineText.AsSpan().TrimEnd();
+        while (trimmed.Length > 0 && IsClosingPunctuation(trimmed[^1]))
+            trimmed = trimmed[..^1].TrimEnd();
+        if (trimmed.Length == 0) return false;
+
+        foreach (var terminator in s_koreanSentenceTerminators)
+        {
+            if (trimmed.EndsWith(terminator)) return false;
+        }
+
+        var last = trimmed[^1];
+        if (last is '.' or '!' or '?' or ':' or ';') return false;
+
+        return true;
+    }
+
+    private static readonly string[] s_koreanSentenceTerminators =
+    [
+        "다.", "요.", "오.", "음.", "함.", "임.", "라.", "자.",
+        "니라.", "리라.", "로다.", "세.",
+        "까?", "요?", "다!", "오!"
+    ];
+
+    /// <summary>Returns <c>true</c> for closing punctuation that may follow a sentence terminator.</summary>
+    private static bool IsClosingPunctuation(char c) =>
+        c is '"' or '\'' or '”' or '’' or ')' or ']' or '}' or '」' or '』' or '»';
+
+    /// <summary>Returns <c>true</c> when two lines have effectively the same font size (within 10% or 1pt).</summary>
+    private static bool IsSameFontSize(LineGroup a, LineGroup b)
+    {
+        var delta = Math.Abs(a.AvgFontSize - b.AvgFontSize);
+        var tolerance = Math.Max(1.0, 0.1 * Math.Max(a.AvgFontSize, b.AvgFontSize));
+        return delta <= tolerance;
     }
 
     private sealed class LineGroup
