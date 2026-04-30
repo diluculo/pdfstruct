@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+
+    <!-- NuGet -->
+    <PackageId>PdfStruct</PackageId>
+    <Version>0.1.0-alpha.1</Version>
+    <Authors>Jong Hyun Kim</Authors>
+    <Description>PDF layout intelligence for .NET — structured extraction with bounding boxes, reading order, and semantic element detection. Outputs Markdown and JSON compatible with OpenDataLoader PDF format. Built on PdfPig.</Description>
+    <PackageTags>pdf;rag;markdown;json;bounding-box;layout-analysis;document-parsing;ai;llm;reading-order</PackageTags>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/jongheean/PdfStruct</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jongheean/PdfStruct</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PdfPig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>

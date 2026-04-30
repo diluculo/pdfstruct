@@ -1,0 +1,32 @@
+# Build output
+bin/
+obj/
+artifacts/
+
+# Test output
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+coverage.cobertura.xml
+
+# Packages
+*.nupkg
+*.snupkg
+packages/
+
+# IDE and editor state
+.vs/
+.vscode/
+.idea/
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# OS files
+.DS_Store
+Thumbs.db
+

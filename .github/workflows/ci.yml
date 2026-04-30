@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore PdfStruct.sln
+
+      - name: Build
+        run: dotnet build PdfStruct.sln --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test PdfStruct.sln --no-build --configuration Release --verbosity normal
