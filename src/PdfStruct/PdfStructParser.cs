@@ -46,7 +46,9 @@ public sealed class PdfStructParser
     {
         _options = options;
         _layoutAnalyzer = new XyCutLayoutAnalyzer(options.MinGapRatioX, options.MinGapRatioY);
-        _classifier = new FontBasedElementClassifier(options.HeadingSizeThreshold);
+        _classifier = new CompositeElementClassifier(
+            new KoreanLegalElementClassifier(),
+            new FontBasedElementClassifier(options.HeadingSizeThreshold));
     }
 
     /// <summary>Initializes with custom analyzer and classifier.</summary>
@@ -203,6 +205,10 @@ public sealed class PdfStructParser
         // Merge lines into blocks by spacing and horizontal overlap
         var blocks = new List<TextBlock>();
         var blockLines = new List<LineGroup> { lines[0] };
+        // Per-page column width estimate. The widest line is treated as full
+        // column width; lines noticeably shorter than this are not body
+        // wrap-arounds and should not trigger the continuation-merge path.
+        var maxLineWidth = lines.Max(l => l.Width);
 
         for (int i = 1; i < lines.Count; i++)
         {
@@ -212,8 +218,18 @@ public sealed class PdfStructParser
             var overlap = Math.Min(prev.Right, curr.Right) - Math.Max(prev.Left, curr.Left);
             var gap = prev.Bottom - curr.Top;
             // Gate continuation merging on a font-size match so a heading like
-            // "대한민국헌법" (12pt) does not absorb the body line below it (10pt).
-            var continues = IsLineContinuation(prev.Text) && IsSameFontSize(prev, curr);
+            // "대한민국헌법" (12pt) does not absorb the body line below it (10pt),
+            // and on prev being near full column width so that short standalone
+            // lines like "제4장 정부" do not absorb the next heading line.
+            var prevShort = prev.Width < 0.6 * maxLineWidth;
+            var currShort = curr.Width < 0.6 * maxLineWidth;
+            // Two consecutive short standalone lines (e.g. "제4장 정부" followed
+            // by "제1절 대통령") are usually two distinct elements, not a single
+            // wrapped block — keep them apart even when overlap and gap pass.
+            var bothShortStandalone = prevShort && currShort;
+            var continues = IsLineContinuation(prev.Text)
+                && IsSameFontSize(prev, curr)
+                && !prevShort;
             // For continuation lines, measure overlap against the shorter line so a
             // short tail like "한다." still registers as horizontally contained.
             var overlapBasis = continues
@@ -222,7 +238,7 @@ public sealed class PdfStructParser
             var overlapRatio = overlapBasis > 0 ? overlap / overlapBasis : 0;
             var maxGap = prev.AvgHeight * 1.5;
 
-            if (overlapRatio > 0.3 && gap >= 0 && gap < maxGap)
+            if (overlapRatio > 0.3 && gap >= 0 && gap < maxGap && !bothShortStandalone)
                 blockLines.Add(curr);
             else
             {
