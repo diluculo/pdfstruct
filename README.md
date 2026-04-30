@@ -34,7 +34,8 @@ using PdfStruct;
 
 var parser = new PdfStructParser(new PdfStructOptions
 {
-    Format = OutputFormat.Both
+    Format = OutputFormat.Both,
+    SanitizeText = true
 });
 
 var result = parser.Parse("document.pdf");
@@ -57,6 +58,8 @@ File.WriteAllText("output.json", result.Json);
 | Markdown output | ✅ |
 | JSON output (OpenDataLoader-compatible) | ✅ |
 | Prompt injection filtering | ✅ |
+| Invalid character replacement | ✅ |
+| Sensitive text sanitization (optional) | ✅ |
 | Table extraction (bordered) | 🔜 Phase 2 |
 | List detection | 🔜 Phase 2 |
 | Image extraction | 🔜 Phase 2 |
@@ -103,7 +106,7 @@ PdfStruct
 ├── Models/          # Content element types (heading, paragraph, table, ...)
 ├── Analysis/        # XY-Cut++ layout analyzer, element classifier
 ├── Rendering/       # Markdown & JSON renderers
-├── Safety/          # Prompt injection filter
+├── Safety/          # Prompt injection filtering, text sanitization
 ├── PdfStructParser  # Main entry point
 └── PdfStructOptions # Configuration
 ```

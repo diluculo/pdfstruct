@@ -3,6 +3,7 @@
 
 using PdfStruct.Analysis;
 using PdfStruct.Models;
+using PdfStruct.Safety;
 using Xunit;
 
 namespace PdfStruct.Tests;
@@ -99,5 +100,51 @@ public class XyCutLayoutAnalyzerTests
         var result = analyzer.DetermineReadingOrder(blocks);
         Assert.Equal("Top", result[0].Text);
         Assert.Equal("Bottom", result[1].Text);
+    }
+}
+
+public class TextSanitizerTests
+{
+    [Fact]
+    public void ReplaceInvalidCharacters_ShouldReplaceReplacementAndNullCharacters()
+    {
+        var text = TextSanitizer.ReplaceInvalidCharacters("A\uFFFDB\0C", " ");
+
+        Assert.Equal("A B C", text);
+    }
+
+    [Fact]
+    public void ReplaceInvalidCharacters_ShouldPreserveWhenReplacementIsNull()
+    {
+        var input = "A\uFFFDB";
+        var text = TextSanitizer.ReplaceInvalidCharacters(input, null);
+
+        Assert.Equal(input, text);
+    }
+
+    [Fact]
+    public void Sanitize_ShouldMaskCommonSensitiveValues()
+    {
+        var text = TextSanitizer.Process(
+            "Email test@example.org from 192.168.1.10 using https://example.org/a",
+            sanitizeText: true,
+            invalidCharacterReplacement: " ",
+            TextSanitizer.CreateDefaultRules());
+
+        Assert.Equal(
+            "Email email@example.com from 0.0.0.0 using https://example.com",
+            text);
+    }
+
+    [Fact]
+    public void Sanitize_ShouldPreferNonOverlappingLongerMatches()
+    {
+        var text = TextSanitizer.Process(
+            "Card 4111-1111-1111-1111",
+            sanitizeText: true,
+            invalidCharacterReplacement: " ",
+            TextSanitizer.CreateDefaultRules());
+
+        Assert.Equal("Card 0000-0000-0000-0000", text);
     }
 }

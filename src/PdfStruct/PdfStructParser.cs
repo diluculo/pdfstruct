@@ -122,6 +122,12 @@ public sealed class PdfStructParser
         if (_options.FilterHiddenText)
             textBlocks = PromptInjectionFilter.Filter(textBlocks, page.Width, page.Height);
 
+        textBlocks = TextSanitizer.ProcessBlocks(
+            textBlocks,
+            _options.SanitizeText,
+            _options.InvalidCharacterReplacement,
+            _options.SanitizationRules);
+
         var ordered = _layoutAnalyzer.DetermineReadingOrder(textBlocks);
         return _classifier.Classify(ordered, pageNumber, ref elementId);
     }

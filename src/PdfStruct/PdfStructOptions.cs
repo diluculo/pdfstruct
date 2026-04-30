@@ -1,6 +1,8 @@
 // Copyright (c) Jong Hyun Kim. All rights reserved.
 // Licensed under the Apache License, Version 2.0.
 
+using PdfStruct.Safety;
+
 namespace PdfStruct;
 
 /// <summary>
@@ -49,6 +51,18 @@ public sealed class PdfStructOptions
 
     /// <summary>Gets or sets whether to filter hidden text for prompt injection protection. Default: true.</summary>
     public bool FilterHiddenText { get; set; } = true;
+
+    /// <summary>Gets or sets whether to mask common sensitive values in extracted text. Default: false.</summary>
+    public bool SanitizeText { get; set; }
+
+    /// <summary>
+    /// Gets or sets the replacement for invalid extraction characters such as U+FFFD and NUL.
+    /// Set to <c>null</c> to preserve them. Default: space.
+    /// </summary>
+    public string? InvalidCharacterReplacement { get; set; } = " ";
+
+    /// <summary>Gets the regex-based sanitization rules used when <see cref="SanitizeText"/> is enabled.</summary>
+    public List<TextSanitizationRule> SanitizationRules { get; } = TextSanitizer.CreateDefaultRules();
 
     /// <summary>Gets or sets whether to exclude headers/footers. Default: true.</summary>
     public bool ExcludeHeadersFooters { get; set; } = true;
