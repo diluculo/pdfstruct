@@ -19,12 +19,24 @@ public interface ILayoutAnalyzer
 /// <summary>
 /// Represents a block of text with spatial coordinates, used as input to layout analysis.
 /// </summary>
+/// <param name="BoundingBox">Block bounds in PDF points.</param>
+/// <param name="Text">Block text content (may contain embedded line breaks for wrapped lines).</param>
+/// <param name="FontName">Dominant font name within the block.</param>
+/// <param name="FontSize">Average font point size within the block.</param>
+/// <param name="IsBold">Whether the dominant font is bold-styled.</param>
+/// <param name="LineCount">Number of constituent lines in the block; <c>1</c> for a single-line block.</param>
+/// <param name="IsStandalone">
+/// <c>true</c> when no other block on the page shares this block's vertical row by more
+/// than 50%. Used as a strong "this is a heading or pull-quote, not body text" signal.
+/// </param>
 public sealed record TextBlock(
     BoundingBox BoundingBox,
     string Text,
     string FontName = "",
     double FontSize = 0,
-    bool IsBold = false);
+    bool IsBold = false,
+    int LineCount = 1,
+    bool IsStandalone = false);
 
 /// <summary>
 /// Implements the XY-Cut++ algorithm for determining reading order on PDF pages.

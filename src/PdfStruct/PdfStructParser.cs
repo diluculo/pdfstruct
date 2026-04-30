@@ -96,11 +96,21 @@ public sealed class PdfStructParser
             ModificationDate = info.ModifiedDate
         };
 
+        var pageBlocks = new Dictionary<int, IReadOnlyList<TextBlock>>(pdf.NumberOfPages);
+        var allBlocks = new List<TextBlock>();
+        for (var p = 1; p <= pdf.NumberOfPages; p++)
+        {
+            var blocks = ExtractPageBlocks(pdf.GetPage(p));
+            pageBlocks[p] = blocks;
+            allBlocks.AddRange(blocks);
+        }
+
+        _classifier.Prepare(allBlocks);
+
         var elementId = 1;
         for (var p = 1; p <= pdf.NumberOfPages; p++)
         {
-            var page = pdf.GetPage(p);
-            var elements = ExtractPage(page, p, ref elementId);
+            var elements = _classifier.Classify(pageBlocks[p], p, ref elementId);
             doc.Kids.AddRange(elements);
         }
 
@@ -151,7 +161,13 @@ public sealed class PdfStructParser
     private static double QuantizeY(double y) =>
         Math.Floor(y / ReadingOrderYTolerance) * ReadingOrderYTolerance;
 
-    private IReadOnlyList<Models.ContentElement> ExtractPage(Page page, int pageNumber, ref int elementId)
+    /// <summary>
+    /// Extracts ordered text blocks for a single page: word grouping, hidden-text
+    /// filtering, sanitation, reading-order analysis, and standalone-flag
+    /// computation. Classification is performed later, after document-wide
+    /// statistics are available.
+    /// </summary>
+    private IReadOnlyList<TextBlock> ExtractPageBlocks(Page page)
     {
         var words = page.GetWords().ToList();
         if (words.Count == 0) return [];
@@ -168,7 +184,44 @@ public sealed class PdfStructParser
             _options.SanitizationRules);
 
         var ordered = _layoutAnalyzer.DetermineReadingOrder(textBlocks);
-        return _classifier.Classify(ordered, pageNumber, ref elementId);
+        return WithStandaloneFlag(ordered);
+    }
+
+    /// <summary>
+    /// Returns a copy of <paramref name="blocks"/> with each block's
+    /// <see cref="TextBlock.IsStandalone"/> flag set based on whether any
+    /// other block on the page overlaps its vertical row by more than 50%.
+    /// </summary>
+    private static IReadOnlyList<TextBlock> WithStandaloneFlag(IReadOnlyList<TextBlock> blocks)
+    {
+        var result = new List<TextBlock>(blocks.Count);
+        for (var i = 0; i < blocks.Count; i++)
+        {
+            var standalone = true;
+            for (var j = 0; j < blocks.Count; j++)
+            {
+                if (i == j) continue;
+                if (VerticalOverlapRatio(blocks[i].BoundingBox, blocks[j].BoundingBox) > 0.5)
+                {
+                    standalone = false;
+                    break;
+                }
+            }
+            result.Add(blocks[i] with { IsStandalone = standalone });
+        }
+        return result;
+    }
+
+    /// <summary>
+    /// Returns the fraction of <paramref name="a"/>'s vertical span that
+    /// overlaps <paramref name="b"/>'s vertical span. Range <c>[0, 1]</c>.
+    /// </summary>
+    private static double VerticalOverlapRatio(Models.BoundingBox a, Models.BoundingBox b)
+    {
+        var top = Math.Min(a.Top, b.Top);
+        var bottom = Math.Max(a.Bottom, b.Bottom);
+        var overlap = Math.Max(0, top - bottom);
+        return a.Height > 0 ? overlap / a.Height : 0;
     }
 
     private static List<TextBlock> GroupWordsIntoBlocks(List<Word> words)
@@ -254,7 +307,13 @@ public sealed class PdfStructParser
         var text = string.Join("\n", lines.Select(l => l.Text));
         var bbox = lines.Select(l => l.Bbox).Aggregate((a, b) => a.Merge(b));
         var first = lines[0];
-        return new TextBlock(bbox, text, first.FontName, first.AvgFontSize, first.IsBold);
+        return new TextBlock(
+            bbox,
+            text,
+            first.FontName,
+            first.AvgFontSize,
+            first.IsBold,
+            LineCount: lines.Count);
     }
 
     /// <summary>

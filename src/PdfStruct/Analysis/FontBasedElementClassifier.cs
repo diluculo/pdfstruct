@@ -11,6 +11,16 @@ namespace PdfStruct.Analysis;
 public interface IElementClassifier
 {
     /// <summary>
+    /// Optional pre-pass invoked once with every extracted block across the
+    /// whole document, before any per-page <see cref="Classify"/> calls.
+    /// Classifiers that need document-wide signals (font-size frequency,
+    /// font-weight frequency, etc.) override this to compute and cache them.
+    /// The default implementation is a no-op.
+    /// </summary>
+    /// <param name="documentBlocks">Every block extracted from the document, in arbitrary order.</param>
+    void Prepare(IReadOnlyList<TextBlock> documentBlocks) { }
+
+    /// <summary>
     /// Classifies text blocks into typed content elements.
     /// </summary>
     IReadOnlyList<ContentElement> Classify(
