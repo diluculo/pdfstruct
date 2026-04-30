@@ -8,17 +8,22 @@ PdfStruct is a .NET library and CLI for **RAG-optimized structured extraction** 
 
 The C# / .NET ecosystem currently has no equivalent — PdfStruct is the gap-filler. Inspiration comes from [OpenDataLoader-pdf](https://github.com/datactivist/opendataloader-pdf), and ODL JSON shape compatibility is a deliberate design goal, not just a coincidence.
 
+**Golden reference for algorithm decisions:** when the right approach to a layout-analysis or classification problem is unclear, consult the local clone at `D:\Codes\opendataloader-pdf` first. The heading-probability scoring, running header/footer detection, paragraph merging, and reading-order rules are all ports of ODL's algorithms — match its behavior unless there is a stated reason to diverge.
+
 ## Layout
 
 ```
 src/
   PdfStruct/         Library (NuGet target: PdfStruct)
     Models/          Document model: ContentElement, BoundingBox, etc.
-    Analysis/        Layout (XyCutLayoutAnalyzer) + classifier (FontBasedElementClassifier)
+    Analysis/        XyCutLayoutAnalyzer, FontBasedElementClassifier (probabilistic),
+                     RegexHeadingClassifier (pattern-driven), CompositeElementClassifier,
+                     DocumentStatistics + RarityTable, RunningFurnitureDetector
     Rendering/       Markdown + JSON renderers (ODL-compatible JSON keys)
     Safety/          Prompt-injection filter, text sanitizer
     PdfStructParser  Public entry point
-  PdfStruct.Cli/     Console app, packaged later as `dotnet tool` (command name `pdfstruct`)
+  PdfStruct.Cli/     Console app with `extract` and `diagnose` verbs, packaged later
+                     as `dotnet tool` (command name `pdfstruct`)
   PdfStruct.Tests/
     Fixtures/        PDFs that ship with the repo (must be copyright-clean) + Korean fixture pattern helpers
 playground/          Gitignored sandbox for local user PDFs (see playground/README.md)
