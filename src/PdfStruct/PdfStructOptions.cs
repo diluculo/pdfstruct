@@ -73,6 +73,11 @@ public sealed class PdfStructOptions
     /// <summary>Gets or sets the minimum vertical gap ratio for XY-Cut row detection. Default: 0.005.</summary>
     public double MinGapRatioY { get; set; } = 0.005;
 
-    /// <summary>Gets or sets the font size ratio threshold for heading classification. Default: 1.2.</summary>
-    public double HeadingSizeThreshold { get; set; } = 1.2;
+    /// <summary>
+    /// Gets or sets the heading-probability threshold used by the default
+    /// <see cref="Analysis.FontBasedElementClassifier"/>. Blocks scoring
+    /// above this value are classified as headings. Default: 0.75
+    /// (matches OpenDataLoader-pdf).
+    /// </summary>
+    public double HeadingProbabilityThreshold { get; set; } = 0.75;
 }
