@@ -13,6 +13,7 @@
     <PackageProjectUrl>https://github.com/jongheean/PdfStruct</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jongheean/PdfStruct</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
