@@ -104,6 +104,8 @@ public sealed class PdfStructParser
             doc.Kids.AddRange(elements);
         }
 
+        SortByReadingOrderAndRenumber(doc.Kids);
+
         string? markdown = _options.Format.HasFlag(OutputFormat.Markdown)
             ? new MarkdownRenderer().Render(doc) : null;
         string? json = _options.Format.HasFlag(OutputFormat.Json)
@@ -111,6 +113,43 @@ public sealed class PdfStructParser
 
         return new PdfStructResult(doc, markdown, json);
     }
+
+    /// <summary>
+    /// Sorts elements into natural reading order (page top-to-bottom, then
+    /// left-to-right) and renumbers their IDs sequentially. The XY-Cut
+    /// analyzer emits elements cluster-by-cluster, so the parse-time IDs do
+    /// not match the spatial order a reader expects; this pass corrects both
+    /// the iteration order used by renderers and the IDs surfaced in JSON.
+    /// </summary>
+    /// <remarks>
+    /// Y-coordinates are quantized into <see cref="ReadingOrderYTolerance"/>-point
+    /// buckets so that sub-point measurement noise does not flip the order of
+    /// elements that visually share a row.
+    /// </remarks>
+    private static void SortByReadingOrderAndRenumber(List<Models.ContentElement> elements)
+    {
+        elements.Sort(static (a, b) =>
+        {
+            var pageCmp = a.PageNumber.CompareTo(b.PageNumber);
+            if (pageCmp != 0) return pageCmp;
+
+            var aTop = QuantizeY(a.BoundingBox.Top);
+            var bTop = QuantizeY(b.BoundingBox.Top);
+            var topCmp = bTop.CompareTo(aTop);
+            if (topCmp != 0) return topCmp;
+
+            return a.BoundingBox.Left.CompareTo(b.BoundingBox.Left);
+        });
+
+        for (var i = 0; i < elements.Count; i++)
+            elements[i].Id = i + 1;
+    }
+
+    private const double ReadingOrderYTolerance = 5.0;
+
+    /// <summary>Buckets a Y coordinate into <see cref="ReadingOrderYTolerance"/>-point rows.</summary>
+    private static double QuantizeY(double y) =>
+        Math.Floor(y / ReadingOrderYTolerance) * ReadingOrderYTolerance;
 
     private IReadOnlyList<Models.ContentElement> ExtractPage(Page page, int pageNumber, ref int elementId)
     {
