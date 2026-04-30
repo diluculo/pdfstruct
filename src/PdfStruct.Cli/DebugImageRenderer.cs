@@ -88,10 +88,12 @@ internal static class DebugImageRenderer
     }
 
     /// <summary>
-    /// Rasterises a single PDF page to a fresh <see cref="SKBitmap"/> by
-    /// asking PDFium for BGRA pixel data and copying it into a Skia bitmap.
-    /// PDFium produces premultiplied BGRA in row-major order, exactly the
-    /// layout Skia expects for <see cref="SKColorType.Bgra8888"/>.
+    /// Rasterises a single PDF page to a fresh opaque white-backed
+    /// <see cref="SKBitmap"/>. PDFium emits BGRA with the page background
+    /// fully transparent, which made the resulting PNG render unreadably
+    /// against any dark viewer chrome (e.g. the Windows Photos app dark
+    /// theme); compositing onto an opaque white surface produces a PNG
+    /// that looks the same as the source PDF would in a viewer.
     /// </summary>
     private static SKBitmap RasterizePage(IDocLib pdfiumLib, string pdfPath, int pageIndex, int width, int height)
     {
@@ -100,9 +102,14 @@ internal static class DebugImageRenderer
         using var pageReader = docReader.GetPageReader(pageIndex);
         var rawBytes = pageReader.GetImage();
 
-        var bitmap = new SKBitmap(new SKImageInfo(width, height, SKColorType.Bgra8888, SKAlphaType.Premul));
-        Marshal.Copy(rawBytes, 0, bitmap.GetPixels(), rawBytes.Length);
-        return bitmap;
+        using var pageBitmap = new SKBitmap(new SKImageInfo(width, height, SKColorType.Bgra8888, SKAlphaType.Unpremul));
+        Marshal.Copy(rawBytes, 0, pageBitmap.GetPixels(), rawBytes.Length);
+
+        var canvasBitmap = new SKBitmap(new SKImageInfo(width, height, SKColorType.Bgra8888, SKAlphaType.Opaque));
+        using var canvas = new SKCanvas(canvasBitmap);
+        canvas.Clear(SKColors.White);
+        canvas.DrawBitmap(pageBitmap, 0, 0);
+        return canvasBitmap;
     }
 
     /// <summary>Strokes a thin rectangle around the page bounds.</summary>
