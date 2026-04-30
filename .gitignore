@@ -35,3 +35,6 @@ todo/
 
 # Claude
 .claude/
+
+# CLI output
+out/
