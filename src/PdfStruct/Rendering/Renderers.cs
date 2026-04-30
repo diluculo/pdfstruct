@@ -4,7 +4,6 @@
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
 using PdfStruct.Models;
 
 namespace PdfStruct.Rendering;
@@ -22,7 +21,7 @@ public interface IDocumentRenderer
 /// Renders a <see cref="Models.PdfDocument"/> to Markdown, preserving heading hierarchy,
 /// table structure, and list formatting. Ideal for LLM context and RAG chunking.
 /// </summary>
-public sealed partial class MarkdownRenderer : IDocumentRenderer
+public sealed class MarkdownRenderer : IDocumentRenderer
 {
     /// <inheritdoc />
     public string Render(Models.PdfDocument document)
@@ -47,7 +46,7 @@ public sealed partial class MarkdownRenderer : IDocumentRenderer
                 break;
 
             case ParagraphElement p:
-                sb.AppendLine(BoldArticleAnchor(p.Text.Content));
+                sb.AppendLine(p.Text.Content);
                 break;
 
             case TableElement t:
@@ -98,24 +97,6 @@ public sealed partial class MarkdownRenderer : IDocumentRenderer
             sb.Append(' ').AppendLine(list.ListItems[i].Text.Content);
         }
     }
-
-    /// <summary>
-    /// Wraps a Korean article anchor (<c>제N조</c>) at the start of a paragraph
-    /// in bold so the article number visually stands out without becoming a
-    /// heading in the document tree.
-    /// </summary>
-    private static string BoldArticleAnchor(string content)
-    {
-        var match = ArticleAnchorRegex().Match(content);
-        if (!match.Success || match.Index != 0) return content;
-
-        var anchor = match.Value.TrimEnd();
-        var rest = content[match.Length..].TrimStart();
-        return rest.Length == 0 ? $"**{anchor}**" : $"**{anchor}** {rest}";
-    }
-
-    [GeneratedRegex(@"^제\s*\d+\s*조(?=\s|$)", RegexOptions.Compiled)]
-    private static partial Regex ArticleAnchorRegex();
 }
 
 /// <summary>

@@ -46,9 +46,7 @@ public sealed class PdfStructParser
     {
         _options = options;
         _layoutAnalyzer = new XyCutLayoutAnalyzer(options.MinGapRatioX, options.MinGapRatioY);
-        _classifier = new CompositeElementClassifier(
-            new KoreanLegalElementClassifier(),
-            new FontBasedElementClassifier(options.HeadingSizeThreshold));
+        _classifier = new FontBasedElementClassifier(options.HeadingSizeThreshold);
     }
 
     /// <summary>Initializes with custom analyzer and classifier.</summary>

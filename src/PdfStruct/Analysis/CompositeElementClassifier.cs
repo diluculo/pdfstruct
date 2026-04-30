@@ -13,11 +13,12 @@ namespace PdfStruct.Analysis;
 /// paragraph when no inner classifier produces a specific type.
 /// </summary>
 /// <remarks>
-/// This lets domain-specific classifiers (e.g.
-/// <see cref="KoreanLegalElementClassifier"/>) take precedence over a
-/// generic font-based classifier when they recognize their patterns,
-/// while still letting the font-based classifier handle the document
-/// title and other elements the domain classifier does not recognize.
+/// This lets pattern- or domain-specific classifiers (for example a
+/// <see cref="RegexHeadingClassifier"/> wired with corpus-specific
+/// patterns) take precedence over a generic font-based classifier when
+/// they recognize their input, while still letting the font-based
+/// classifier handle the document title and any other elements the
+/// upstream classifier does not flag.
 /// </remarks>
 public sealed class CompositeElementClassifier : IElementClassifier
 {
