@@ -96,6 +96,18 @@ These are the first divergences observed after Phase 2 was committed. They were 
 | judgment | **align-to-odl-with-render-policy**. Decision: JSON emits `"heading level": <int>` 1..N with no cap; an optional `"level name"` field carries an ODL-parity human-readable name (`"Doctitle"`, `"Subtitle"`, or the integer as a string). The Markdown renderer clamps to H6 by `Math.Clamp(level, 1, 6)` at render time only. Rationale: the data model never loses information (depth `7` still says `7`); the rendering convention stays Markdown-compatible. Our existing `"level"` string ("Title"/"Section"/"Subsection") may either remain alongside `"level name"` for backward compat, or be replaced by `"level name"` outright; the choice is small and is recorded with the implementation, not here. |
 | followup | Implementation: add an uncapped numeric heading level to the model; map the existing English vocabulary to ODL-style names when emitting JSON; change Markdown rendering to `Math.Clamp(level, 1, 6)`. Update `AssignHeadingLevels` to produce an uncapped integer instead of clamping at level assignment time. Tracked as a follow-up implementation phase; not gating Phase 3. |
 
+### D-009 — lorem_ipsum paragraph segmentation: opposite failure modes
+
+| field | value |
+|---|---|
+| fixture | `lorem_ipsum.pdf` (single page, 5 elements) |
+| area | paragraph |
+| ground truth | `# Lorem Ipsum` (heading); two introductory quoted paragraphs each starting with `"…"`; two body paragraphs (`Lorem ipsum dolor sit amet…` and `Suspendisse eu sapien…`). 5 elements total. Source: `src/PdfStruct.Tests/GroundTruth/lorem_ipsum.md`. |
+| odl | Heading correct. Both quoted paragraphs and the first body paragraph are **merged into a single paragraph block** — 4 logical paragraphs become 2. Under-segmentation. |
+| ours | Heading correct. The two quoted paragraphs are emitted as separate paragraphs (correct). The first body paragraph is **split into roughly seven fragments** — the words `gravida`, `placerat`, `Phasellus`, `vel`, `nibh`, `ipsum`, `nec`, `nunc` each become standalone paragraph blocks, separated by blank lines from the surrounding body text. The second body paragraph is correct. Over-segmentation. |
+| judgment | **investigate**. ODL and PdfStruct fail in opposite directions on the same document — ODL under-segments, we over-segment. The pattern is the inverse of D-008 where ODL split a single document into too many headings and we collapsed three elements into one paragraph. Together D-008 and D-009 show that the paragraph merger needs work in both directions, and that ODL parity alone would not fix it because ODL's behaviour is also wrong vs ground truth. |
+| followup | Phase 3+ paragraph-merger overhaul. The over-segmentation in `lorem_ipsum` is most likely caused by the merger treating in-line style changes (italics, weight, font name swaps applied to a few stylised words within a body paragraph) as paragraph-block boundaries. The under-segmentation in ODL on the same document and over-merging in our `minimal_document` output suggest the merger needs both stronger continuation signals (to bridge stylistic interruptions inside one paragraph) and stronger break signals (to separate genuinely-distinct paragraphs that share style). Ground-truth scoring once `compare-to-ground-truth.ps1` exists will give the precision/recall numbers needed to prioritise. |
+
 ### D-008 — minimal_document classification: both tools fail, in different ways
 
 | field | value |
