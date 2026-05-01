@@ -96,6 +96,18 @@ These are the first divergences observed after Phase 2 was committed. They were 
 | judgment | **align-to-odl-with-render-policy**. Decision: JSON emits `"heading level": <int>` 1..N with no cap; an optional `"level name"` field carries an ODL-parity human-readable name (`"Doctitle"`, `"Subtitle"`, or the integer as a string). The Markdown renderer clamps to H6 by `Math.Clamp(level, 1, 6)` at render time only. Rationale: the data model never loses information (depth `7` still says `7`); the rendering convention stays Markdown-compatible. Our existing `"level"` string ("Title"/"Section"/"Subsection") may either remain alongside `"level name"` for backward compat, or be replaced by `"level name"` outright; the choice is small and is recorded with the implementation, not here. |
 | followup | Implementation: add an uncapped numeric heading level to the model; map the existing English vocabulary to ODL-style names when emitting JSON; change Markdown rendering to `Math.Clamp(level, 1, 6)`. Update `AssignHeadingLevels` to produce an uncapped integer instead of clamping at level assignment time. Tracked as a follow-up implementation phase; not gating Phase 3. |
 
+### D-008 — minimal_document classification: both tools fail, in different ways
+
+| field | value |
+|---|---|
+| fixture | `minimal_document.pdf` (single page, 3 elements) |
+| area | heading + paragraph + caption |
+| ground truth | `# The Crow and the Pitcher` (heading, level 1); body paragraph; `*Little by little does the trick.*` (italicised moral, treated as emphasis on a paragraph). Source: `src/PdfStruct.Tests/GroundTruth/minimal_document.md`. |
+| odl | Title classified as `## ...` (heading, level **2** instead of 1). Body paragraph correct. Moral classified as `# Littlebylittledoesthetrick.` — promoted to a level-1 heading **and** the word spacing is lost (a separate ODL bug at the glyph-clustering stage). |
+| ours | Title classified as paragraph (heading miss). Body paragraph correct in content. The three logical elements are merged into a single paragraph block in the rendered Markdown — no blank-line separation between title, body, and moral, indicating that the page-level paragraph merger is over-aggressive on a sparse document. |
+| judgment | **investigate** (per-fixture entry). Both tools fail vs ground truth, and they fail in mutually inconsistent ways: ODL over-promotes (heading false positive) while we under-detect (heading false negative); ODL preserves paragraph separation while we collapse them. This is the first concrete case where ODL's behaviour cannot serve as a ceiling — aligning to ODL would still leave us wrong. |
+| followup | Two work items, both Phase 3+ candidates: (a) heading classifier needs to recover at least the document title in sparse fixtures; the current font-rarity model degenerates when there are very few blocks. (b) The Markdown renderer or paragraph merger must preserve separation between conceptually-distinct paragraph elements; the current `AppendLine`-after-element pattern is correct in principle but the elements themselves are being merged before they reach the renderer. The ground-truth file makes both gaps measurable as recall (heading: 1/1 expected vs 0/1 ours, 1/1 ours-as-heading vs 0/1 ours; paragraph: 2 expected vs 1 ours). |
+
 ### D-007 — list-item bbox vs ODL
 
 | field | value |
