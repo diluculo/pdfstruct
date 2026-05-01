@@ -2,6 +2,7 @@
 #
 # For each <name>.pdf, produces:
 #   <name>/<name>.md         - extracted markdown
+#   <name>/<name>.json       - extracted JSON (OpenDataLoader-compatible shape)
 #   <name>/page-NNN.png      - debug image overlays
 #
 # Usage:
@@ -44,9 +45,10 @@ $results = @()
 $totalStart = Get-Date
 
 foreach ($pdf in $pdfs) {
-    $name      = [IO.Path]::GetFileNameWithoutExtension($pdf.Name)
-    $outputDir = Join-Path $Path $name
-    $mdPath    = Join-Path $outputDir "$name.md"
+    $name       = [IO.Path]::GetFileNameWithoutExtension($pdf.Name)
+    $outputDir  = Join-Path $Path $name
+    $mdPath     = Join-Path $outputDir "$name.md"
+    $jsonPath   = Join-Path $outputDir "$name.json"
 
     Write-Host "[$name] " -NoNewline -ForegroundColor Yellow
     Write-Host $pdf.Name -ForegroundColor White
@@ -60,24 +62,35 @@ foreach ($pdf in $pdfs) {
     # Capture stdout+stderr into a variable rather than piping; piping a native
     # command's stderr through the cmdlet pipeline produces NativeCommandError
     # records that abort the script under the default ErrorActionPreference.
-    $extractArgs = @('extract', $pdf.FullName, '--output', $mdPath, '--debug-image', $outputDir)
-    if ($DebugLines) {
-        $extractArgs += '--debug-lines'
-    }
-    if ($IncludeRunningHeaders) {
-        $extractArgs += '--include-running-headers'
+    $mdArgs = @('extract', $pdf.FullName, '--output', $mdPath, '--debug-image', $outputDir)
+    if ($DebugLines)            { $mdArgs += '--debug-lines' }
+    if ($IncludeRunningHeaders) { $mdArgs += '--include-running-headers' }
+
+    $output   = & $Cli @mdArgs 2>&1
+    $exitCode = $LASTEXITCODE
+    foreach ($line in $output) { Write-Host "  $line" -ForegroundColor DarkGray }
+
+    if ($exitCode -eq 0) {
+        # Second pass for JSON. Re-running the CLI is simpler than emitting both
+        # formats from one call; both passes share the same parse so cost is
+        # roughly doubled but each output is unambiguous.
+        $jsonArgs = @('extract', $pdf.FullName, '--output', $jsonPath, '--format', 'json')
+        if ($IncludeRunningHeaders) { $jsonArgs += '--include-running-headers' }
+
+        $jsonOutput   = & $Cli @jsonArgs 2>&1
+        $jsonExitCode = $LASTEXITCODE
+        foreach ($line in $jsonOutput) { Write-Host "  $line" -ForegroundColor DarkGray }
+        if ($jsonExitCode -ne 0) { $exitCode = $jsonExitCode }
     }
 
-    $output   = & $Cli @extractArgs 2>&1
-    $exitCode = $LASTEXITCODE
-    $elapsed  = (Get-Date) - $start
-    foreach ($line in $output) { Write-Host "  $line" -ForegroundColor DarkGray }
+    $elapsed = (Get-Date) - $start
 
     $results += [PSCustomObject]@{
         Name     = $name
         Status   = if ($exitCode -eq 0) { 'OK' } else { "FAIL ($exitCode)" }
         Seconds  = [math]::Round($elapsed.TotalSeconds, 2)
         Markdown = if (Test-Path -LiteralPath $mdPath) { (Get-Item $mdPath).Length } else { 0 }
+        Json     = if (Test-Path -LiteralPath $jsonPath) { (Get-Item $jsonPath).Length } else { 0 }
         Images   = (Get-ChildItem -LiteralPath $outputDir -Filter 'page-*.png' -ErrorAction SilentlyContinue).Count
     }
 }
