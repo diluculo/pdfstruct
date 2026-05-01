@@ -31,7 +31,7 @@
         548.3039999999999,
         658.398
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 16,
@@ -183,7 +183,7 @@
         254.784,
         498.216
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 14,
@@ -215,7 +215,7 @@
         574.2999999999994,
         282.068
       ],
-      "level": "Subsection",
+      "level": "Subtitle",
       "heading level": 3,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 11,
@@ -337,7 +337,7 @@
         575.7579999999992,
         614.2864
       ],
-      "level": "Subsection",
+      "level": "Subtitle",
       "heading level": 3,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 11,
@@ -444,7 +444,7 @@
         574.0499999999993,
         164.57039999999998
       ],
-      "level": "Level 4",
+      "level": "Subtitle",
       "heading level": 4,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 10,
@@ -962,7 +962,7 @@
         574.5399999999993,
         694.5704
       ],
-      "level": "Level 4",
+      "level": "Subtitle",
       "heading level": 4,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 10,
@@ -1459,7 +1459,7 @@
         576.0199999999999,
         465.9385
       ],
-      "level": "Subsection",
+      "level": "Subtitle",
       "heading level": 3,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 11,
@@ -1716,7 +1716,7 @@
         574.9388999999996,
         292.28639999999996
       ],
-      "level": "Subsection",
+      "level": "Subtitle",
       "heading level": 3,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 11,
@@ -1868,7 +1868,7 @@
         557.7089999999995,
         225.41840000000002
       ],
-      "level": "Subsection",
+      "level": "Subtitle",
       "heading level": 3,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 11,
@@ -1885,7 +1885,7 @@
         553.8299999999995,
         694.6904
       ],
-      "level": "Level 4",
+      "level": "Subtitle",
       "heading level": 4,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 10,
@@ -1902,7 +1902,7 @@
         286.97900000000004,
         655.2864
       ],
-      "level": "Subsection",
+      "level": "Subtitle",
       "heading level": 3,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 11,
@@ -1919,7 +1919,7 @@
         267.53899999999993,
         620.4404
       ],
-      "level": "Level 4",
+      "level": "Subtitle",
       "heading level": 4,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 10,
@@ -1936,7 +1936,7 @@
         206.41899999999998,
         603.4404
       ],
-      "level": "Level 4",
+      "level": "Subtitle",
       "heading level": 4,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 10,
@@ -1953,7 +1953,7 @@
         265.31899999999996,
         586.4404
       ],
-      "level": "Level 4",
+      "level": "Subtitle",
       "heading level": 4,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 10,
@@ -1970,7 +1970,7 @@
         335.8889999999999,
         569.4404
       ],
-      "level": "Level 4",
+      "level": "Subtitle",
       "heading level": 4,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 10,
@@ -1987,7 +1987,7 @@
         236.40900000000005,
         552.4404
       ],
-      "level": "Level 4",
+      "level": "Subtitle",
       "heading level": 4,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 10,
@@ -2004,7 +2004,7 @@
         159.38000000000002,
         501.3204
       ],
-      "level": "Level 4",
+      "level": "Subtitle",
       "heading level": 4,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 10,
@@ -2021,7 +2021,7 @@
         191.779,
         484.44039999999995
       ],
-      "level": "Level 4",
+      "level": "Subtitle",
       "heading level": 4,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 10,
@@ -2038,7 +2038,7 @@
         237.32900000000006,
         467.44039999999995
       ],
-      "level": "Level 4",
+      "level": "Subtitle",
       "heading level": 4,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 10,
@@ -2055,7 +2055,7 @@
         231.4300000000001,
         450.44039999999995
       ],
-      "level": "Level 4",
+      "level": "Subtitle",
       "heading level": 4,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 10,
@@ -2072,7 +2072,7 @@
         95.301,
         421.16839999999996
       ],
-      "level": "Subsection",
+      "level": "Subtitle",
       "heading level": 3,
       "font": "BETSWR\u002BArialMTStd-Bold",
       "font size": 11,

@@ -31,7 +31,7 @@
         183.96,
         459.500625
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 24,
@@ -873,7 +873,7 @@
         193.08,
         722.540625
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 24,
@@ -1115,7 +1115,7 @@
         202.20000000000002,
         722.540625
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 24,
@@ -1252,7 +1252,7 @@
         199.68,
         722.540625
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 24,
@@ -1269,7 +1269,7 @@
         433.56000000000006,
         722.540625
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 24,
@@ -1451,7 +1451,7 @@
         199.68,
         722.540625
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 24,
@@ -1468,7 +1468,7 @@
         451.9200000000001,
         722.540625
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 24,
@@ -1965,7 +1965,7 @@
         488.5200000000002,
         717.8837109375
       ],
-      "level": "Subsection",
+      "level": "Subtitle",
       "heading level": 3,
       "font": "BFSYCV\u002BGaramond",
       "font size": 18,
@@ -1982,7 +1982,7 @@
         221.13768,
         650.0674218749999
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -2074,7 +2074,7 @@
         450.734928,
         650.1874218749999
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -2106,7 +2106,7 @@
         458.29602000000006,
         549.867421875
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -2138,7 +2138,7 @@
         465.9753480000001,
         475.467421875
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -2170,7 +2170,7 @@
         463.82305199999996,
         401.06742187500004
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -2202,7 +2202,7 @@
         456.26196,
         287.787421875
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -2234,7 +2234,7 @@
         220.823052,
         722.1874218749999
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -2266,7 +2266,7 @@
         228.50238,
         570.027421875
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -2298,7 +2298,7 @@
         236.416176,
         469.587421875
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -2330,7 +2330,7 @@
         225.74266875,
         408.147421875
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -2362,7 +2362,7 @@
         218.15252499999997,
         333.74742187500004
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -2409,7 +2409,7 @@
         225.330408,
         214.587421875
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -2501,7 +2501,7 @@
         476.058264,
         722.1874218749999
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -2578,7 +2578,7 @@
         240.750048,
         722.1874218749999
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -2685,7 +2685,7 @@
         238.08648,
         490.587421875
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -2897,7 +2897,7 @@
         230.754696,
         722.1874218749999
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -2989,7 +2989,7 @@
         238.08648,
         548.3074218749999
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -3081,7 +3081,7 @@
         246.090408,
         410.427421875
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -3173,7 +3173,7 @@
         496.578264,
         722.1874218749999
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -3295,7 +3295,7 @@
         488.06266875000006,
         401.30742187500005
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -3357,7 +3357,7 @@
         236.88976634999997,
         722.1874218749999
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -3584,7 +3584,7 @@
         487.65040799999997,
         461.427421875
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -3706,7 +3706,7 @@
         252.96648,
         722.1874218749999
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -3798,7 +3798,7 @@
         504.96648000000005,
         722.1874218749999
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -3905,7 +3905,7 @@
         502.074696,
         412.827421875
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -3997,7 +3997,7 @@
         250.55469599999998,
         722.1874218749999
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -4164,7 +4164,7 @@
         502.074696,
         452.06742187500004
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -4271,7 +4271,7 @@
         511.02684000000005,
         246.387421875
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "HGWIIJ\u002BGeorgia-Italic",
       "font size": 20.04,
@@ -4348,7 +4348,7 @@
         223.14469200000002,
         334.59755859375
       ],
-      "level": "Level 4",
+      "level": "Subtitle",
       "heading level": 4,
       "font": "BFSYCV\u002BGaramond",
       "font size": 16.68,
@@ -4425,7 +4425,7 @@
         210.38280000000003,
         74.34609375
       ],
-      "level": "Level 5",
+      "level": "Subtitle",
       "heading level": 5,
       "font": "MGFMAZ\u002BGaramond-Bold",
       "font size": 12,

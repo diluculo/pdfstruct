@@ -278,7 +278,8 @@ public sealed class PdfStructParser
     /// Assigns numeric heading levels 1..N to <see cref="Models.HeadingElement"/>
     /// instances by clustering them on typographic style (font size, font name,
     /// derived bold flag) and ordering style groups from largest/heaviest to
-    /// smallest/lightest. Levels are capped at 6 (Markdown maximum).
+    /// smallest/lightest. Levels are uncapped on the data model; the Markdown
+    /// renderer clamps to H6 at output time.
     /// </summary>
     /// <remarks>
     /// Ports the OpenDataLoader-pdf <c>HeadingProcessor</c> level-assignment
@@ -301,7 +302,7 @@ public sealed class PdfStructParser
 
         for (var i = 0; i < styleGroups.Count; i++)
         {
-            var level = Math.Min(i + 1, 6);
+            var level = i + 1;
             var label = HeadingLevelLabel(level);
             foreach (var heading in styleGroups[i])
             {
@@ -325,14 +326,14 @@ public sealed class PdfStructParser
         fontName.Contains("Heavy", StringComparison.OrdinalIgnoreCase) ||
         fontName.Contains("Black", StringComparison.OrdinalIgnoreCase);
 
-    /// <summary>Returns the structural label for a heading level, matching the convention used elsewhere in the library.</summary>
-    private static string HeadingLevelLabel(int level) => level switch
-    {
-        1 => "Title",
-        2 => "Section",
-        3 => "Subsection",
-        _ => $"Level {level}"
-    };
+    /// <summary>
+    /// Returns the structural label for a heading level. Mirrors OpenDataLoader-pdf's
+    /// vocabulary: <c>Doctitle</c> for the document title (level 1) and <c>Subtitle</c>
+    /// for every nested heading (level 2 and below). The numeric depth is carried by
+    /// <see cref="Models.HeadingElement.HeadingLevel"/>; this string is the coarse
+    /// semantic tag, not a depth encoding.
+    /// </summary>
+    private static string HeadingLevelLabel(int level) => level == 1 ? "Doctitle" : "Subtitle";
 
     /// <summary>
     /// Renumbers elements sequentially while preserving the order produced by

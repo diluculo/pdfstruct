@@ -16,7 +16,7 @@
         872.3475999999999,
         2398.1892000000003
       ],
-      "level": "Section",
+      "level": "Subtitle",
       "heading level": 2,
       "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
       "font size": 52.5,
@@ -33,7 +33,7 @@
         619.2000999999999,
         2283.0792
       ],
-      "level": "Subsection",
+      "level": "Subtitle",
       "heading level": 3,
       "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
       "font size": 37.5,
@@ -155,7 +155,7 @@
         1222.4277237,
         1784.4933004
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
       "font size": 149.72,
@@ -217,7 +217,7 @@
         1753.8442744,
         1230.3448899999999
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
       "font size": 149.72,
@@ -249,7 +249,7 @@
         691.0130185,
         835.2914663
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
       "font size": 149.72,
@@ -281,7 +281,7 @@
         691.0129573,
         639.7792663
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
       "font size": 149.72,
@@ -343,7 +343,7 @@
         1753.8442946,
         1030.95329
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
       "font size": 149.72,
@@ -375,7 +375,7 @@
         1753.8427130999999,
         835.44119
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
       "font size": 149.72,
@@ -407,7 +407,7 @@
         1753.8442665999999,
         638.5814766999999
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
       "font size": 149.72,
@@ -439,7 +439,7 @@
         564.1881407,
         1785.5413663
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
       "font size": 149.72,
@@ -471,7 +471,7 @@
         1099.9318458999999,
         1784.4933004
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
       "font size": 149.72,
@@ -503,7 +503,7 @@
         1099.9335472,
         1585.1017004
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
       "font size": 149.72,
@@ -550,7 +550,7 @@
         1099.93268,
         1389.4398767
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
       "font size": 149.72,
@@ -642,7 +642,7 @@
         1627.0216292,
         1032.9371767
       ],
-      "level": "Title",
+      "level": "Doctitle",
       "heading level": 1,
       "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
       "font size": 149.72,
