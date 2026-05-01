@@ -167,6 +167,18 @@ These are the first divergences observed after Phase 2 was committed. They were 
 | judgment | **investigate**. Recovery on `us_constitution` lands between PdfStruct's 0% on `kr_constitution` (D-011) and the near-100% on the simple body content of `lorem_ipsum` / `minimal_document`. Same classifier, very different results across the three legal-document fixtures — the gap to ground truth on heading detection is now the most consistent signal across the regression matrix. ODL's near-100% recovery here vs. its article-as-list mistakes on `kr_constitution` suggests its heading logic also handles Latin documents better than densely-uniform Korean ones. |
 | followup | Continues from D-008 / D-011. The 36% / 0% / ≈100% split across the three legal fixtures shows the same classifier behaves very differently on documents that differ in script and typographic uniformity. A complementary signal (document-internal rarity, structural-marker strategy via `CompositeElementClassifier`, or a hybrid) is the design space. A `plos_utilizing_llm` ground truth (two-column academic with figures, tables, references) would round out the matrix as the third axis before locking the design. |
 
+### D-013 — us_patent 2-column reading order: PdfStruct correct, ODL fragments columns
+
+| field | value |
+|---|---|
+| fixture | `us_patent.pdf` (USPTO patent, 20 pages, 2-column body with marginal line numbers) |
+| area | reading order |
+| ground truth | None — patents are too complex for hand-marked ground truth within a session. This entry captures observed behaviour without a tiebreaker. |
+| odl | Reading order treats the 2-column body as one column: tokens from the left and right columns interleave by horizontal scan. The first-page caption emits e.g. `(12) WengerUnitedet alStates. Patent ( 10) Patent No.: US 11,013,909 B2` — left-column and right-column words fused mid-line. Element distribution shows the fragmentation: 296 heading elements, 32 list items, 20 images, 19 paragraphs over 20 pages. Line-number marginalia are stripped from the leftmost margin (in front of column 1) but kept between columns (in front of column 2), feeding spurious tokens into the already-broken reading order. |
+| ours | Reading order respects the 2-column structure: left column read top-to-bottom first, then right column. The XY-Cut++ analyser detects the inter-column gap. Element distribution: 1381 paragraphs, 29 headings, 4 list items. Line-number marginalia are kept in the output as small numeric paragraphs at every position (no line-number filtering stage exists), but they do not disrupt the column reading order. |
+| judgment | **keep-divergence** for the 2-column reading order — PdfStruct matches the document's structural intent and ODL does not. This is the first concrete case in the regression matrix where ODL's behaviour cannot serve as a target. The line-number issue is a separate axis: PdfStruct keeps all (symmetric), ODL strips some (asymmetric); neither matches a clean RAG output, but they fail in different ways. |
+| followup | Two separate work items, neither gating: (a) line-number / marginalia filtering as a future detection stage, structurally analogous to `RunningFurnitureDetector` (D-005's pattern) — should produce a first-class element type and suppress in default render, available via flag. Need a patent ground truth before locking design; deferred. (b) The us_patent reading-order observation should be cited whenever future heading-classifier work is tempted to over-align with ODL — a `keep-divergence` reference point against the "ODL is the ceiling" framing that D-011 / D-012 alone could otherwise suggest. |
+
 ---
 
 ## Format specification for new entries
