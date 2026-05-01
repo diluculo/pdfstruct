@@ -65,12 +65,20 @@ public sealed class PdfStructParser
     /// <summary>Initializes with default options.</summary>
     public PdfStructParser() : this(new PdfStructOptions()) { }
 
-    /// <summary>Initializes with the specified options.</summary>
+    /// <summary>
+    /// Initializes with the specified options. The default classifier is a
+    /// <see cref="CompositeElementClassifier"/> wrapping a single
+    /// <see cref="FontBasedElementClassifier"/>; callers that want to inject
+    /// pattern-driven heading recognition (for example a
+    /// <see cref="RegexHeadingClassifier"/> in front of the font model) use
+    /// the constructor that accepts a custom classifier instance.
+    /// </summary>
     public PdfStructParser(PdfStructOptions options)
     {
         _options = options;
         _layoutAnalyzer = new XyCutLayoutAnalyzer(options.MinGapRatioX, options.MinGapRatioY);
-        _classifier = new FontBasedElementClassifier(options.HeadingProbabilityThreshold);
+        _classifier = new CompositeElementClassifier(
+            new FontBasedElementClassifier(options.HeadingProbabilityThreshold));
     }
 
     /// <summary>Initializes with custom analyzer and classifier.</summary>

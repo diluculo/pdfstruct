@@ -218,7 +218,7 @@ public sealed class FontBasedElementClassifier : IElementClassifier
         PageNumber = pageNumber,
         BoundingBox = block.BoundingBox,
         HeadingLevel = 1,
-        Level = "Title",
+        Level = "Doctitle",
         Text = ToTextProperties(block)
     };
 

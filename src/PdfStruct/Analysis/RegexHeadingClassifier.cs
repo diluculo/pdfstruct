@@ -11,10 +11,11 @@ namespace PdfStruct.Analysis;
 /// first line matches it, and an optional structural label.
 /// </summary>
 /// <param name="Match">Regex applied to the block's first (trimmed) line.</param>
-/// <param name="HeadingLevel">Heading level to assign on match (1 = h1, ..., 6 = h6).</param>
+/// <param name="HeadingLevel">Heading level to assign on match (1 = h1, 2 = h2, ...). Uncapped on the data model.</param>
 /// <param name="Label">
 /// Optional <see cref="HeadingElement.Level"/> string. If null, a default label
-/// is derived from <paramref name="HeadingLevel"/> ("Title", "Section", etc.).
+/// is derived from <paramref name="HeadingLevel"/> using the OpenDataLoader-pdf
+/// vocabulary (<c>Doctitle</c> at level 1, <c>Subtitle</c> at level 2 and below).
 /// </param>
 public readonly record struct HeadingPattern(
     Regex Match,
@@ -114,12 +115,10 @@ public sealed class RegexHeadingClassifier : IElementClassifier
         return (newline >= 0 ? text[..newline] : text).Trim();
     }
 
-    /// <summary>Returns the default <see cref="HeadingElement.Level"/> string for a heading level, used when a pattern does not supply its own label.</summary>
-    private static string DefaultLevelLabel(int level) => level switch
-    {
-        1 => "Title",
-        2 => "Section",
-        3 => "Subsection",
-        _ => $"Level {level}"
-    };
+    /// <summary>
+    /// Returns the default <see cref="HeadingElement.Level"/> string for a heading level
+    /// when the pattern does not supply its own label. Mirrors OpenDataLoader-pdf's
+    /// vocabulary: <c>Doctitle</c> at level 1, <c>Subtitle</c> at level 2 and below.
+    /// </summary>
+    private static string DefaultLevelLabel(int level) => level == 1 ? "Doctitle" : "Subtitle";
 }

@@ -35,6 +35,13 @@ public sealed class CompositeElementClassifier : IElementClassifier
     }
 
     /// <inheritdoc />
+    public void Prepare(IReadOnlyList<TextBlock> documentBlocks)
+    {
+        foreach (var inner in _classifiers)
+            inner.Prepare(documentBlocks);
+    }
+
+    /// <inheritdoc />
     public IReadOnlyList<ContentElement> Classify(
         IReadOnlyList<TextBlock> blocks, int pageNumber, ref int startId)
     {
