@@ -168,6 +168,24 @@ public sealed class JsonRenderer : IDocumentRenderer
                     }).ToList()
                 }).ToList();
                 break;
+            case ListElement list:
+                dict["level"] = "List";
+                dict["numbering style"] = list.NumberingStyle;
+                dict["number of list items"] = list.NumberOfListItems;
+                if (list.PreviousListId.HasValue) dict["previous list id"] = list.PreviousListId;
+                if (list.NextListId.HasValue) dict["next list id"] = list.NextListId;
+                dict["list items"] = list.ListItems.Select(item => new Dictionary<string, object?>
+                {
+                    ["type"] = item.Type,
+                    ["level"] = "List Item",
+                    ["page number"] = item.PageNumber,
+                    ["bounding box"] = item.BoundingBox.ToArray(),
+                    ["font"] = item.Text.Font,
+                    ["font size"] = item.Text.FontSize,
+                    ["text color"] = item.Text.TextColor,
+                    ["content"] = item.Text.Content
+                }).ToList();
+                break;
             case ImageElement img:
                 if (img.Source is not null) dict["source"] = img.Source;
                 if (img.Data is not null) dict["data"] = img.Data;

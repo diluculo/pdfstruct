@@ -1,0 +1,192 @@
+{
+  "file name": "lorem_ipsum.pdf",
+  "number of pages": 1,
+  "author": "diluculo",
+  "title": null,
+  "creation date": "2026-04-30T13:29:52\u002B09:00",
+  "modification date": "2026-04-30T13:29:52\u002B09:00",
+  "kids": [
+    {
+      "type": "heading",
+      "id": 1,
+      "page number": 1,
+      "bounding box": [
+        248.98506,
+        729.162223,
+        345.997483125,
+        740.04033475
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "INPILL\u002BHCRDotum-Bold",
+      "font size": 14.98,
+      "text color": "[0.0]",
+      "content": "Lorem Ipsum"
+    },
+    {
+      "type": "paragraph",
+      "id": 2,
+      "page number": 1,
+      "bounding box": [
+        85.033915,
+        573.4523919999999,
+        509.99960050000004,
+        697.6726367
+      ],
+      "font": "INPILL\u002BHCRDotum",
+      "font size": 11.989999999999998,
+      "text color": "[0.0]",
+      "content": "\u0022Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,\nconsectetur, adipisci velit...\u0022\n\u0022There is no one who loves pain itself, who seeks after it and wants\nto have it, simply because it is pain...\u0022\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum\nmagna elit, fermentum at eleifend at, tincidunt quis leo. Curabitur eu\nlorem"
+    },
+    {
+      "type": "paragraph",
+      "id": 3,
+      "page number": 1,
+      "bounding box": [
+        211.80521,
+        573.4523919999999,
+        252.97889550000002,
+        582.1548814
+      ],
+      "font": "INPILL\u002BHCRDotum",
+      "font size": 11.99,
+      "text color": "[0.0]",
+      "content": "gravida"
+    },
+    {
+      "type": "paragraph",
+      "id": 4,
+      "page number": 1,
+      "bounding box": [
+        268.294595,
+        573.4523919999999,
+        316.988205,
+        582.1548814
+      ],
+      "font": "INPILL\u002BHCRDotum",
+      "font size": 11.99,
+      "text color": "[0.0]",
+      "content": "placerat."
+    },
+    {
+      "type": "paragraph",
+      "id": 5,
+      "page number": 1,
+      "bounding box": [
+        332.339885,
+        573.4523919999999,
+        386.58648550000004,
+        582.1548814
+      ],
+      "font": "INPILL\u002BHCRDotum",
+      "font size": 11.99,
+      "text color": "[0.0]",
+      "content": "Phasellus"
+    },
+    {
+      "type": "paragraph",
+      "id": 6,
+      "page number": 1,
+      "bounding box": [
+        401.902185,
+        573.4523919999999,
+        417.46974800000004,
+        582.1548814
+      ],
+      "font": "INPILL\u002BHCRDotum",
+      "font size": 11.99,
+      "text color": "[0.0]",
+      "content": "vel"
+    },
+    {
+      "type": "paragraph",
+      "id": 7,
+      "page number": 1,
+      "bounding box": [
+        432.72548,
+        573.4523919999999,
+        457.24019400000003,
+        582.1548814
+      ],
+      "font": "INPILL\u002BHCRDotum",
+      "font size": 11.99,
+      "text color": "[0.0]",
+      "content": "nibh"
+    },
+    {
+      "type": "paragraph",
+      "id": 8,
+      "page number": 1,
+      "bounding box": [
+        472.5439,
+        573.4523919999999,
+        509.96362,
+        582.1548814
+      ],
+      "font": "INPILL\u002BHCRDotum",
+      "font size": 11.99,
+      "text color": "[0.0]",
+      "content": "ipsum."
+    },
+    {
+      "type": "paragraph",
+      "id": 9,
+      "page number": 1,
+      "bounding box": [
+        133.36772,
+        573.4523919999999,
+        153.55278049999998,
+        579.6616062
+      ],
+      "font": "INPILL\u002BHCRDotum",
+      "font size": 11.99,
+      "text color": "[0.0]",
+      "content": "nec"
+    },
+    {
+      "type": "paragraph",
+      "id": 10,
+      "page number": 1,
+      "bounding box": [
+        168.86848,
+        573.4523919999999,
+        196.4895105,
+        579.6616062
+      ],
+      "font": "INPILL\u002BHCRDotum",
+      "font size": 11.99,
+      "text color": "[0.0]",
+      "content": "nunc"
+    },
+    {
+      "type": "paragraph",
+      "id": 11,
+      "page number": 1,
+      "bounding box": [
+        85.033915,
+        458.378152,
+        509.99960050000004,
+        562.9758414
+      ],
+      "font": "INPILL\u002BHCRDotum",
+      "font size": 11.989999999999998,
+      "text color": "[0.0]",
+      "content": "Pellentesque habitant morbi tristique senectus et netus et malesuada\nfames ac turpis egestas. Nunc rutrum ut sapien nec lobortis. Nunc\nposuere leo in risus pretium, nec luctus urna iaculis. Aliquam felis\nante, ullamcorper viverra magna in, egestas feugiat lorem. Ut a\nfacilisis nunc, in commodo augue. Phasellus suscipit ligula ac sodales\nvolutpat."
+    },
+    {
+      "type": "paragraph",
+      "id": 12,
+      "page number": 1,
+      "bounding box": [
+        85.033915,
+        285.766792,
+        510.0475745,
+        428.91435179999996
+      ],
+      "font": "INPILL\u002BHCRDotum",
+      "font size": 11.989999999999998,
+      "text color": "[0.0]",
+      "content": "Suspendisse eu sapien in nunc efficitur commodo. Nullam blandit\ntincidunt nulla ac posuere. Morbi et ipsum vitae erat iaculis\npellentesque scelerisque vitae dolor. Nunc dapibus vel urna venenatis\ncursus. Aenean eget rutrum enim. Proin elit nisl, faucibus sed rutrum\nat, tempus a massa. Fusce id odio sed est blandit fringilla in vitae\nnibh. In consequat erat vel nunc consectetur, id mollis diam aliquam.\nIn hac habitasse platea dictumst. In eros mauris, lobortis a vehicula\nat, volutpat vel metus. Ut et dolor id augue ullamcorper accumsan."
+    }
+  ]
+}

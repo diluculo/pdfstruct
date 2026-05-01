@@ -1,0 +1,2581 @@
+{
+  "file name": "plos_utilizing_llm.pdf",
+  "number of pages": 18,
+  "author": "Maximilian C. Teich",
+  "title": "Utilizing large language models to construct a dataset of W\u00FCrttemberg\u0027s 19th-century fauna from historical records",
+  "creation date": "2026-03-19T14:58:56\u002B05:30",
+  "modification date": "2026-04-30T15:12:16\u002B09:00",
+  "kids": [
+    {
+      "type": "paragraph",
+      "id": 1,
+      "page number": 1,
+      "bounding box": [
+        198,
+        666.692,
+        277.87200000000007,
+        672.516
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "RESEARCH ARTICLE"
+    },
+    {
+      "type": "heading",
+      "id": 2,
+      "page number": 1,
+      "bounding box": [
+        198,
+        611.454,
+        548.3039999999999,
+        658.398
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 16,
+      "text color": "[0.0]",
+      "content": "Utilizing large language models to construct a\ndataset of W\u00FCrttemberg\u2019s 19th-century fauna\nfrom historical records"
+    },
+    {
+      "type": "paragraph",
+      "id": 3,
+      "page number": 1,
+      "bounding box": [
+        288.6576,
+        591.189,
+        291.574932,
+        594.961593
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 5.25,
+      "text color": "[0.0]",
+      "content": "1"
+    },
+    {
+      "type": "paragraph",
+      "id": 4,
+      "page number": 1,
+      "bounding box": [
+        366.6074,
+        591.189,
+        369.524732,
+        594.961593
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 5.25,
+      "text color": "[0.0]",
+      "content": "2"
+    },
+    {
+      "type": "paragraph",
+      "id": 5,
+      "page number": 1,
+      "bounding box": [
+        198,
+        588.192,
+        435.5397000000001,
+        594.744
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Maximilian C. Teich *, Belen Escobari , Malte Rehbein"
+    },
+    {
+      "type": "paragraph",
+      "id": 6,
+      "page number": 1,
+      "bounding box": [
+        443.3342,
+        591.189,
+        446.251532,
+        594.961593
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 5.25,
+      "text color": "[0.0]",
+      "content": "1"
+    },
+    {
+      "type": "paragraph",
+      "id": 7,
+      "page number": 1,
+      "bounding box": [
+        197.9982,
+        548.692,
+        567.3101999999999,
+        574.516
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "1 Chair of Computational Humanities, University of Passau, Passau, Germany, 2 Center for Biodiversity\nInformatics and Collection Data Integration (ZBS), Botanic Garden and Botanical Museum Berlin, Freie\nUniversit\u00E4t Berlin, Berlin, Germany"
+    },
+    {
+      "type": "paragraph",
+      "id": 8,
+      "page number": 1,
+      "bounding box": [
+        197.9982,
+        527.692,
+        319.18219999999985,
+        533.532
+      ],
+      "font": "UMDXCF\u002BGandhariUnicode-Roman",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "* maximilian.teich@uni-passau.de"
+    },
+    {
+      "type": "paragraph",
+      "id": 9,
+      "page number": 1,
+      "bounding box": [
+        36.04660000000001,
+        172.461,
+        183.66179999999997,
+        400.785
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "OPEN ACCESS\nCitation: Teich MC, Escobari B, Rehbein M\n(2026) Utilizing large language models to\nconstruct a dataset of W\u00FCrttemberg\u2019s 19th-\ncentury fauna from historical records. PLoS\nOne 21(3): e0344181. https://doi.org/10.1371/\njournal.pone.0344181\nEditor: Seyyed Kamal Asadi Ojaei, University of\nMazandaran, IRAN, ISLAMIC REPUBLIC OF\nReceived: October 8, 2025\nAccepted: February 17, 2026\nPublished: March 24, 2026\nCopyright: \u00A9 2026 Teich et al. This is an open\naccess article distributed under the terms of\nthe Creative Commons Attribution License,\nwhich permits unrestricted use, distribution,\nand reproduction in any medium, provided the\noriginal author and source are credited."
+    },
+    {
+      "type": "paragraph",
+      "id": 10,
+      "page number": 1,
+      "bounding box": [
+        36.04660000000001,
+        122.46100000000001,
+        177.68499999999995,
+        161.28500000000003
+      ],
+      "font": "NYYRIT\u002BArialMTStd-BoldCond",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Data availability statement: The full dataset\nis accessible at Zenodo under https://zenodo.\norg/records/17277242, as referenced in the\nmanuscript."
+    },
+    {
+      "type": "paragraph",
+      "id": 11,
+      "page number": 1,
+      "bounding box": [
+        36.04660000000001,
+        94.46100000000001,
+        172.61380000000003,
+        111.28500000000001
+      ],
+      "font": "NYYRIT\u002BArialMTStd-BoldCond",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Funding: The author(s) received no specific\nfunding for this work."
+    },
+    {
+      "type": "heading",
+      "id": 12,
+      "page number": 1,
+      "bounding box": [
+        198,
+        488.192,
+        254.784,
+        498.216
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 14,
+      "text color": "[0.0]",
+      "content": "Abstract"
+    },
+    {
+      "type": "paragraph",
+      "id": 13,
+      "page number": 1,
+      "bounding box": [
+        198,
+        317.392,
+        573.6799999999995,
+        474.67199999999997
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Constructing datasets on past biodiversity from historical sources is crucial for under-\nstanding long-term ecological changes. Typically, compiling such datasets relies\non prior knowledge of the sources\u2019 composition and requires considerable manual\neffort. To overcome these challenges, we implement an automated approach based\non prompted large language models (LLMs) to detect mentions of species in texts\nfrom 19th-century W\u00FCrttemberg and link these mentions to identifiers in the GBIF\ndatabase. Based on our evaluation, we find that LLMs can reliably identify species in\nthe texts with high recall (92.6%) and precision (95.3%), while providing estimates of\nthe correct species identifier with considerable accuracy (83.0%). As our approach is\neasily scalable and adaptable to other contexts and languages, it offers a promising\nway to advance dataset generation from historical material using limited resources."
+    },
+    {
+      "type": "paragraph",
+      "id": 14,
+      "page number": 1,
+      "bounding box": [
+        198,
+        88.94200000000001,
+        574.2999999999994,
+        282.068
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 11,
+      "text color": "[0.0]",
+      "content": "Introduction\nEcosystems and the changes they undergo can only be comprehensively understood\nand assessed in light of their past. Estimates of human influence on ecosystems,\nexplanations for the extinction of certain species, or the formulation of realistic goals\nfor conservation efforts all rely on knowledge of past developments. Historical ecol-\nogy [1\u20137] has established itself as a \u201Cframework for studying the past and future of\nthe human\u2013environment relationship\u201D [8]. A central problem of historical ecology\u2014as\nin all historical study\u2014is the impossibility of directly observing the past. Instead of\nsuch observation, one must rely on the often incomplete historical record to draw\nconclusions about past circumstances. This is especially challenging as many avail-\nable data sources are scarce or cover only small time frames or geographic areas.\nAs Vellend et al. [9] note, this often necessitates the employment of unconventional\nmethods and a creative use of data sources which may not originally have been\nintended to store information on past ecosystems."
+    },
+    {
+      "type": "paragraph",
+      "id": 15,
+      "page number": 2,
+      "bounding box": [
+        36.072,
+        677.884,
+        169.03839999999997,
+        694.708
+      ],
+      "font": "NYYRIT\u002BArialMTStd-BoldCond",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Competing interests: The authors have\ndeclared that no competing interests exist."
+    },
+    {
+      "type": "paragraph",
+      "id": 16,
+      "page number": 2,
+      "bounding box": [
+        198,
+        575.4104,
+        574.4799999999992,
+        694.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Reconstructing datasets on past flora and fauna from fragmentary sources is a\ncentral part of historical ecology, ensuring that conserved information pertinent to\npresent questions can actually be accessed and used by researchers, rather than\nbeing lost to history. The addition of new digital methods promises to help with this\nproblem. Recently, Rehbein [10] has described these efforts as part of Computational\nHistorical Ecology, in which \u201CNatural Language Processing, Machine Learning, and\nGeospatial Analysis would support the extraction, classification, and integration of\necological information from a wide variety of archival materials.\u201D The development\nand evaluation of approaches integrating such methods is ongoing."
+    },
+    {
+      "type": "paragraph",
+      "id": 17,
+      "page number": 2,
+      "bounding box": [
+        197.99999999999997,
+        393.4104,
+        573.4999999999994,
+        568.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Previous research has addressed the problem of constructing fauna datasets from\ntextual historical sources in various ways: Some studies extract the relevant infor-\nmation largely by hand, as Turvey et al. [11] did for Gaboons from Chinese gazet-\nteers, Clavero [12] for fish species in 16th-century Spain, or Govaerts [13] for birds\nin 14th-century Holland from financial records. Working with structured data in form\nof tables, Rehbein et al. [14] designed a digitization workflow to build a dataset of\n44 species documented in an 1845 survey of Bavarian wildlife. Blanco-Garrido et al.\n[15] mined geographical dictionaries for species names to derive a dataset of fresh-\nwater fish in 19th-century Spain, as did Viana et al. [16] for multiple Iberian species.\nClavero et al. [17] combined text queries with spatial modeling to estimate historical\nSpanish wolf populations. All these approaches relied either on highly structured\nsource data or substantial manual effort in compiling the final datasets or in providing\ntraining data for more automated solutions."
+    },
+    {
+      "type": "paragraph",
+      "id": 18,
+      "page number": 2,
+      "bounding box": [
+        197.99999999999997,
+        211.41039999999998,
+        575.1879999999996,
+        390.75039999999996
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "In this study, the fauna of the southern German kingdom of W\u00FCrttemberg during\nthe 19th century is examined. Information on animal sightings from the time was col-\nlected in a series of government-issued textual descriptions of the kingdom\u2019s districts.\nPresented in prose form, each of these descriptions accounts for regional fauna.\nOverall, all descriptions form the material of this study. To generate a dataset of all\nanimals described in this material and to assess its quality, solutions based on large\nlanguage models (LLMs) were implemented and evaluated for the following tasks:\nFirst, all mentions of animals in the texts were recognized, regardless of textual\nstructure, language (usually Latin or German), or spelling variations, a task generally\nknown as Named Entity Recognition (NER). Second, these identified tokens (text\nunits) were used to unambiguously link the documented animal species to a scientific\nauthority file. To this end, we apply a novel workflow that combines string matching\nwith LLM-based estimations of the meaning of historical taxa."
+    },
+    {
+      "type": "paragraph",
+      "id": 19,
+      "page number": 2,
+      "bounding box": [
+        197.99999999999997,
+        85.41039999999998,
+        575.9199999999996,
+        204.69039999999998
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "We demonstrate that datasets on past fauna can be constructed in a semi-\nautomated fashion from unstructured sources using LLMs, without fine-tuning and\nthus without the need for dedicated training data. In doing so, we overcome the cur-\nrent need for manual effort or structured source texts in dataset creation. Rather than\nselecting appropriate source texts, reading them, and annotating them manually, we\nlimit human intervention to providing these sources in machine-readable form, prompt\ndesign, and output evaluation. To evaluate our approach, we use a test dataset that\nwas manually created by a human expert. We show that species detection from his-\ntorical texts can be achieved with high recall and precision, despite challenges posed"
+    },
+    {
+      "type": "paragraph",
+      "id": 20,
+      "page number": 3,
+      "bounding box": [
+        36,
+        673.4104,
+        551.7499999999995,
+        694.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "by historical language. By comparison, linking detected species to authority files is more error-prone but still provides\nuseful indications of a species and its taxonomic classification."
+    },
+    {
+      "type": "paragraph",
+      "id": 21,
+      "page number": 3,
+      "bounding box": [
+        36,
+        631.4104,
+        567.1099999999998,
+        666.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "In conclusion, we consider this approach a valuable option for building datasets from historical textual sources, partic-\nularly when the scope of the material prohibits manual processing. Our approach offers a scalable and adaptable way to\nexpand the data available in historical ecology."
+    },
+    {
+      "type": "paragraph",
+      "id": 22,
+      "page number": 3,
+      "bounding box": [
+        36,
+        473.1604,
+        575.7579999999992,
+        614.2864
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 11,
+      "text color": "[0.0]",
+      "content": "Materials and methods\nSource Material\nThis study utilizes texts taken from 19th-century regional studies on the 64 Ober\u00E4mter (administrative districts) of the\nsouthern German kingdom of W\u00FCrttemberg (see Figure 1). This kingdom had been formed only in 1806 under French\nhegemony and maintained its status after the political re-organization of 1815. Territorial changes during the Napoleonic\nera and the unavailability of reliable land registers motivated the government to begin a systematic land survey of the\nkingdom in 1818 [18]. By 1820, a Royal Statistical Office (K\u00F6nigl. Statistisch-Topographisches Bureau) was established to\nsupport this survey. In particular, the office was instructed to record the geography, history, culture, and natural history of\nthe various districts. This establishment was originally driven by the hopes that a better understanding of the newly inte-\ngrated districts might help the royal administration increase tax revenues; thus the office was placed under the auspices of"
+    },
+    {
+      "type": "paragraph",
+      "id": 23,
+      "page number": 3,
+      "bounding box": [
+        36,
+        95.7001,
+        362.35189999999955,
+        104.8921
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Fig 1. Ober\u00E4mter. Map of the Ober\u00E4mter (districts) of the Kingdom of W\u00FCrttemberg in 1848."
+    },
+    {
+      "type": "paragraph",
+      "id": 24,
+      "page number": 3,
+      "bounding box": [
+        35.9999,
+        79.7001,
+        198.1271,
+        85.4521
+      ],
+      "font": "GTKBOH\u002BArialMTStd-Cond",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "https://doi.org/10.1371/journal.pone.0344181.g001"
+    },
+    {
+      "type": "paragraph",
+      "id": 25,
+      "page number": 4,
+      "bounding box": [
+        36,
+        645.4104,
+        569.6099999999993,
+        694.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "the minister of finance [19]. However, this purpose was soon eclipsed by that of national integration. Since the population\nof the new kingdom had a variety of cultural and political traditions that were not necessarily compatible with the idea of\na unified monarchy, the office and its publications soon were instrumentalized to construct a common W\u00FCrttembergian\nnational identity and to promote W\u00FCrttembergian patriotism [19]."
+    },
+    {
+      "type": "paragraph",
+      "id": 26,
+      "page number": 4,
+      "bounding box": [
+        36,
+        533.4104,
+        571.2499999999991,
+        638.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "The geographer and statistician Johann Memminger, the office\u2019s first leading figure [20], advocated regional studies\nas a means for national integration [21]. In the preface to his 1822 yearbook on W\u00FCrttembergian statistics, he stressed\nthat \u201Cthere is no W\u00FCrttembergian people yet; every part is a stranger to the others\u201D. He hoped for a \u201Cvitalization of national\nspirit\u201D through knowledge of the fatherland (In German: \u201Caber noch haben wir kein w\u00FCrtembergisches Volk; jeder Theil ist\ndem andern fremd [...] In demselben Grade aber, in dem die n\u00E4here Kenntnis des Vaterlandes und der Mitb\u00FCrger auf den\nGemeinsinn wirkt, in demselben wirkt sie auch auf Belebung des Volksgeistes\u201D [22]. Hence, the office\u2019s work should not\nbe seen as merely academic. In light of its political motivation, its projects also appear as attempts to educate the king-\ndom\u2019s population on the surrounding regions and to instill a sense of unity."
+    },
+    {
+      "type": "paragraph",
+      "id": 27,
+      "page number": 4,
+      "bounding box": [
+        36,
+        337.4104,
+        568.3289999999995,
+        526.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Between 1824 and 1886, the Royal Statistical Office published 64 volumes of so-called Oberamtsbeschreibungen,\neach dedicated to the description of one of the kingdom\u2019s districts and typically released at a pace of about one per year.\nOver several decades, these volumes grew more ambitious in scope; whereas the first volume had 158 pages, the last\none was published in two parts with a total of 883 pages. Initially, Memminger compiled the first volumes based on his\nown research and information gathered from local contacts. The last volume in the series recounts these early efforts\nby Memminger and his assistant and the gradual expansion of the project [23]. As their production became increasingly\nprofessionalized, the editors could rely on a network of civil servants and part-time contributors with higher education\n[24]. Unfortunately, the texts generally do not include citations that identify the specific sources used by the editors.\nHowever, the original materials used to compile the texts are still preserved in the archives of the Statistisches Lande-\nsamt Baden-W\u00FCrttemberg and could serve as a basis for future research into the volumes creation [25]. At least some\nof these records had been digitized by 2022 (description of the collection available online at the Statistisches Landes-\namt Baden-W\u00FCrttemberg.) The volumes themselves are available as scans through various public libraries and Google\nBooks. A Wikisource project has gathered these publicly available sources and manually transcribed all volumes into\nmachine-readable texts (Wikisource.) These data are used in this study."
+    },
+    {
+      "type": "paragraph",
+      "id": 28,
+      "page number": 4,
+      "bounding box": [
+        36,
+        183.41039999999998,
+        574.0599999999995,
+        330.69039999999995
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "A notable feature of the Oberamtsbeschreibungen is the inclusion of a chapter on the fauna of each respective district,\nproviding valuable historical insights into regional biodiversity. These chapters serve as the foundation for this study, offer-\ning a wealth of textual information. However, the quality of the fauna chapters varies greatly between the different vol-\numes. While some merely note the absence of special or remarkable animals (e.g., in Kirchheim 1842, K\u00FCnzelsau 1883,\nCrailsheim 1884), others provide detailed accounts listing hundreds of species. In some cases, the authors also discuss\nthe significance of specific animals for local economies or cultural traditions. For example, the volume on Neckarsulm\n(1881) relates details on species of fish caught in the district, their culinary appeal to the local population, and special\ntechniques for catching barbels (Barbus fluviatilis) with tridents in wintertime. The lengths of the chapters range from a\nbrief 18 words for the rural K\u00FCnzelsau district to a comprehensive 9682 words in the well-studied university town of T\u00FCbin-\ngen (1867), with a mean chapter length of 885 tokens and a general trend toward longer texts in later publication years. In\ntotal, by extracting the fauna chapters from each volume, a data set of 56640 tokens was created."
+    },
+    {
+      "type": "paragraph",
+      "id": 29,
+      "page number": 4,
+      "bounding box": [
+        36,
+        111.41039999999998,
+        574.0499999999993,
+        164.57039999999998
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Entity Recognition\nThe first task is the recognition of n-grams naming animal taxa as presented in the chapters. This task also includes col-\nlecting information on the presence of a given animal, as some species are often recorded by the authors as being absent\nor extinct."
+    },
+    {
+      "type": "paragraph",
+      "id": 30,
+      "page number": 4,
+      "bounding box": [
+        36,
+        83.41039999999998,
+        573.0300000000004,
+        104.57039999999998
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Previous research has looked into similar entity recognition problems in various ways. In cases where the texts have\na predictable structure, such as in tables, encyclopedic entries, or uniform paragraphs, entities can often be identified"
+    },
+    {
+      "type": "paragraph",
+      "id": 31,
+      "page number": 5,
+      "bounding box": [
+        35.99999999999997,
+        505.4104,
+        576.0450000000006,
+        694.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "by searching for specific patterns or strings [26\u201329]. For texts without such structure, some authors have applied\nmachine learning [30\u201332]. Several datasets have been published to help evaluate such approaches, but are not tailored\nto specific historical settings [33\u201338]. In addition to traditional machine learning, fine-tuned language models have been\nintegrated into workflows for species recognition [39\u201341]. Ehrmann et al. [42] offer an overview of all these approaches\nand outline the challenges commonly encountered when dealing with named entity recognition (NER) in historical\ndocuments. More recently, research has focused on the use of prompt-based LLMs for retrieving named entities from\nhistorical texts without additional training data. While Tudor et al. [43] highlights the difficulties posed by hallucinations\nand Gonzales [44] finds this approach less effective than fine-tuned neural models, Hiltmann et al. [45] shows that it\ncan substantially outperform traditional NER frameworks that lack training data, and emphasizes its potential benefits\nfor historical research. In the realm of biology, Gougherty and Clipp [46] demonstrate how LLMs can be used to reliably\nextract information on the spread of pathogens from the literature, as does Scheepens et al. [47] for invertebrate pests\nand pest control agents. In a previous study, we looked at identifying common problems in the detection of species\nnames in historical texts by using a small sample of the Oberamtsbeschreibungen, without attempting to process the\nentire corpus [48]."
+    },
+    {
+      "type": "paragraph",
+      "id": 32,
+      "page number": 5,
+      "bounding box": [
+        48,
+        491.4104,
+        546.5499999999997,
+        498.69039999999995
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "The following challenges to solving the entity recognition task were observed when assessing the historical texts:"
+    },
+    {
+      "type": "paragraph",
+      "id": 33,
+      "page number": 5,
+      "bounding box": [
+        36,
+        429.4104,
+        549.7399999999997,
+        478.69039999999995
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "\u2022 First, the texts share no common structure. Some volumes tend to enumerate species names in long sentences,\nwhereas others devote multiple sentences to details on a species. Hence, one has to account for all possible ways\nin which animals may be referenced. This can include names for individual species or names for an entire class of\nanimals."
+    },
+    {
+      "type": "paragraph",
+      "id": 34,
+      "page number": 5,
+      "bounding box": [
+        36,
+        339.4104,
+        564.1472999999995,
+        416.69039999999995
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "\u2022 Second, animals can appear under their German vernacular names, scientific names, or both, which is not consis-\ntent across volumes. For example, the fire salamander (Salamandra maculosa) is noted in Backnang (1832) as \u201Cder\ngefleckte Erdmolch (Salamandra maculosa),\u201D in Stuttgart (1851) just as \u201CSalamandra maculosa an feuchten Orten,\u201D in\nOberndorf (1868) as \u201Cder Erdmolch [ist] nicht selten,\u201D and in Spaichingen (1876) as \u201Cder gefleckte Salamander (Sala-\nmandra maculosa).\u201D Therefore, any recognition method should be capable of determining when two different names\nrefer to the same animal."
+    },
+    {
+      "type": "paragraph",
+      "id": 35,
+      "page number": 5,
+      "bounding box": [
+        36,
+        263.4104,
+        574.5077999999999,
+        326.69039999999995
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "\u2022 Third, the names themselves often deviate from modern spellings. For example, the kestrel Falco tinnunculus is\nusually given as \u201CThurmfalke\u201D instead of the modern \u201CTurmfalke\u201D, the burying beetle Nicrophorus vespillo as \u201CTod-\ntengr\u00E4ber\u201D instead of \u201CTotengr\u00E4ber.\u201D Some historical vernacular and scientific names are obscure or no longer in\ncommon use. Scientific names are also frequently abbreviated. These problems may render them unintelligible even\nto domain experts."
+    },
+    {
+      "type": "paragraph",
+      "id": 36,
+      "page number": 5,
+      "bounding box": [
+        35.99780000000004,
+        229.41039999999998,
+        556.0177999999995,
+        250.69039999999998
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Considering these multiple challenges and the general absence of task-specific training data, a zero-shot approach\nusing large language models (LLMs) could be a viable solution."
+    },
+    {
+      "type": "paragraph",
+      "id": 37,
+      "page number": 5,
+      "bounding box": [
+        35.99780000000004,
+        103.41039999999998,
+        573.7677999999994,
+        222.69039999999998
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "To allow LLM-based recognition, the historical texts were first split into chunks (text spans) of 200 tokens, which proved\nto be a manageable size in the subsequent process. An overlap of 50 tokens between the chunks ensures that each\nanimal name is included in full in at least one chunk. This process resulted in a total of 934 chunks. Each chunk was then\nsubmitted to an LLM following a prompt specifying the task: first to list all animals mentioned in the historical text by both\ntheir vernacular and scientific names, if provided, and second to indicate whether each animal is described as present or\nabsent in the district by the authors. The second part of the task does not indicate an actual observation of an animal, but\ninstead assesses whether the authors regarded a species as occurring or absent in a district. The prompt also included\ninstructions to return the results as a JSON element including the vernacular name, scientific name, and presence infor-\nmation, for example about the European goldfinch (Carduelis carduelis):"
+    },
+    {
+      "type": "paragraph",
+      "id": 38,
+      "page number": 5,
+      "bounding box": [
+        47.99780000000004,
+        81.41039999999998,
+        462.06518281250004,
+        87.74340781249998
+      ],
+      "font": "VGOYQD\u002BCourierNewPSMT",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "{\u201Cgerman_name\u201D: \u201CDistelfink,\u201D \u201Cscientific_name\u201D: null, \u201Cpresent\u201D: true}"
+    },
+    {
+      "type": "paragraph",
+      "id": 39,
+      "page number": 6,
+      "bounding box": [
+        36,
+        673.4104,
+        569.3299999999997,
+        694.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "This format requirement was enforced through a validation loop, which repeated the prompt until a correctly structured\nresponse was received."
+    },
+    {
+      "type": "paragraph",
+      "id": 40,
+      "page number": 6,
+      "bounding box": [
+        36,
+        589.4104,
+        574.9799999999992,
+        666.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "As a means of evaluating the quality of responses generated by different LLM and prompt variations, a test dataset\nwas created. For 50 randomly sampled text chunks, we annotated all names and information about the animals\u2019 presence\nusing the same JSON format. We used the same spelling as the original historical texts. When evaluating the authors\u2019\nassessment of a species\u2019 occurrence in the district, we considered an animal to be occurring when no absence was\nimplied. This annotation yielded data for 435 mentions of animals in the sample. Using these test data as ground truth, the\nLLM responses were evaluated using three metrics:"
+    },
+    {
+      "type": "paragraph",
+      "id": 41,
+      "page number": 6,
+      "bounding box": [
+        36,
+        569.4104,
+        549.5999999999996,
+        576.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "1. A recall score showing how many of the animals found by the human annotator were also recognized by the LLM."
+    },
+    {
+      "type": "paragraph",
+      "id": 42,
+      "page number": 6,
+      "bounding box": [
+        36,
+        535.4104,
+        543.4899999999994,
+        556.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "2. A precision score, indicating how many of the animals found by the LLM were correct, i.e., also annotated by the\nhuman."
+    },
+    {
+      "type": "paragraph",
+      "id": 43,
+      "page number": 6,
+      "bounding box": [
+        36,
+        501.4104,
+        557.3699999999995,
+        522.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "3. An additional precision score for the information on presence, showing in how many cases the LLM agreed with the\nhuman annotator on whether an animal is described as being present or absent."
+    },
+    {
+      "type": "paragraph",
+      "id": 44,
+      "page number": 6,
+      "bounding box": [
+        36,
+        439.4104,
+        561.3999999999999,
+        488.5704
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "This proved challenging, as all tested LLMs tended to modernize historical spellings in their outputs. Additionally,\nthe texts often used abbreviated scientific names, which the LLMs attempted to fully spell out. To address these\nissues, we applied two different matching strategies to compute the metrics, following the approach of Gonzales-\nGallardo et al. [44]:"
+    },
+    {
+      "type": "paragraph",
+      "id": 45,
+      "page number": 6,
+      "bounding box": [
+        36,
+        405.4104,
+        552.8799999999995,
+        426.69039999999995
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "1. A strict matching function, which only considers items a match if the vernacular or scientific names are exact string\nmatches."
+    },
+    {
+      "type": "paragraph",
+      "id": 46,
+      "page number": 6,
+      "bounding box": [
+        36,
+        357.4104,
+        566.4269999999996,
+        392.69039999999995
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "2. A fuzzy matching function, which allows for minor variations (an editing distance of 2 was set as acceptable) and\nassumes that a match is still valid if the first part of a scientific name is abbreviated in either the human\u2019s or the LLM\u2019s\noutput."
+    },
+    {
+      "type": "paragraph",
+      "id": 47,
+      "page number": 6,
+      "bounding box": [
+        36,
+        183.41039999999998,
+        571.8609999999996,
+        344.69039999999995
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "We tested three common LLMs by adjusting the instruction for optimal performance: Various ways to formulate\nthe task as prompts were iteratively tested by evaluating the respective outputs against the test data and adjusting\nthe German wording used for optimal performance. Across the tested prompts, the evaluation results differed only\nmarginally. The best-performing prompt ultimately used for the task is shown in S3 Prompts. We found that the\nmodels can generally detect the majority of documented species in the texts. GPT-4o performed best on the task,\nfollowed by the Gemma 2 (see Table 1). As one would expect, the metrics\u2019 values are higher when fuzzy matches\nare considered, giving the best model a recall score of 93% and a precision score of 95%. Under strict matching\nconditions, the recall and precision scores drop to 83% and 84%, respectively. Regarding the presence or absence\nof animals, all models score very high. As the calculation of this metric can only consider the matches found\nbetween the Ground Truth and the solutions of the LLMs, there is no discernible difference between the two match-\ning functions. Generally, the best performance of an LLM is comparable to that reported for tools tuned on training\ndata to identify taxa [36,38]."
+    },
+    {
+      "type": "paragraph",
+      "id": 48,
+      "page number": 6,
+      "bounding box": [
+        36.0861,
+        149.1789,
+        469.82999999999913,
+        155.0029
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Table 1. Evaluation metrics for tested LLMs on entity recognition task. Edit distance for fuzzy matching is set at 2."
+    },
+    {
+      "type": "paragraph",
+      "id": 49,
+      "page number": 6,
+      "bounding box": [
+        36.06209999999987,
+        96.69690000000003,
+        71.19809999999995,
+        140.84890000000001
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Model\nGemma 2\nGPT-4o\nLlama 3.1"
+    },
+    {
+      "type": "paragraph",
+      "id": 50,
+      "page number": 6,
+      "bounding box": [
+        100.05409999999986,
+        96.69690000000003,
+        146.31810000000002,
+        140.94490000000002
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Strict Recall\n80.2%\n82.8%\n76.8%"
+    },
+    {
+      "type": "paragraph",
+      "id": 51,
+      "page number": 6,
+      "bounding box": [
+        175.15809999999988,
+        96.69690000000003,
+        233.87009999999998,
+        140.94490000000002
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Strict Precision\n82.3%\n84.2%\n82.3%"
+    },
+    {
+      "type": "paragraph",
+      "id": 52,
+      "page number": 6,
+      "bounding box": [
+        262.7100999999999,
+        96.69690000000003,
+        320.9820999999999,
+        140.94490000000002
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Strict Presence\n97.4%\n98.1%\n94.0%"
+    },
+    {
+      "type": "paragraph",
+      "id": 53,
+      "page number": 6,
+      "bounding box": [
+        349.82209999999986,
+        96.69690000000003,
+        397.8620999999998,
+        140.84890000000001
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Fuzzy Recall\n91.0%\n92.6%\n87.8%"
+    },
+    {
+      "type": "paragraph",
+      "id": 54,
+      "page number": 6,
+      "bounding box": [
+        426.70209999999986,
+        96.69690000000003,
+        487.1900999999998,
+        140.84890000000001
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Fuzzy Precision\n93.4%\n95.3%\n93.5%"
+    },
+    {
+      "type": "paragraph",
+      "id": 55,
+      "page number": 6,
+      "bounding box": [
+        36.054099999999835,
+        81.44890000000002,
+        196.40529999999984,
+        87.20090000000002
+      ],
+      "font": "GTKBOH\u002BArialMTStd-Cond",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "https://doi.org/10.1371/journal.pone.0344181.t001"
+    },
+    {
+      "type": "paragraph",
+      "id": 56,
+      "page number": 6,
+      "bounding box": [
+        516.0300999999998,
+        96.69690000000003,
+        576.0781,
+        140.84890000000001
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Fuzzy Presence\n97.5%\n98.0%\n94.8%"
+    },
+    {
+      "type": "paragraph",
+      "id": 57,
+      "page number": 7,
+      "bounding box": [
+        36,
+        571.4104,
+        574.5399999999993,
+        694.5704
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Data Linking\nBuilding on the extraction of vernacular and scientific names from the texts, a second task involves linking these names to\nrecords in an authority file. By mapping the names to such unique records, historical mentions of animals can be dis-\nambiguated, and additional information on each taxon can easily be added for further analysis. The Global Biodiversity\nInformation Facility (GBIF), an international network and data infrastructure project which aggregates data on taxa from a\nwide range of sources, was chosen as the target authority file. GBIF assigns a unique identifier to each taxon and records\nall names associated with it along with other information such as distribution data. For each mention of an animal in the\nhistorical texts\u2014whether it is given by a scientific name, a German vernacular name, or both\u2014the corresponding identifier\nin GBIF must be found."
+    },
+    {
+      "type": "paragraph",
+      "id": 58,
+      "page number": 7,
+      "bounding box": [
+        36,
+        333.4104,
+        574.5299999999996,
+        564.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Two approaches were considered to complete the task. The first involved matching tokens identified in the historical\ntext against the GBIF database using its API (GBIF API Reference.) This API allows for the search of scientific names,\nsupports fuzzy searches, and returns confidence scores for uncertain matches. The separate API function for search-\ning vernacular names is problematic, as this is implemented as a simple text search. This function can return irrelevant\nresults from the database\u2019s resources. For example, a search for the German vernacular name \u201CB\u00E4r\u201D (Ursus arctos) may\nalso return other species described in the literature by the botanist with the same surname: Johannes B\u00E4r. To avoid this\nambiguity, the API was bypassed by downloading parts of the GBIF database and performing local queries. As a basis,\na dataset containing approximately 12,500 German vernacular names (compiled by Holstein and Monje [49]) was used.\nThis dataset includes names of animals and plants from southern Germany and is itself integrated into GBIF. The data\nwere further enriched by retrieving all synonymous vernacular names listed in GBIF for each record. Historical vernacular\nnames were then matched against this dataset to identify the corresponding GBIF entries. However, the direct lookup of\nnames is still prone to several issues: historical names often exhibit spellings diverging from modern conventions, and sci-\nentific names are frequently abbreviated. Additionally, some historical names may have fallen out of use or are too rare to\nhave found entry into GBIF. In such cases, one cannot expect to find corresponding matches in the dataset. There is also\nthe possibility of taxa having acquired different meanings or having been split up over time, so even matches returned\nby this approach could lead to factually incorrect results. Given these problems, the results of the direct lookup approach\nshould be expected to generally have a low recall at a high\u2014but not perfect\u2014precision."
+    },
+    {
+      "type": "paragraph",
+      "id": 59,
+      "page number": 7,
+      "bounding box": [
+        36,
+        137.41039999999998,
+        573.4399999999999,
+        326.5704
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "The second approach to matching historical names and authority records employs LLMs. Previous research has\nexplored the use of prompt-instructed LLMs for entity matching tasks. Farrell et al. [50] suggest using such models to\nharmonize data directly from textual sources. Peeters et al. [51] find them to be effective in applications where no train-\ning data are available or where many unseen cases are expected, as is the case in our task. However, the quality of the\nresults depends on the extent of knowledge represented within the models. Dorm et al. [52] and Elliott and Fortes [53]\ntested the knowledge of popular LLMs regarding geographical species distribution, showing varying results which likewise\nsuggest a strong dependence on the models\u2019 training data. Castro et al. [54] used LLMs to identify species in research\npapers and newspaper articles with a few-shot approach and also found that the models tested vary widely in their ability\nto perform the task. As we must assume that common LLMs are not necessarily trained on 19th-century German biologi-\ncal texts, we devised prompts in a way to pass both the historical names and the original text chunk to an LLM, to ensure\nthat there is some context available. Based on these inputs, the model is instructed to suggest a modern scientific name\nfor the animal in question. Initial experimentation showed that this LLM-based approach yielded less precise results than\nthe pure database lookup approach, even with the contextual information offered by the text chunks. At the same time, it\nachieved perfect recall, as the LLM would always return at least a plausible result."
+    },
+    {
+      "type": "paragraph",
+      "id": 60,
+      "page number": 7,
+      "bounding box": [
+        36,
+        81.41039999999998,
+        575.3799999999994,
+        130.69039999999998
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Given the shortcomings of both approaches, we designed a combined workflow for optimized performance on the task:\nIn a first step, the extracted scientific and vernacular names are looked up in the locally stored copy of the database. Only\ncases where no match is found are passed to a second step, in which an LLM is prompted to provide the animal\u2019s modern\nscientific name based on the historical names and contextual information. Prompt design again involves iterative testing of"
+    },
+    {
+      "type": "paragraph",
+      "id": 61,
+      "page number": 8,
+      "bounding box": [
+        36,
+        673.4104,
+        571.6299999999993,
+        694.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "prompts, with the best performing prompt shown in S3 Prompts. The result can then be used to attempt another lookup in\nthe GBIF database (see Figure 2)."
+    },
+    {
+      "type": "paragraph",
+      "id": 62,
+      "page number": 8,
+      "bounding box": [
+        36,
+        505.4104,
+        563.8299999999995,
+        666.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "To evaluate the quality of the results produced by this combined approach, an additional test dataset was manually\ncreated as a ground truth. For 300 randomly selected triples consisting of scientific names, German vernacular names,\nand the original text chunk as context, initial experimental results were evaluated by a domain expert. The expert also\nrecorded the correct solution for each case. However, in 27 of the 300 test cases (9%), even the expert could not deter-\nmine the correct solution with certainty. For example, for Freudenstadt (1858) authors documented \u201Cden Schaumwurm\n(Cercopis spumaria).\u201D This scientific name is a synonym of Philaenus spumarius (common meadow spittlebug; Wie-\nsenschaumzikade in German), but neither the common name, nor the historical synonym is recorded in GBIF or any\nother information source. These uncertain cases were excluded from the accuracy calculation but suggest a noteworthy\nbaseline error for the task. After the evaluation, all synonyms of the correct solutions available were queried from GBIF\nto collect all possible valid answers. Against these lists of valid answers, both the GBIF lookup results and the LLM out-\nputs could be automatically evaluated. An accuracy score was introduced to indicate how often the combined approach\nmatched the solution of the domain expert. A recall metric indicates for how many cases a solution was found."
+    },
+    {
+      "type": "paragraph",
+      "id": 63,
+      "page number": 8,
+      "bounding box": [
+        35.9999,
+        102.7545,
+        569.5678999999992,
+        118.57849999999999
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Fig 2. Workflow. Combined approach workflow using direct lookup of names in the GBIF database and an LLM in case historical names are not found\ndirectly."
+    },
+    {
+      "type": "paragraph",
+      "id": 64,
+      "page number": 8,
+      "bounding box": [
+        35.9999,
+        86.7545,
+        198.1271,
+        92.50649999999999
+      ],
+      "font": "GTKBOH\u002BArialMTStd-Cond",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "https://doi.org/10.1371/journal.pone.0344181.g002"
+    },
+    {
+      "type": "paragraph",
+      "id": 65,
+      "page number": 9,
+      "bounding box": [
+        36,
+        575.4104,
+        567.9199999999994,
+        694.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Results of the evaluation are shown in Table 2. Using only the direct lookup of historical names in the GBIF database,\nthe results of the domain expert could be reproduced in 92% of the test cases. However, this approach alone only yields\nresults in 61% of cases and returns no result in the remaining 39. When an LLM is included to find solutions for these\nremaining cases by suggesting modern equivalents to the historical names not found directly in the database, all of them\nwere solved. However, with the introduction of the LLMs, the overall accuracy drops, as the suggested names are less\nlikely to conform with the expert\u2019s solution. The best performance was achieved by using Llama 3.1, with an accuracy of\n83% with the remaining inaccurate results often close to the true solution. For example, the \u201CSaatgans\u201D (Anser fabalis)\nis falsely linked to the \u201CGraugans\u201D Anser anser, while the \u201CBirkhuhn\u201D (Tetrao tetrix) is mistaken for its British subspecies\nTetrao britannicus."
+    },
+    {
+      "type": "paragraph",
+      "id": 66,
+      "page number": 9,
+      "bounding box": [
+        36,
+        449.4104,
+        572.5199999999993,
+        568.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "It should be noted that the performance of the task depends on the kind of test case observed. This can be seen when\ngrouping the cases in the test dataset by the taxonomic class and evaluating each class separately (see Table 3). The\nlargest group in the dataset are birds, accounting for 139 of the test cases. For this group, Llama 3.1 achieves an accu-\nracy of 87%. Amphibians (n = 11) and Mammals (n = 50) show the best results with accuracy scores of 91% and 88%,\nrespectively, also with Llama 3.1. At the other end of the spectrum, insects (n = 23) can only be linked correctly in 48% of\ncases. The differences in task performance on these classes may result from characteristics of the historical texts and the\nmodels used. Taxa for amphibians and insects may have been less likely to become canonized than those for birds and\nmammals, making it harder for LLMs trained on modern biological literature to place them in taxonomies. The compara-\ntively smaller sample size for these groups in the test dataset may have amplified this effect."
+    },
+    {
+      "type": "paragraph",
+      "id": 67,
+      "page number": 9,
+      "bounding box": [
+        36,
+        323.4104,
+        569.3779999999994,
+        442.69039999999995
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Considering these variations in the performance of the workflow, the evaluation was further extended to additional\ntaxonomic levels: For each element in the test set, GBIF entries on phylum, class, order, family, and genus were queried.\nNon-empty values were then compared to those for the outputs of the various LLMs to evaluate performance on each\nlevel. The results are shown in Table 4. For phylum and class, all LLMs produced nearly perfect results, with errors no\ngreater than about 2%, even at the order level. However, performance noticeably declined at the family level, dropping to\nan accuracy of only 89% for the best-performing Llama 3.1 model at the genus level. These findings suggest that most\nof the method\u2019s errors arise from confusion at the lower taxonomic levels\u2014family and genus. Nevertheless, the resulting\ninformation about an animal\u2019s order, class, and phylum is likely to be accurate, even if the method fails to link to the cor-\nrect species identifier."
+    },
+    {
+      "type": "paragraph",
+      "id": 68,
+      "page number": 9,
+      "bounding box": [
+        36,
+        295.4104,
+        570.2899999999994,
+        316.69039999999995
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Lastly, we evaluated the performance of the LLMs with respect to the diachronic nature of sources. Considering the 62\nyears time span in which the documents were written, we hypothesized that animal names became more standardized"
+    },
+    {
+      "type": "paragraph",
+      "id": 69,
+      "page number": 9,
+      "bounding box": [
+        36,
+        266.3044,
+        336.82399999999967,
+        272.1284
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Table 2. Evaluation metrics for the combined approach to the data linking task."
+    },
+    {
+      "type": "paragraph",
+      "id": 70,
+      "page number": 9,
+      "bounding box": [
+        36,
+        201.01450000000003,
+        79.128,
+        257.9745
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Model\nGemma 2\nGPT-4o\nLlama 3.1\nwithout LLM"
+    },
+    {
+      "type": "paragraph",
+      "id": 71,
+      "page number": 9,
+      "bounding box": [
+        215.992,
+        201.01450000000003,
+        243.12,
+        257.9745
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Recall\n100.0%\n100.0%\n100.0%\n60.9%"
+    },
+    {
+      "type": "paragraph",
+      "id": 72,
+      "page number": 9,
+      "bounding box": [
+        36,
+        185.76650000000004,
+        196.3512,
+        191.51850000000005
+      ],
+      "font": "GTKBOH\u002BArialMTStd-Cond",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "https://doi.org/10.1371/journal.pone.0344181.t002"
+    },
+    {
+      "type": "paragraph",
+      "id": 73,
+      "page number": 9,
+      "bounding box": [
+        36,
+        164.9565,
+        201.27200000000008,
+        170.70850000000002
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Table 3. Accuracy results by species class."
+    },
+    {
+      "type": "paragraph",
+      "id": 74,
+      "page number": 9,
+      "bounding box": [
+        36,
+        99.66660000000002,
+        79.1600000000001,
+        156.6266
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Model\nGemma 2\nGPT-4o\nLlama 3.1\nwithout LLM"
+    },
+    {
+      "type": "paragraph",
+      "id": 75,
+      "page number": 9,
+      "bounding box": [
+        172.504,
+        99.66660000000002,
+        208.952,
+        156.6266
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Amphibia\n72.7%\n72.7%\n90.9%\n100.0%"
+    },
+    {
+      "type": "paragraph",
+      "id": 76,
+      "page number": 9,
+      "bounding box": [
+        36.040000000000134,
+        84.41860000000001,
+        196.39120000000014,
+        90.17060000000001
+      ],
+      "font": "GTKBOH\u002BArialMTStd-Cond",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "https://doi.org/10.1371/journal.pone.0344181.t003"
+    },
+    {
+      "type": "paragraph",
+      "id": 77,
+      "page number": 9,
+      "bounding box": [
+        302.328,
+        99.66660000000002,
+        325.0400000000001,
+        156.6266
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Aves\n79.6%\n99.6%\n87.1%\n94.5%"
+    },
+    {
+      "type": "paragraph",
+      "id": 78,
+      "page number": 9,
+      "bounding box": [
+        379.984,
+        201.01450000000003,
+        413.9840000000001,
+        257.9745
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Accuracy\n77.0%\n80.7%\n83.0%\n92.0%"
+    },
+    {
+      "type": "paragraph",
+      "id": 79,
+      "page number": 9,
+      "bounding box": [
+        418.38399999999996,
+        99.66660000000002,
+        445.9519999999998,
+        156.6266
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Insecta\n43.5%\n43.5%\n47.8%\n62.5%"
+    },
+    {
+      "type": "paragraph",
+      "id": 80,
+      "page number": 9,
+      "bounding box": [
+        539.328,
+        99.66660000000002,
+        575.9919999999998,
+        156.6266
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Mammalia\n82.0%\n88.0%\n88.0%\n92.0%"
+    },
+    {
+      "type": "paragraph",
+      "id": 81,
+      "page number": 10,
+      "bounding box": [
+        36,
+        688.8624,
+        258.8864,
+        694.6863999999999
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Table 4. Accuracy results for other levels of the taxonomy."
+    },
+    {
+      "type": "paragraph",
+      "id": 82,
+      "page number": 10,
+      "bounding box": [
+        36,
+        623.5724,
+        79.19199999999985,
+        680.5323999999999
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Model\nGemma 2\nGPT-4o\nLlama 3.1\nwithout LLM"
+    },
+    {
+      "type": "paragraph",
+      "id": 83,
+      "page number": 10,
+      "bounding box": [
+        154.808,
+        623.5724,
+        183.256,
+        680.5323999999999
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "phylum\n99.2%\n99.6%\n99.6%\n99.4%"
+    },
+    {
+      "type": "paragraph",
+      "id": 84,
+      "page number": 10,
+      "bounding box": [
+        256.936,
+        623.5724,
+        279.6799999999998,
+        680.5323999999999
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "class\n99.2%\n99.6%\n99.6%\n99.3%"
+    },
+    {
+      "type": "paragraph",
+      "id": 85,
+      "page number": 10,
+      "bounding box": [
+        36.079999999999814,
+        608.3244,
+        196.43119999999982,
+        614.0763999999999
+      ],
+      "font": "GTKBOH\u002BArialMTStd-Cond",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "https://doi.org/10.1371/journal.pone.0344181.t004"
+    },
+    {
+      "type": "paragraph",
+      "id": 86,
+      "page number": 10,
+      "bounding box": [
+        355.296,
+        623.5724,
+        378.0399999999998,
+        680.5323999999999
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "order\n98.1%\n97.7%\n98.1%\n99.4%"
+    },
+    {
+      "type": "paragraph",
+      "id": 87,
+      "page number": 10,
+      "bounding box": [
+        453.656,
+        623.5724,
+        476.77599999999995,
+        680.6283999999999
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "family\n93.2%\n94.0%\n92.5%\n98.1%"
+    },
+    {
+      "type": "paragraph",
+      "id": 88,
+      "page number": 10,
+      "bounding box": [
+        552.456,
+        623.5724,
+        576.0160000000001,
+        679.0444
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "genus\n87.2%\n88.2%\n88.9%\n96.3%"
+    },
+    {
+      "type": "paragraph",
+      "id": 89,
+      "page number": 10,
+      "bounding box": [
+        36,
+        483.0625,
+        566.8389999999993,
+        588.3425
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "over time and approached modern conventions, which should lead to better model performance for more recent texts.\nTo account for the uneven distribution of the data over the years, the test dataset was divided evenly into four quarters\nof equal token size. The LLMs\u2019 outputs were then evaluated separately for each quarter. Contrary to our expectation, the\nresults shown in Table 5 do not indicate a trend toward more easily interpretable names over time. While the best-\nperforming Llama 3.1 model scores highest on the most recent quarter of names from the 1870s and 1880s, it shows its\nworst performance on the second most recent quarter. The other two models achieve their best results on the second\nquartile, which contains names from the 1850s and 1860s. Overall, the diachronic analysis of the LLMs\u2019 performance\nyields no significant results."
+    },
+    {
+      "type": "paragraph",
+      "id": 90,
+      "page number": 10,
+      "bounding box": [
+        36,
+        370.8125,
+        576.0199999999999,
+        465.9385
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 11,
+      "text color": "[0.0]",
+      "content": "Results\nA dataset of the animals documented in the Oberamtsbeschreibungen was built using the entity recognition workflow with\nGPT-4o and the data linking method with Llama 3.1 (see S1 Biodiversity Dataset). Additionally, the dataset includes infor-\nmation created by employing only a database lookup, without using an LLM for linkage. This is intended for applications\nthat require higher precision, at the expense of significantly lower recall of the animals mentioned in the original texts. In\nboth cases, duplicates where animals are mentioned multiple times within a district were removed, as these typically result\nfrom overlapping text chunks."
+    },
+    {
+      "type": "paragraph",
+      "id": 91,
+      "page number": 10,
+      "bounding box": [
+        36,
+        244.8125,
+        572.8899999999995,
+        364.0925
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "The dataset, which is expected to capture the vast majority of animal mentions from the original texts, includes 6733\nentries after removal duplicates. Figure 3 shows how these entries are distributed between districts and publication years.\nIn three districts, no animal names could be detected. These results are correct insofar as the corresponding texts state\nthat no research was conducted on the fauna of the district (Kirchheim) or that the authors stated that the fauna does not\ndiffer noticeably from that of a previously described neighboring district (Crailsheim and K\u00FCnzelsau), thus referring to the\nother volumes. For the remaining districts, the number of detected animal mentions ranges from two in Cannstatt to 499\nin T\u00FCbingen, with a mean of 106 mentioned animals. In general, the number of mentions increases over time. Simulta-\nneously, the overall length of the fauna sections normalized to the number of animals documented decreases in the later\nvolumes, suggesting that the texts became less descriptive over time and began to favor enumerations."
+    },
+    {
+      "type": "paragraph",
+      "id": 92,
+      "page number": 10,
+      "bounding box": [
+        36,
+        188.8125,
+        566.0099999999994,
+        238.0925
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "In addition, the distribution of animal classes over time can be assessed within the dataset. Birds are mentioned most\nfrequently overall, comprising 45.3% of the records, followed by insects (15.9%) and mammals (10.8%). For 11.5% of\nthe animals found, there is no class entry in GBIF; based on the test dataset, these cases can be assumed to be almost\nexclusively fish, which are generally not assigned a class value. Figure 4 illustrates how the class values are distributed"
+    },
+    {
+      "type": "paragraph",
+      "id": 93,
+      "page number": 10,
+      "bounding box": [
+        36.0861,
+        149.1789,
+        210.66199999999998,
+        155.0029
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Table 5. Accuracy results for four time spans."
+    },
+    {
+      "type": "paragraph",
+      "id": 94,
+      "page number": 10,
+      "bounding box": [
+        36.06209999999993,
+        96.69690000000003,
+        71.19810000000001,
+        140.84890000000001
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Model\nGemma 2\nGPT-4o\nLlama 3.1"
+    },
+    {
+      "type": "paragraph",
+      "id": 95,
+      "page number": 10,
+      "bounding box": [
+        161.15809999999993,
+        96.69690000000003,
+        199.43010000000004,
+        140.87290000000002
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "1825-1852\n72.6%\n81.4%\n82.9%"
+    },
+    {
+      "type": "paragraph",
+      "id": 96,
+      "page number": 10,
+      "bounding box": [
+        36.05409999999989,
+        81.44890000000002,
+        196.4052999999999,
+        87.20090000000002
+      ],
+      "font": "GTKBOH\u002BArialMTStd-Cond",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "https://doi.org/10.1371/journal.pone.0344181.t005"
+    },
+    {
+      "type": "paragraph",
+      "id": 97,
+      "page number": 10,
+      "bounding box": [
+        287.37409999999994,
+        96.69690000000003,
+        325.6460999999998,
+        140.87290000000002
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "1853-1863\n80.1%\n83.8%\n82.3%"
+    },
+    {
+      "type": "paragraph",
+      "id": 98,
+      "page number": 10,
+      "bounding box": [
+        413.59009999999995,
+        96.69690000000003,
+        451.8620999999998,
+        140.87290000000002
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "1865-1871\n78.3%\n78.2%\n79.7%"
+    },
+    {
+      "type": "paragraph",
+      "id": 99,
+      "page number": 10,
+      "bounding box": [
+        539.8060999999999,
+        96.69690000000003,
+        576.0941000000004,
+        140.87290000000002
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "1872-1886\n76.2%\n79.3%\n87.3%"
+    },
+    {
+      "type": "paragraph",
+      "id": 100,
+      "page number": 11,
+      "bounding box": [
+        36,
+        102.0858,
+        315.06389999999993,
+        107.9098
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Fig 3. Taxa distribution. Distribution of detected taxa over districts and years."
+    },
+    {
+      "type": "paragraph",
+      "id": 101,
+      "page number": 11,
+      "bounding box": [
+        35.9999,
+        86.0858,
+        198.1271,
+        91.8378
+      ],
+      "font": "GTKBOH\u002BArialMTStd-Cond",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "https://doi.org/10.1371/journal.pone.0344181.g003"
+    },
+    {
+      "type": "paragraph",
+      "id": 102,
+      "page number": 12,
+      "bounding box": [
+        36,
+        119.2264,
+        521.9518999999993,
+        125.0504
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Fig 4. Class proportions. Proportions of most frequent classes of animals by districts and years. Regression lines in red indicate trends."
+    },
+    {
+      "type": "paragraph",
+      "id": 103,
+      "page number": 12,
+      "bounding box": [
+        35.9999,
+        103.2264,
+        198.1271,
+        108.9784
+      ],
+      "font": "GTKBOH\u002BArialMTStd-Cond",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "https://doi.org/10.1371/journal.pone.0344181.g004"
+    },
+    {
+      "type": "paragraph",
+      "id": 104,
+      "page number": 13,
+      "bounding box": [
+        36,
+        645.4104,
+        566.0069999999995,
+        694.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "across the corpus. The share of birds remains high throughout and increases in the later texts. Both, the proportions of\nmammals and animals without a class value decrease over time, whereas the proportion of insects grows. The relatively\nsmaller shares of less common classes\u2014such as amphibians, gastropods, and squamates\u2014remain relatively stable.\nTo gain a better understanding of the spatial distribution of the data, it can be projected onto a map of the districts."
+    },
+    {
+      "type": "paragraph",
+      "id": 105,
+      "page number": 13,
+      "bounding box": [
+        36,
+        505.4104,
+        571.0189999999993,
+        642.8704
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Since there is no readily available vectorized geodata, we created a custom GeoJSON file of the borders of the Ober\u00E4m-\nter. This is based on a publicly available mid-19th-century topographical map of W\u00FCrttemberg at a scale of 1:200,000,\nproduced by the Royal Statistical Office [55]. The map shows the district borders in 1848, during the time the Oberamts-\nbeschreibungen were edited and published. As the borders were rarely and only slightly adjusted after 1810 [56], we\nassume the map gives a good representation of the Ober\u00E4mter\u2019s extent. This historical map was georeferenced and\nretraced using the open-source QGIS software (see S2 Supporting Geodata). Figure 5 visualizes the number of animals\nmentioned per district on the resulting map. It clearly shows that the central and southern districts\u2014surveyed earliest\u2014\nmention fewer animals. Conversely, the volumes for more remote districts in the west and north, generally published after\n1850, contain more mentions. The university town of T\u00FCbingen (published 1867) stands out clearly as an outlier, suggest-\ning it had been studied more intensively than any other district in the kingdom."
+    },
+    {
+      "type": "paragraph",
+      "id": 106,
+      "page number": 13,
+      "bounding box": [
+        36,
+        309.4104,
+        576.0399999999993,
+        498.69039999999995
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "The same visualization approach can be used to identify where individual species were documented as occurring\nor being absent. Even shorter texts usually document mammals that were common game animals. The latter are often\ndescribed in the greatest detail and tend to be mentioned even when extinct in a district, sometimes with information on\nwhen they were last spotted or shot. For example, Figure 6 shows mentions of wild boar (Sus scrofa), roe deer (Capreo-\nlus capreolus), and hare (Lepus europaeus). The wild boar is frequently documented in early volumes, albeit only in the\ncontext of its extinction in the course of the 19th century. The later volumes largely omit references to wild boars, perhaps\nbecause their absence had come to be expected. Only four cases indicate the occurrence of wild boars and the respec-\ntive texts explicitly describe them as rare and migrating from beyond the kingdom\u2019s borders. In Mergentheim, the text even\nrecounts in detail two boars being shot in 1870 and another spotted by a hunting party of military officers, highlighting\nhow remarkable these occurrences were. In contrast, roe deer and hares are generally assumed to be present. Devia-\ntions from this expectation are often explained in the texts, such as for Maulbronn (1870), where the authors note that\n\u201Cthe number of hunting enthusiasts is increasing by the day\u201D and this had\u2014along with illness\u2014decimated the local hare\npopulation (in German: \u201CDer Hase ist in Folge der sich t\u00E4glich mehrenden Jagdfreunde, sowie verschiedener Krankheiten,\nnamentlich Leberleiden, in neuerer Zeit seltener geworden [...]\u201D)."
+    },
+    {
+      "type": "paragraph",
+      "id": 107,
+      "page number": 13,
+      "bounding box": [
+        35.9999,
+        169.1604,
+        574.9388999999996,
+        292.28639999999996
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 11,
+      "text color": "[0.0]",
+      "content": "Discussion\nThe problem of generating a fauna dataset for the Kingdom of W\u00FCrttemberg from unstructured 19th-century source texts\nin an automated manner was addressed by breaking it down into two tasks: The first task involved detecting animals men-\ntioned in the texts as named entities. This was challenging due to the lack of structure in the texts, the archaic language,\nand the general uncertainty regarding the expected taxa. It was found that processing the texts in chunks with a prompted\nLLM and enforcing a structured response led to reasonably good results when evaluated using strict string matching met-\nrics (recall = 82.8%, precision = 84.2%). When more lenient, but arguably more appropriate, fuzzy matching criteria were\napplied, this yielded better results (recall = 92.6%, precision = 95.3%). This suggests that, while not perfect, an LLM-based\napproach can detect biological taxa even in unstructured historical texts."
+    },
+    {
+      "type": "paragraph",
+      "id": 108,
+      "page number": 13,
+      "bounding box": [
+        35.9999,
+        85.16040000000001,
+        569.5698999999996,
+        162.4404
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "The second task of linking the retrieved taxa to entities in an authority file proved more difficult. Due to the use of\narchaic names in the source texts, finding a correct match was not possible in a substantial number of cases, even for\nhuman experts. The combined approach employed here\u2014first looking up the retrieved names in a database of known\ntaxa, and then prompting an LLM to suggest a modern equivalent if that failed\u2014worked reasonably well. Overall, this\napproach can be expected to yield a species-level accuracy of 83.0% based on the test data. While this still implies a rel-\natively high error rate, it should be noted that the accuracy scores are better at higher taxonomic levels. When identifying"
+    },
+    {
+      "type": "paragraph",
+      "id": 109,
+      "page number": 14,
+      "bounding box": [
+        36,
+        347.2017,
+        308.0878999999998,
+        353.02570000000003
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Fig 5. Animals by district. Number of extracted animal mentions by district."
+    },
+    {
+      "type": "paragraph",
+      "id": 110,
+      "page number": 14,
+      "bounding box": [
+        35.9999,
+        331.2017,
+        198.1271,
+        336.9537
+      ],
+      "font": "GTKBOH\u002BArialMTStd-Cond",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "https://doi.org/10.1371/journal.pone.0344181.g005"
+    },
+    {
+      "type": "paragraph",
+      "id": 111,
+      "page number": 14,
+      "bounding box": [
+        36.0859,
+        87.91,
+        556.765099999999,
+        103.734
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Fig 6. Animal Occurrences. Occurrence of wild boar, roe deer, and European hare in the districts according to source text. Green colour indicates\npresence, red absence, white no data for the district."
+    },
+    {
+      "type": "paragraph",
+      "id": 112,
+      "page number": 14,
+      "bounding box": [
+        36.0859,
+        71.91,
+        198.21310000000003,
+        77.66199999999999
+      ],
+      "font": "GTKBOH\u002BArialMTStd-Cond",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "https://doi.org/10.1371/journal.pone.0344181.g006"
+    },
+    {
+      "type": "paragraph",
+      "id": 113,
+      "page number": 15,
+      "bounding box": [
+        36,
+        659.4104,
+        570.3179999999996,
+        694.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "the class or order of an animal, the approach achieved very high accuracy scores of 99.6% and 98.1%, respectively. This\nshows that the approach, even though it may not reach human-level quality in linking historical taxa to modern records,\ncan produce results of predictably high quality."
+    },
+    {
+      "type": "paragraph",
+      "id": 114,
+      "page number": 15,
+      "bounding box": [
+        36,
+        561.4104,
+        575.9400000000003,
+        652.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Given these results, a dataset of known quality has been generated. The dataset itself may be used to expand existing\ncollections of biodiversity data, such as GBIF. It can also inform subsequent research concerned with W\u00FCrttembergian wildlife\nby serving as a baseline. Methodologically, this work demonstrates that prompted LLMs can be valuable for building workflows\nto generate biodiversity datasets from historical text sources in a semi-automated fashion. In particular, an LLM-based approach\noffers several advantages: it requires no predefined structure of the source texts, no prior knowledge of the animals described,\nand no need for special training data or fine-tuning. Additionally, it demands little manual effort: In our case, only the initial prepa-\nration of the source texts, the prompt design, and the creation of the test data set used for evaluation were performed manually."
+    },
+    {
+      "type": "paragraph",
+      "id": 115,
+      "page number": 15,
+      "bounding box": [
+        35.99999999999994,
+        309.4104,
+        573.38,
+        554.6904
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Furthermore, our approach could be easily adapted to similar sources of a different regional context. Since the tested LLMs\nperformed reasonably well on historical German texts when solving an expert task without specific training, one can expect that\nthey might deliver similar results on comparable textual sources in other languages, historical dialects, and regions likely to be\nrepresented in the models\u2019 training data. Working with texts written in less common languages could result in much less reliable\noutputs. The same holds true for texts of cultural traditions and contexts in which animal names do not map as well on modern\ntaxonomies. Whereas the Oberamtsbeschreibungen mostly conform to modern European standards of animal classification and\nnaming conventions, other historical texts may only allow for an approximate placing of animal mentions in modern taxonomies.\nStill, the evaluation procedure allows an estimate of the workflow\u2019s performance when employed with case-specific test data.\nCompared to datasets created by human experts from historical documents, such as [13,17], the advantages of an LLM-\nbased approach are remarkable. Particularly in the analysis of historical source texts, where large amounts of data and a\nrequirement for niche expertise may render traditional approaches unfeasible, LLMs can offer a viable alternative. However,\nthese advantages may come at the expense of dataset quality especially at the lower taxonomic levels, as shown by our eval-\nuation against a human expert\u2019s benchmark results. When choosing to implement such an approach, it is important to consider\nthe trade-offs involved. If available resources are limited relative to the scope of the historical sources, the use of LLMs is likely\na promising option. The same holds true in cases where only a general assessment of the data is needed\u2014for example, when\nan imperfect recall of mentioned species or a broad analysis of order-level taxonomic distribution is sufficient. Conversely, when\ndata of nearly perfect quality are required, human oversight remains indispensable. In any case, it is advisable to implement a\nmethod for evaluating the quality of the resulting dataset in order to be able to estimate the extent of potential errors."
+    },
+    {
+      "type": "paragraph",
+      "id": 116,
+      "page number": 15,
+      "bounding box": [
+        35.99999999999994,
+        253.41039999999998,
+        572.5479999999993,
+        302.69039999999995
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "In conclusion, we are confident that LLM-driven approaches to semi-automated dataset generation from textual\nsources will help mobilize knowledge on past biodiversity at a greater scale in the future. Particularly in cases where\nmanual processing of large quantities of textual sources is not feasible, such workflows can offer an efficient alternative to\nexpand the body of data available to historical ecology."
+    },
+    {
+      "type": "paragraph",
+      "id": 117,
+      "page number": 15,
+      "bounding box": [
+        36,
+        81.91040000000001,
+        557.7089999999995,
+        225.41840000000002
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 11,
+      "text color": "[0.0]",
+      "content": "Supporting information\nS1 Text. Biodiversity Dataset. CSV file representing all species documented in the source texts, with the name of\nthe district, the year of publication, the original text, the species names as given in the original text, information on the\npresence of the species, a normalized species name, and a GBIF identifier. Available from: https://doi.org/10.5281/\nzenodo.17277241\n(CSV)\nS2 Text. Supporting Geodata. GeoJSON file representing the historical boundaries of the 64 districts (Ober\u00E4mter) of\nthe Kingdom of W\u00FCrttemberg circa 1848. The data were derived from a contemporaneous map by Franz von Mittnacht\nthrough manual retracing. Available from: https://doi.org/10.5281/zenodo.18161575\n(GEOJSON)"
+    },
+    {
+      "type": "paragraph",
+      "id": 118,
+      "page number": 16,
+      "bounding box": [
+        36,
+        673.4104,
+        553.8299999999995,
+        694.6904
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "S3 Text. Prompts. Final German prompts used for the entity recognition and data linking tasks in dataset generation.\n(TXT)"
+    },
+    {
+      "type": "paragraph",
+      "id": 119,
+      "page number": 16,
+      "bounding box": [
+        36,
+        630.1604,
+        286.97900000000004,
+        655.2864
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 11,
+      "text color": "[0.0]",
+      "content": "Author contributions\nConceptualization: Maximilian C. Teich, Malte Rehbein."
+    },
+    {
+      "type": "paragraph",
+      "id": 120,
+      "page number": 16,
+      "bounding box": [
+        36,
+        613.1604,
+        267.53899999999993,
+        620.4404
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Data curation: Maximilian C. Teich, Belen Escobari."
+    },
+    {
+      "type": "paragraph",
+      "id": 121,
+      "page number": 16,
+      "bounding box": [
+        36,
+        596.1604,
+        206.41899999999998,
+        603.4404
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Formal analysis: Maximilian C. Teich."
+    },
+    {
+      "type": "paragraph",
+      "id": 122,
+      "page number": 16,
+      "bounding box": [
+        36,
+        579.1604,
+        265.31899999999996,
+        586.4404
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Investigation: Maximilian C. Teich, Belen Escobari."
+    },
+    {
+      "type": "paragraph",
+      "id": 123,
+      "page number": 16,
+      "bounding box": [
+        36,
+        562.1604,
+        335.8889999999999,
+        569.4404
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Methodology: Maximilian C. Teich, Belen Escobari, Malte Rehbein."
+    },
+    {
+      "type": "paragraph",
+      "id": 124,
+      "page number": 16,
+      "bounding box": [
+        36,
+        511.1604,
+        236.40900000000005,
+        552.4404
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Project administration: Maximilian C. Teich.\nSoftware: Maximilian C. Teich.\nSupervision: Malte Rehbein."
+    },
+    {
+      "type": "paragraph",
+      "id": 125,
+      "page number": 16,
+      "bounding box": [
+        36,
+        494.1604,
+        159.38000000000002,
+        501.3204
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Validation: Belen Escobari."
+    },
+    {
+      "type": "paragraph",
+      "id": 126,
+      "page number": 16,
+      "bounding box": [
+        36,
+        477.1604,
+        191.779,
+        484.44039999999995
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Visualization: Maximilian C. Teich."
+    },
+    {
+      "type": "paragraph",
+      "id": 127,
+      "page number": 16,
+      "bounding box": [
+        36,
+        460.1604,
+        237.32900000000006,
+        467.44039999999995
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Writing \u2013 original draft: Maximilian C. Teich."
+    },
+    {
+      "type": "paragraph",
+      "id": 128,
+      "page number": 16,
+      "bounding box": [
+        36,
+        443.1604,
+        231.4300000000001,
+        450.44039999999995
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 10,
+      "text color": "[0.0]",
+      "content": "Writing \u2013 review \u0026 editing: Malte Rehbein."
+    },
+    {
+      "type": "heading",
+      "id": 129,
+      "page number": 16,
+      "bounding box": [
+        36,
+        413.1604,
+        95.301,
+        421.16839999999996
+      ],
+      "level": "Subsection",
+      "heading level": 3,
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 11,
+      "text color": "[0.0]",
+      "content": "References"
+    },
+    {
+      "type": "paragraph",
+      "id": 130,
+      "page number": 16,
+      "bounding box": [
+        40.328,
+        399.9104,
+        536.1679999999996,
+        405.7344
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "1. Crumley CL. Historical ecology: cultural knowledge and changing landscapes. University of New Mexico Press. 1994. Google-Books-ID:"
+    },
+    {
+      "type": "paragraph",
+      "id": 131,
+      "page number": 16,
+      "bounding box": [
+        56,
+        389.9104,
+        120.904,
+        395.7344
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "EDwx1eGD1PEC."
+    },
+    {
+      "type": "paragraph",
+      "id": 132,
+      "page number": 16,
+      "bounding box": [
+        40.328,
+        327.9104,
+        571.0935999999994,
+        385.9824
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "2. Bal\u00E9e WL. Advances in Historical Ecology. Columbia University Press. 1998. Google-Books-ID: PuadAwAAQBAJ.\n3. Swetnam TW, Allen CD, Betancourt JL. Applied historical ecology: using the past to manage for the future. Ecol Appl. 1999;9(4):1189\u2013206. https://\ndoi.org/10.1890/1051-0761(1999)009[1189:aheutp]2.0.co;2\n4. Sutton MQ, Anderson EN. An Introduction to Cultural Ecology. London: Routledge. 2004. https://doi.org/10.4324/9781003135456\n5. Bal\u00E9e W. The research program of historical ecology. Ann Rev Anthropol. 2006;35(10):75\u201398. https://doi.org/10.1146/annurev."
+    },
+    {
+      "type": "paragraph",
+      "id": 133,
+      "page number": 16,
+      "bounding box": [
+        56,
+        317.9104,
+        147.62400000000008,
+        323.6624
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "anthro.35.081705.123231"
+    },
+    {
+      "type": "paragraph",
+      "id": 134,
+      "page number": 16,
+      "bounding box": [
+        40.328,
+        294.9104,
+        524.7975999999992,
+        313.9824
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "6. SZAB\u00D3 P. Why history matters in ecology: an interdisciplinary perspective. Envir Conserv. 2010;37(4):380\u20137. https://doi.org/10.1017/\ns0376892910000718"
+    },
+    {
+      "type": "paragraph",
+      "id": 135,
+      "page number": 16,
+      "bounding box": [
+        40.328,
+        281.9104,
+        545.4391999999991,
+        287.7344
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "7. Isendahl C, Stump D. Introduction: The construction of the present through the reconstruction of the past. In: Isendahl C, Stump D, editors."
+    },
+    {
+      "type": "paragraph",
+      "id": 136,
+      "page number": 16,
+      "bounding box": [
+        56,
+        261.9104,
+        560.3735999999994,
+        277.7344
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "The Oxford Handbook of Historical Ecology and Applied Archaeology. Oxford University Press. 2015. p. xvii\u2013xxxiv. https://doi.org/10.1093/oxfor\ndhb/9780199672691.002.0007"
+    },
+    {
+      "type": "paragraph",
+      "id": 137,
+      "page number": 16,
+      "bounding box": [
+        40.328,
+        248.9104,
+        514.4463999999992,
+        254.73440000000002
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "8. Crumley CL. Historical Ecology. The International Encyclopedia of Anthropology. John Wiley \u0026 Sons, Ltd. 2018. p. 1\u20135. https://doi."
+    },
+    {
+      "type": "paragraph",
+      "id": 138,
+      "page number": 16,
+      "bounding box": [
+        56,
+        238.9104,
+        198.47200000000015,
+        244.73440000000002
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "org/10.1002/9781118924396.wbiea1887"
+    },
+    {
+      "type": "paragraph",
+      "id": 139,
+      "page number": 16,
+      "bounding box": [
+        36,
+        192.9104,
+        565.3727999999995,
+        231.73440000000002
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "9. Vellend M, Brown CD, Kharouba HM, McCune JL, Myers-Smith IH. Historical ecology: using unconventional data sources to test for effects of\nglobal environmental change. Am J Bot. 2013;100(7):1294\u2013305. https://doi.org/10.3732/ajb.1200503 PMID: 23804553\n10. Rehbein M. From historical archives to algorithms: reconstructing biodiversity patterns in 19th century Bavaria. Diversity. 2025;17(5):315. https://\ndoi.org/10.3390/d17050315"
+    },
+    {
+      "type": "paragraph",
+      "id": 140,
+      "page number": 16,
+      "bounding box": [
+        36,
+        156.9104,
+        572.3912624999994,
+        185.73440000000002
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "11. Turvey ST, Crees JJ, Di Fonzo MMI. Historical data as a baseline for conservation: reconstructing long-term faunal extinction dynamics in Late\nImperial-modern China. Proc Biol Sci. 2015;282(1813):20151299. https://doi.org/10.1098/rspb.2015.1299 PMID: 26246553\n12. Clavero M. The King\u2019s aquatic desires: 16th\u2010century fish and crayfish introductions into Spain. Fish and Fisheries. 2022;23(6):1251\u201363. https://doi."
+    },
+    {
+      "type": "paragraph",
+      "id": 141,
+      "page number": 16,
+      "bounding box": [
+        56,
+        146.9104,
+        132.50400000000005,
+        152.73440000000002
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "org/10.1111/faf.12680"
+    },
+    {
+      "type": "paragraph",
+      "id": 142,
+      "page number": 16,
+      "bounding box": [
+        36,
+        133.9104,
+        562.2927999999994,
+        139.73440000000002
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "13. Govaerts S. Biodiversity in the Late Middle Ages: Wild Birds in the Fourteenth-Century County of Holland. Environment and History. 2023:1\u201326."
+    },
+    {
+      "type": "paragraph",
+      "id": 143,
+      "page number": 16,
+      "bounding box": [
+        56,
+        123.91040000000001,
+        244.1360000000002,
+        129.73440000000002
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "https://doi.org/10.3828/096734022x16627150608122"
+    },
+    {
+      "type": "paragraph",
+      "id": 144,
+      "page number": 16,
+      "bounding box": [
+        36,
+        100.9104,
+        567.7815999999991,
+        119.9824
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "14. Rehbein M, Escobari B, Fischer S, G\u00FCntsch A, Haas B, Matheisen G, et al. Quantitative and qualitative Data on historical Vertebrate Distributions\nin Bavaria 1845. Sci Data. 2025;12(1):525. https://doi.org/10.1038/s41597-025-04846-8 PMID: 40155652"
+    },
+    {
+      "type": "paragraph",
+      "id": 145,
+      "page number": 17,
+      "bounding box": [
+        36,
+        688.8624,
+        575.447199999999,
+        694.6863999999999
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "15. Blanco-Garrido F, Hermoso V, Clavero M. Fishing historical sources: a snapshot of 19th-century freshwater fauna in Spain. Rev Fish Biol Fisheries."
+    },
+    {
+      "type": "paragraph",
+      "id": 146,
+      "page number": 17,
+      "bounding box": [
+        36,
+        665.8624,
+        550.4455999999993,
+        684.6863999999999
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "2023;33(4):1353\u201369. https://doi.org/10.1007/s11160-022-09753-4\n16. Viana DS, Blanco-Garrido F, Delibes M, Clavero M. A 16th-century biodiversity and crop inventory. Ecology. 2022;103(10):e3783. https://doi."
+    },
+    {
+      "type": "paragraph",
+      "id": 147,
+      "page number": 17,
+      "bounding box": [
+        56,
+        655.8624,
+        195.0480000000001,
+        661.6863999999999
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "org/10.1002/ecy.3783 PMID: 35668026"
+    },
+    {
+      "type": "paragraph",
+      "id": 148,
+      "page number": 17,
+      "bounding box": [
+        36,
+        642.8624,
+        568.6153249999994,
+        651.9344
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "17. Clavero M, Garc\u00EDa\u2010Reyes A, Fern\u00E1ndez\u2010Gil A, Revilla E, Fern\u00E1ndez N. Where wolves were: setting historical baselines for wolf recovery in Spain."
+    },
+    {
+      "type": "paragraph",
+      "id": 149,
+      "page number": 17,
+      "bounding box": [
+        36,
+        599.8624,
+        558.3111999999991,
+        638.6863999999999
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Animal Conservation. 2022;26(2):239\u201349. https://doi.org/10.1111/acv.12814\n18. Grams G, He\u00DF D, Paul T, Schleyer A, Steudle G. 200 Jahre Landesvermessung und Liegenschaftskataster \u2013 ein Bogenschlag vom K\u00F6nigreich\nW\u00FCrttemberg zu digital@bw. ZfV - Zeitschrift f\u00FCr Geod\u00E4sie, Geoinformation und Landmanagement. 2018;4(zfv 2018). https://doi.org/10.12902/\nzfv-0223-2018"
+    },
+    {
+      "type": "paragraph",
+      "id": 150,
+      "page number": 17,
+      "bounding box": [
+        36,
+        586.8624,
+        557.5271999999992,
+        595.9344
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "19. Stecker S. Der \u201CSchw\u00E4bische Volkscharakter\u201D wird konstruiert w\u00FCrttembergische Oberamts- und Landesbeschreibungen des 19 Jahrhunderts."
+    },
+    {
+      "type": "paragraph",
+      "id": 151,
+      "page number": 17,
+      "bounding box": [
+        56,
+        576.8624,
+        516.5495999999993,
+        585.9344
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Schwabenbilder. Zur Konstruktion eines Regionalcharakters. T\u00FCbingen: T\u00FCbinger Vereinigung f\u00FCr Volkskunde e. V. 1997. p. 89\u201394."
+    },
+    {
+      "type": "paragraph",
+      "id": 152,
+      "page number": 17,
+      "bounding box": [
+        36,
+        520.8624,
+        569.5119999999993,
+        569.6863999999999
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "20. Memminger QF, Johann Daniel Georg von. In: Neue Deutsche Biographie. vol. 17. Historische Kommission bei der Bayerischen Akademie der\nWissenschaften; 1994. p. 31\u20132. Available from: https://www.deutsche-biographie.de/pnd100207359.html#ndbcontent\n21. Keller-Drescher L. Das statistisch-topographische Bureau als Transaktionsraum ethnographischen Wissens. In: Berg G, T\u00F6r\u00F6k BZ, Twellmann M,\neditors. Berechnen/Beschreiben. Praktiken statistischen (Nicht-)Wissens 1750-1850. No. 104 in Historische Forschungen (HF). Berlin: Duncker \u0026\nHumblot. 2015. p. 79\u201395."
+    },
+    {
+      "type": "paragraph",
+      "id": 153,
+      "page number": 17,
+      "bounding box": [
+        36,
+        471.8624,
+        566.7255999999994,
+        516.9344
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "22. Memminger JDG. W\u00FCrtembergische Jahrb\u00FCcher f\u00FCr vaterl\u00E4ndische Geschichte, Geographie, Statitik und Topographie. Stuttgart. 1822.\n23. Paulus E. Beschreibung des Oberamts Ellwangen. No. 64. Die Beschreibung des K\u00F6nigreichs W\u00FCrttemberg. Stuttgart: Bissinger. 1886.\n24. Keller-Drescher L. Landesbeschreibung als Wissensformat - Ans\u00E4tze zu einer vergleichenden Analyse. In: Johler R, Wolf J, editors. Beschreiben\nund Vermessen. Raumwissen in der \u00F6stlichen Habsburgermonarchie im 18. und 19. Jahrhundert. Berlin: Frank \u0026 Timme. 2020. p. 207\u201326."
+    },
+    {
+      "type": "paragraph",
+      "id": 154,
+      "page number": 17,
+      "bounding box": [
+        36,
+        458.8624,
+        533.5263999999994,
+        467.9344
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "25. Burkhardt M. Akten zu den w\u00FCrttembergischen Oberamtsbeschreibungen im Staatsarchiv Ludwigsburg erschlossen. Archivnachrichten."
+    },
+    {
+      "type": "paragraph",
+      "id": 155,
+      "page number": 17,
+      "bounding box": [
+        56,
+        448.8624,
+        233.44800000000015,
+        454.6864
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "2022;(16):8. https://doi.org/10.53458/an.vi16.4250"
+    },
+    {
+      "type": "paragraph",
+      "id": 156,
+      "page number": 17,
+      "bounding box": [
+        36,
+        415.8624,
+        562.7111999999992,
+        441.6864
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "26. Smail R, Donaldson C, Govaerts R, Rayson P, Stevens C. Uncovering Environmental Change in the English Lake District: Using Computational\nTechniques to Trace the Presence and Documentation of Historical Flora. Digital Scholarship in the Humanities. 2021;36(3):736\u201356. https://doi.\norg/10.1093/llc/fqaa047"
+    },
+    {
+      "type": "paragraph",
+      "id": 157,
+      "page number": 17,
+      "bounding box": [
+        36,
+        379.8624,
+        567.6223999999992,
+        408.6864
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "27. Paragkamian S, Sarafidou G, Mavraki D, Pavloudi C, Beja J, Eliezer M, et al. Automating the Curation Process of Historical Literature on Marine\nBiodiversity Using Text Mining: The DECO Workflow. Front Mar Sci. 2022;9. https://doi.org/10.3389/fmars.2022.940844\n28. Coleman D, Gallagher RV, Falster D, Sauquet H, Wenk E. A workflow to create trait databases from collections of textual taxonomic descriptions."
+    },
+    {
+      "type": "paragraph",
+      "id": 158,
+      "page number": 17,
+      "bounding box": [
+        36,
+        303.8624,
+        567.7415999999992,
+        375.6864
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Ecological Informatics. 2023;78:102312. https://doi.org/10.1016/j.ecoinf.2023.102312\n29. Liang K, Huang C-R, Jiang X-L. From Text to Historical Ecological Knowledge: The Construction and Application of the Shan Jing Knowledge\nBase. In: Proceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and Evaluation (LREC-\nCOLING 2024), Torino, Italia: ELRA and ICCL; 2024. 7521\u201330. https://doi.org/10.63317/53rov2ncdvak\n30. Langer L, Burghardt M, Borgards R, B\u00F6hning\u2010Gaese K, Seppelt R, Wirth C. The rise and fall of biodiversity in literature: A comprehensive quanti-\nfication of historical changes in the use of vernacular labels for biological taxa in Western creative literature. People and Nature. 2021;3(5):1093\u2013\n109. https://doi.org/10.1002/pan3.10256"
+    },
+    {
+      "type": "paragraph",
+      "id": 159,
+      "page number": 17,
+      "bounding box": [
+        36,
+        290.8624,
+        568.207199999999,
+        296.6864
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "31. Kulkarni R, Di Minin E. Automated retrieval of information on threatened species from online sources using machine learning. Methods Ecol Evol."
+    },
+    {
+      "type": "paragraph",
+      "id": 160,
+      "page number": 17,
+      "bounding box": [
+        36,
+        244.8624,
+        568.92,
+        286.6864
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "2021;12(7):1226\u201339. https://doi.org/10.1111/2041-210x.13608\n32. Nundloll V, Smail R, Stevens C, Blair G. Automating the extraction of information from a historical text and building a linked data model for the\ndomain of ecology and conservation science. Heliyon. 2022;8(10):e10710. https://doi.org/10.1016/j.heliyon.2022.e10710 PMID: 36262290\n33. Gerner M, Nenadic G, Bergman CM. LINNAEUS: a species name identification system for biomedical literature. BMC Bioinformatics. 2010;11:85."
+    },
+    {
+      "type": "paragraph",
+      "id": 161,
+      "page number": 17,
+      "bounding box": [
+        55.99999999999994,
+        234.8624,
+        260.272,
+        240.68640000000002
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "https://doi.org/10.1186/1471-2105-11-85 PMID: 20149233"
+    },
+    {
+      "type": "paragraph",
+      "id": 162,
+      "page number": 17,
+      "bounding box": [
+        36,
+        119.8624,
+        573.5591999999991,
+        227.68640000000002
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "34. Pafilis E, Frankild SP, Fanini L, Faulwetter S, Pavloudi C, Vasileiadou A, et al. The SPECIES and ORGANISMS Resources for Fast and Accurate\nIdentification of Taxonomic Names in Text. PLoS One. 2013;8(6):e65390. https://doi.org/10.1371/journal.pone.0065390 PMID: 23823062\n35. Ahmed S, Stoeckel M, Driller C, Pachzelt A, Mehler A. BIOfid Dataset: Publishing a German Gold Standard for Named Entity Recognition in His-\ntorical Biodiversity Literature. In: Proceedings of the 23rd Conference on Computational Natural Language Learning (CoNLL), Hong Kong, China:\nAssociation for Computational Linguistics; 2019. https://doi.org/10.18653/v1/k19-1081\n36. Nguyen NTH, Gabud RS, Ananiadou S. COPIOUS: A gold standard corpus of named entities towards extracting species occurrence from biodiver-\nsity literature. Biodivers Data J. 2019;(7):e29626. https://doi.org/10.3897/BDJ.7.e29626 PMID: 30700967\n37. Abdelmageed N, L\u00F6ffler F, Feddoul L, Algergawy A, Samuel S, Gaikwad J, et al. BiodivNERE: Gold standard corpora for named entity recognition\nand relation extraction in the biodiversity domain. Biodivers Data J. 2022;10:e89481. https://doi.org/10.3897/BDJ.10.e89481 PMID: 36761617\n38. Le Guillarme N, Thuiller W. TaxoNERD: Deep neural models for the recognition of taxonomic entities in the ecological and evolutionary literature."
+    },
+    {
+      "type": "paragraph",
+      "id": 163,
+      "page number": 17,
+      "bounding box": [
+        36,
+        86.8624,
+        562.7575999999991,
+        115.68639999999999
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "Methods Ecol Evol. 2021;13(3):625\u201341. https://doi.org/10.1111/2041-210x.13778\n39. Varghese A, Allen K, Agyeman-Badu G, Haire J, Madsen R. Extraction of mitigation-related text from Endangered Species Act documents using\nmachine learning: a case study. Environ Syst Decis. 2021;42(1):63\u201374. https://doi.org/10.1007/s10669-021-09830-2"
+    },
+    {
+      "type": "paragraph",
+      "id": 164,
+      "page number": 18,
+      "bounding box": [
+        36,
+        510.8624,
+        575.7399999999993,
+        694.6863999999999
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "40. Nainia A, Vignes-Lebbe R, Chenin E, Sahraoui M, Mousannif H, Zahir J. A Transformer-Based Nlp Pipeline for Enhanced Extraction of Botanical\nInformation using Camembert on French Literature. In: Computer Science \u0026 Information Technology (CS \u0026 IT). vol. 14. Australia, NLP \u0026 Informa-\ntion Retrieval, 2024. 59\u201378. https://doi.org/10.5121/csit.2024.140605\n41. Wang J, Liu M, Zhao D, Shi S, Song W. Few-Shot NER in Marine Ecology Using Deep Learning. Communications in Computer and Information\nScience. Springer Nature Singapore. 2023. p. 15\u201326. https://doi.org/10.1007/978-981-99-8145-8_2\n42. Ehrmann M, Hamdi A, Pontes EL, Romanello M, Doucet A. Named Entity Recognition and Classification in Historical Documents: A Survey. ACM\nComput Surv. 2023;56(2):1\u201347. https://doi.org/10.1145/3604931\n43. Tudor C, Megyesi B, \u00D6stling R. Prompting the Past: Exploring Zero-Shot Learning for Named Entity Recognition in Historical Texts Using\nPrompt-Answering LLMs. In: In: Kazantseva A, Szpakowicz S, Degaetano-Ortlieb S, Bizzoni Y, Pagel J, editors. Proceedings of the 9th Joint\nSIGHUM Workshop on Computational Linguistics for Cultural Heritage, Social Sciences, Humanities and Literature (LaTeCH-CLfL 2025), Albuquer-\nque, New Mexico: Association for Computational Linguistics; 2025. 216\u201326. https://doi.org/10.18653/v1/2025.latechclfl-1.19\n44. Gonz\u00E1lez-Gallardo CE, Tran HTH, Hamdi A, Doucet A. Leveraging Open Large Language Models for Historical Named Entity Recognition. In:\nAntonacopoulos A, Hinze A, Piwowarski B, Coustaty M, Di Nunzio GM, Gelati F, et al., editors. Linking Theory and Practice of Digital Libraries.\nCham: Springer Nature Switzerland; 2024. p. 379\u201395. Available from: https://doi.org/10.1007/978-3-031-72437-4_22\n45. Hiltmann T, Dr\u00F6ge M, Dresselhaus N, Grallert T, Althage M, Bayer P, et al. NER4all or Context is All You Need: Using LLMs for low-effort, high-\nperformance NER on historical texts. A humanities informed approach. In: arXiv, 2025. https://doi.org/10.48550/arXiv.2502.04351\n46. Gougherty AV, Clipp HL. Testing the reliability of an AI-based large language model to extract ecological information from the scientific literature."
+    },
+    {
+      "type": "paragraph",
+      "id": 165,
+      "page number": 18,
+      "bounding box": [
+        36,
+        464.8624,
+        571.1903999999992,
+        506.6864
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "NPJ Biodivers. 2024;3(1):13. https://doi.org/10.1038/s44185-024-00043-9 PMID: 39242700\n47. Scheepens D, Millard J, Farrell M, Newbold T. Large language models help facilitate the automated synthesis of information on potential pest con-\ntrollers. Methods Ecol Evol. 2024;15(7):1261\u201373. https://doi.org/10.1111/2041-210x.14341\n48. Fillies JFM, Teich M, Karam N, Paschke A, Rehbein M. Historic to FAIR: Leveraging LLMs for Historic Term Identification and Standardization. In:"
+    },
+    {
+      "type": "paragraph",
+      "id": 166,
+      "page number": 18,
+      "bounding box": [
+        56,
+        454.8624,
+        247.23200000000014,
+        460.6864
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "2025. 165\u201376. https://doi.org/10.18420/BTW2025-121"
+    },
+    {
+      "type": "paragraph",
+      "id": 167,
+      "page number": 18,
+      "bounding box": [
+        36,
+        431.8624,
+        566.6711999999992,
+        447.6864
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "49. Holstein J, Monje JC. Taxon list of animals with German names (worldwide) compiled at the SMNS. Staatliche Naturwissenschaftliche Sammlun-\ngen Bayerns. GBIF; 2016. https://doi.org/10.15468/6ouqwi"
+    },
+    {
+      "type": "paragraph",
+      "id": 168,
+      "page number": 18,
+      "bounding box": [
+        36,
+        382.8624,
+        574.7335999999991,
+        424.6864
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "50. Farrell MJ, Le Guillarme N, Brierley L, Hunter B, Scheepens D, Willoughby A, et al. The changing landscape of text mining: a review of approaches\nfor ecology and evolution. Proc Biol Sci. 2024;291(2027):20240423. https://doi.org/10.1098/rspb.2024.0423 PMID: 39082244\n51. Peeters R, Steiner A, Bizer C. Entity Matching using Large Language Models. 2024. http://arxiv.org/abs/2310.11244\n52. Dorm F, Millard J, Purves D, Harfoot M, Mac Aodha O. Large language models possess some ecological knowledge, but how much?. Ecology."
+    },
+    {
+      "type": "paragraph",
+      "id": 169,
+      "page number": 18,
+      "bounding box": [
+        56,
+        372.8624,
+        228.42400000000012,
+        378.6864
+      ],
+      "font": "DGZTYN\u002BArialMTStd",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "2025. https://doi.org/10.1101/2025.02.10.637097"
+    },
+    {
+      "type": "paragraph",
+      "id": 170,
+      "page number": 18,
+      "bounding box": [
+        36,
+        313.8624,
+        574.0135999999992,
+        365.6864
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "53. Elliott M, Fortes J. Using ChatGPT with Confidence for Biodiversity-Related Information Tasks. BISS. 2023;7. https://doi.org/10.3897/biss.7.112926\n54. Castro A, Pinto J, Reino L, Pipek P, Capinha C. Large language models overcome the challenges of unstructured text data in ecology. Ecological\nInformatics. 2024;82:102742. https://doi.org/10.1016/j.ecoinf.2024.102742\n55. von Mittnacht F, Bach H. K\u00F6nigreich W\u00FCrtemberg nebst Theilen der angrenzenden L\u00E4nder: nach dem Massstab 1:200 000 in 4 Bl\u00E4ttern als Gener-\nalkarte des topographischen Atlasses. Stuttgart: K. statistisch-topographischen Bureau. 1848."
+    },
+    {
+      "type": "paragraph",
+      "id": 171,
+      "page number": 18,
+      "bounding box": [
+        36,
+        280.8624,
+        572.6623999999994,
+        309.9344
+      ],
+      "font": "BETSWR\u002BArialMTStd-Bold",
+      "font size": 8,
+      "text color": "[0.0]",
+      "content": "56. Redecker U, Sch\u00F6ntag W. Beiwort zu den Karten 7, 4-5: Verwaltungsgliederung in Baden, W\u00FCrttemberg und Hohenzollern 1815-1857. Verwal-\ntungsgliederung in Baden, W\u00FCrttemberg und Hohenzollern 1858-1936. Historischer Atlas von Baden-W\u00FCrttemberg: Erl\u00E4uterungen. Kommission f\u00FCr\ngeschichtliche Landeskunde in Baden-W\u00FCrttemberg. 1976. p. 1\u201324."
+    }
+  ]
+}

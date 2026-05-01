@@ -209,14 +209,38 @@ public sealed class PdfStructParser
         if (_options.ExcludeHeadersFooters)
             pageLines = FilterRunningFurnitureLines(pageLines, pageGeometries);
 
+        var originalPageLines = pageLines.ToDictionary(
+            pair => pair.Key,
+            pair => (IReadOnlyList<TextLineBlock>)pair.Value.ToList());
+
+        var pageLists = DetectListsPerPage(pageLines);
+
+        if (pageLists.Count > 0)
+            ApplyConservativeReconciliation(pageLines, originalPageLines, pageLists);
+
         var pageBlocks = new Dictionary<int, IReadOnlyList<TextBlock>>(pdf.NumberOfPages);
         var allBlocks = new List<TextBlock>();
         for (var p = 1; p <= pdf.NumberOfPages; p++)
         {
             PageGeometry? pageGeometry = _options.ExcludeHeadersFooters ? pageGeometries[p] : null;
             var blocks = BuildPageBlocks(pageLines[p], pageGeometry);
-            pageBlocks[p] = blocks;
+
+            if (pageLists.TryGetValue(p, out var listsOnPage))
+            {
+                foreach (var list in listsOnPage)
+                    foreach (var item in list.Items)
+                        allBlocks.Add(SynthesizeListItemStatsBlock(list, item));
+
+                var augmented = new List<TextBlock>(blocks.Count + listsOnPage.Count);
+                augmented.AddRange(blocks);
+                for (var i = 0; i < listsOnPage.Count; i++)
+                    augmented.Add(MakeListPlaceholder(listsOnPage[i], p, i));
+                var ordered = _layoutAnalyzer.DetermineReadingOrder(augmented);
+                blocks = WithStandaloneFlag(ordered);
+            }
+
             allBlocks.AddRange(blocks);
+            pageBlocks[p] = blocks;
         }
 
         _classifier.Prepare(allBlocks);
@@ -227,6 +251,9 @@ public sealed class PdfStructParser
             var elements = _classifier.Classify(pageBlocks[p], p, ref elementId);
             doc.Kids.AddRange(elements);
         }
+
+        if (pageLists.Count > 0)
+            ReplaceListPlaceholders(doc.Kids, pageLists);
 
         AssignHeadingLevels(doc.Kids);
 
@@ -315,6 +342,244 @@ public sealed class PdfStructParser
     {
         for (var i = 0; i < elements.Count; i++)
             elements[i].Id = i + 1;
+    }
+
+    /// <summary>
+    /// Sentinel-text prefix used to inject list placeholders into the
+    /// classifier-bound text-block stream. The placeholder is replaced with
+    /// the actual <see cref="Models.ListElement"/> after classification.
+    /// </summary>
+    private const string ListPlaceholderPrefix = "PDFSTRUCT_LIST_PLACEHOLDER";
+
+    /// <summary>
+    /// Runs the Phase 1 list detector against each page's residual line
+    /// stream, mutates the line stream to remove claimed lines, and
+    /// returns the per-page detected list runs. Pages with no detected
+    /// lists are absent from the returned dictionary.
+    /// </summary>
+    private static Dictionary<int, IReadOnlyList<DetectedList>> DetectListsPerPage(
+        Dictionary<int, IReadOnlyList<TextLineBlock>> pageLines)
+    {
+        var result = new Dictionary<int, IReadOnlyList<DetectedList>>();
+        foreach (var page in pageLines.Keys.ToList())
+        {
+            var detection = ListDetector.Detect(pageLines[page]);
+            if (detection.Lists.Count == 0) continue;
+
+            result[page] = detection.Lists;
+            pageLines[page] = detection.ResidualLines;
+        }
+        return result;
+    }
+
+    /// <summary>
+    /// Builds a <see cref="TextBlock"/> placeholder representing a detected
+    /// list. The placeholder participates in the layout-analysis reading
+    /// order alongside paragraph blocks; after classification it is
+    /// recognised by its sentinel text and replaced with a real
+    /// <see cref="Models.ListElement"/>.
+    /// </summary>
+    /// <summary>
+    /// Enforces the structural invariants required of detector output by
+    /// dropping any list whose bounding box overlaps with another list's
+    /// bounding box, or whose bounding box substantially contains a
+    /// provisional paragraph block. Lines claimed by dropped lists are
+    /// returned to the page's residual line stream so they participate in
+    /// the final paragraph merge.
+    /// </summary>
+    /// <remarks>
+    /// "False negative is preferable to false positive": a list that
+    /// cannot cleanly own its territory is not emitted at all. Phase 1 has
+    /// no rescue mechanism that could absorb intervening content into a
+    /// list's children, so the only safe response to a violation is to
+    /// un-confirm the offending list.
+    /// </remarks>
+    private static void ApplyConservativeReconciliation(
+        Dictionary<int, IReadOnlyList<TextLineBlock>> pageResidualLines,
+        IReadOnlyDictionary<int, IReadOnlyList<TextLineBlock>> originalPageLines,
+        Dictionary<int, IReadOnlyList<DetectedList>> pageLists)
+    {
+        foreach (var page in pageLists.Keys.ToList())
+        {
+            var lists = pageLists[page];
+            var residualBlocks = MergeLinesIntoBlocks(pageResidualLines[page]);
+            var rejected = IdentifyInvariantViolators(lists, residualBlocks);
+            if (rejected.Count == 0) continue;
+
+            var kept = lists.Where(list => !rejected.Contains(list)).ToList();
+            var keptClaimed = new HashSet<int>();
+            foreach (var list in kept)
+                foreach (var item in list.Items)
+                    foreach (var idx in item.ClaimedLineIndices)
+                        keptClaimed.Add(idx);
+
+            pageResidualLines[page] = originalPageLines[page]
+                .Where((_, index) => !keptClaimed.Contains(index))
+                .ToList();
+
+            if (kept.Count == 0)
+                pageLists.Remove(page);
+            else
+                pageLists[page] = kept;
+        }
+    }
+
+    /// <summary>
+    /// Identifies which confirmed lists violate the structural invariants
+    /// of detector output: pairwise sibling-list bounding-box disjointness,
+    /// and the absence of any provisional paragraph block substantially
+    /// contained within a list's bounding box.
+    /// </summary>
+    private static HashSet<DetectedList> IdentifyInvariantViolators(
+        IReadOnlyList<DetectedList> lists,
+        IReadOnlyList<TextBlock> provisionalParagraphs)
+    {
+        var rejected = new HashSet<DetectedList>();
+
+        for (var i = 0; i < lists.Count; i++)
+        {
+            for (var j = i + 1; j < lists.Count; j++)
+            {
+                if (lists[i].BoundingBox.Overlaps(lists[j].BoundingBox))
+                {
+                    rejected.Add(lists[i]);
+                    rejected.Add(lists[j]);
+                }
+            }
+        }
+
+        foreach (var list in lists)
+        {
+            if (rejected.Contains(list)) continue;
+            foreach (var paragraph in provisionalParagraphs)
+            {
+                if (BoundingBoxSubstantiallyContains(list.BoundingBox, paragraph.BoundingBox))
+                {
+                    rejected.Add(list);
+                    break;
+                }
+            }
+        }
+
+        return rejected;
+    }
+
+    /// <summary>
+    /// Returns <c>true</c> when at least 80% of <paramref name="inner"/>'s
+    /// area falls inside <paramref name="container"/>. Used by the
+    /// reconciliation pass to detect paragraphs that share a list's
+    /// bounding-box interior.
+    /// </summary>
+    private static bool BoundingBoxSubstantiallyContains(Models.BoundingBox container, Models.BoundingBox inner)
+    {
+        var overlapLeft = Math.Max(container.Left, inner.Left);
+        var overlapRight = Math.Min(container.Right, inner.Right);
+        var overlapBottom = Math.Max(container.Bottom, inner.Bottom);
+        var overlapTop = Math.Min(container.Top, inner.Top);
+        if (overlapRight <= overlapLeft || overlapTop <= overlapBottom) return false;
+
+        var overlapArea = (overlapRight - overlapLeft) * (overlapTop - overlapBottom);
+        var innerArea = inner.Width * inner.Height;
+        return innerArea > 0 && overlapArea / innerArea >= 0.8;
+    }
+
+    /// <summary>
+    /// Synthesises a body-typical <see cref="TextBlock"/> per detected list
+    /// item, used only as input to <see cref="DocumentStatistics"/>. The
+    /// placeholder block (different concept, see
+    /// <see cref="MakeListPlaceholder"/>) is what flows through the
+    /// classifier; this stats block exists to keep document-wide font
+    /// statistics close to the pre-detection distribution so that paragraph
+    /// vs heading classification on unrelated blocks is not destabilised
+    /// by the act of removing list lines from the paragraph merge.
+    /// </summary>
+    private static TextBlock SynthesizeListItemStatsBlock(DetectedList list, DetectedListItem item) => new(
+        item.BoundingBox,
+        item.Body,
+        list.FontName,
+        list.FontSize,
+        IsBold: false,
+        LineCount: 1);
+
+    private static TextBlock MakeListPlaceholder(DetectedList list, int pageNumber, int indexOnPage)
+    {
+        var marker = $"{ListPlaceholderPrefix}{pageNumber}{indexOnPage}";
+        return new TextBlock(
+            list.BoundingBox,
+            marker,
+            list.FontName,
+            list.FontSize,
+            IsBold: false,
+            LineCount: list.Items.Count) with
+        { IsStandalone = false };
+    }
+
+    /// <summary>
+    /// Walks the document's element list and replaces every placeholder
+    /// element (recognised by sentinel text content) with the
+    /// corresponding <see cref="Models.ListElement"/>. Both
+    /// <see cref="Models.ParagraphElement"/> and
+    /// <see cref="Models.HeadingElement"/> are handled because the
+    /// classifier may resolve the sentinel block into either type.
+    /// </summary>
+    private static void ReplaceListPlaceholders(
+        List<Models.ContentElement> kids,
+        Dictionary<int, IReadOnlyList<DetectedList>> pageLists)
+    {
+        for (var i = 0; i < kids.Count; i++)
+        {
+            var element = kids[i];
+            var content = element switch
+            {
+                Models.ParagraphElement p => p.Text.Content,
+                Models.HeadingElement h => h.Text.Content,
+                _ => null
+            };
+            if (content is null) continue;
+            if (!content.StartsWith(ListPlaceholderPrefix, StringComparison.Ordinal)) continue;
+
+            var rest = content[ListPlaceholderPrefix.Length..];
+            var sep = rest.IndexOf('');
+            if (sep < 0) continue;
+            if (!int.TryParse(rest.AsSpan(0, sep), System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var pageNumber)) continue;
+            if (!int.TryParse(rest.AsSpan(sep + 1), System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var indexOnPage)) continue;
+            if (!pageLists.TryGetValue(pageNumber, out var lists)) continue;
+            if (indexOnPage < 0 || indexOnPage >= lists.Count) continue;
+
+            kids[i] = BuildListElement(lists[indexOnPage], pageNumber, element.Id);
+        }
+    }
+
+    /// <summary>
+    /// Materialises a <see cref="Models.ListElement"/> from a detector
+    /// output. The numbering style is fixed at <c>"ordered"</c> for Phase 1
+    /// (Arabic-numeric labels only).
+    /// </summary>
+    private static Models.ListElement BuildListElement(DetectedList list, int pageNumber, int id)
+    {
+        var element = new Models.ListElement
+        {
+            Id = id,
+            PageNumber = pageNumber,
+            BoundingBox = list.BoundingBox,
+            NumberingStyle = "ordered",
+            NumberOfListItems = list.Items.Count
+        };
+        foreach (var item in list.Items)
+        {
+            element.ListItems.Add(new Models.ListItem
+            {
+                BoundingBox = item.BoundingBox,
+                PageNumber = pageNumber,
+                Text = new Models.TextProperties
+                {
+                    Content = item.Body,
+                    FontSize = list.FontSize,
+                    Font = list.FontName
+                }
+            });
+        }
+        return element;
     }
 
     private static Dictionary<int, IReadOnlyList<TextLineBlock>> FilterRunningFurnitureLines(
@@ -781,30 +1046,6 @@ public sealed class PdfStructParser
         string NormalizedText);
 
     private enum RunningFurnitureBand { Header, Footer, Side }
-
-    private readonly record struct TextLineBlock(
-        Models.BoundingBox BoundingBox,
-        string Text,
-        string FontName,
-        double FontSize,
-        bool IsBold,
-        double BaselineY,
-        double AvgHeight)
-    {
-        public double Left => BoundingBox.Left;
-        public double Right => BoundingBox.Right;
-        public double Bottom => BoundingBox.Bottom;
-        public double Top => BoundingBox.Top;
-        public double Width => BoundingBox.Width;
-
-        public TextBlock ToTextBlock() => new(
-            BoundingBox,
-            Text,
-            FontName,
-            FontSize,
-            IsBold,
-            LineCount: 1);
-    }
 
     private sealed class TextLineBuilder
     {

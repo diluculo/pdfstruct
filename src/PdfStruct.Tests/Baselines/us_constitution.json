@@ -1,0 +1,4436 @@
+{
+  "file name": "us_constitution.pdf",
+  "number of pages": 18,
+  "author": null,
+  "title": "constitution_pdf2",
+  "creation date": "2023-04-10T12:53:44-04:00",
+  "modification date": "2026-04-30T12:42:30\u002B09:00",
+  "kids": [
+    {
+      "type": "paragraph",
+      "id": 1,
+      "page number": 1,
+      "bounding box": [
+        72,
+        494.8776,
+        286.0731822199999,
+        566.159765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "We the People of the United States, in Order to form a\nmore perfect Union, establish Justice, insure domestic\nTranquility, provide for the common defence, promote\nthe general Welfare, and secure the Blessings of Liberty to\nourselves and our Posterity, do ordain and establish this\nConstitution for the United States of America"
+    },
+    {
+      "type": "heading",
+      "id": 2,
+      "page number": 1,
+      "bounding box": [
+        72,
+        441.36,
+        183.96,
+        459.500625
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 24,
+      "text color": "[0.0]",
+      "content": "Article. I."
+    },
+    {
+      "type": "paragraph",
+      "id": 3,
+      "page number": 1,
+      "bounding box": [
+        72,
+        409.56,
+        135.94799999999998,
+        417.358828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 1"
+    },
+    {
+      "type": "paragraph",
+      "id": 4,
+      "page number": 1,
+      "bounding box": [
+        72,
+        364.79843999999997,
+        290.19831599999986,
+        397.08439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "All legislative Powers herein granted shall be vested in a\nCongress of the United States, which shall consist of a Sen-\nate and House of Representatives."
+    },
+    {
+      "type": "paragraph",
+      "id": 5,
+      "page number": 1,
+      "bounding box": [
+        72,
+        340.32,
+        135.94800000000004,
+        348.118828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 2"
+    },
+    {
+      "type": "paragraph",
+      "id": 6,
+      "page number": 1,
+      "bounding box": [
+        72,
+        269.64012,
+        290.7500519999999,
+        327.84439453125003
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The House of Representatives shall be composed of Mem-\nbers chosen every second Year by the People of the several\nStates, and the Electors in each State shall have the Qualifi-\ncations requisite for Electors of the most numerous Branch\nof the State Legislature."
+    },
+    {
+      "type": "paragraph",
+      "id": 7,
+      "page number": 1,
+      "bounding box": [
+        72,
+        199.08048000000002,
+        279.10861199999994,
+        257.28475453125003
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "No Person shall be a Representative who shall not have\nattained to the Age of twenty five Years, and been seven\nYears a Citizen of the United States, and who shall not,\nwhen elected, be an Inhabitant of that State in which he\nshall be chosen."
+    },
+    {
+      "type": "paragraph",
+      "id": 8,
+      "page number": 1,
+      "bounding box": [
+        72,
+        102.47928000000002,
+        286.079256,
+        186.72511453125003
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "[Representatives and direct Taxes shall be apportioned\namong the several States which may be included within\nthis Union, according to their respective Numbers, which\nshall be determined by adding to the whole Number of\nfree Persons, including those bound to Service for a Term\nof Years, and excluding Indians not taxed, three fifths of\nall other Persons.]* The actual Enumeration shall be made"
+    },
+    {
+      "type": "paragraph",
+      "id": 9,
+      "page number": 1,
+      "bounding box": [
+        315.0103199999999,
+        416.874,
+        530.30166065625,
+        566.11582546875
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "within three Years after the first Meeting of the Congress\nof the United States, and within every subsequent Term of\nten Years, in such Manner as they shall by Law direct. The\nNumber of Representatives shall not exceed one for every\nthirty Thousand, but each State shall have at Least one\nRepresentative; and until such enumeration shall be made,\nthe State of New Hampshire shall be entitled to chuse\nthree, Massachusetts eight, Rhode-Island and Providence\nPlantations one, Connecticut five, New-York six, New\nJersey four, Pennsylvania eight, Delaware one, Maryland\nsix, Virginia ten, North Carolina five, South Carolina five,\nand Georgia three."
+    },
+    {
+      "type": "paragraph",
+      "id": 10,
+      "page number": 1,
+      "bounding box": [
+        315.01032,
+        372.59292000000005,
+        526.5864486562499,
+        404.70934546875003
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "When vacancies happen in the Representation from any\nState, the Executive Authority thereof shall issue Writs of\nElection to fill such Vacancies."
+    },
+    {
+      "type": "paragraph",
+      "id": 11,
+      "page number": 1,
+      "bounding box": [
+        315.0103199999999,
+        327.95160000000004,
+        501.20225999999957,
+        360.19126546875003
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The House of Representatives shall chuse their\nSpeaker and other Officers; and shall have the sole\nPower of Impeachment."
+    },
+    {
+      "type": "paragraph",
+      "id": 12,
+      "page number": 1,
+      "bounding box": [
+        315,
+        303.48,
+        378.948,
+        311.278828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 3"
+    },
+    {
+      "type": "paragraph",
+      "id": 13,
+      "page number": 1,
+      "bounding box": [
+        315,
+        258.71844,
+        530.85012,
+        291.00439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Senate of the United States shall be composed of two\nSenators from each State, [chosen by the Legislature there-\nof,]* for six Years; and each Senator shall have one Vote."
+    },
+    {
+      "type": "paragraph",
+      "id": 14,
+      "page number": 1,
+      "bounding box": [
+        314.97155999999984,
+        110.03411999999997,
+        537.6292679999999,
+        246.36307453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Immediately after they shall be assembled in Consequence\nof the first Election, they shall be divided as equally as may\nbe into three Classes. The Seats of the Senators of the first\nClass shall be vacated at the Expiration of the second Year,\nof the second Class at the Expiration of the fourth Year, and\nof the third Class at the Expiration of the sixth Year, so that\none third may be chosen every second Year; [and if Vacan-\ncies happen by Resignation, or otherwise, during the Recess\nof the Legislature of any State, the Executive thereof may\nmake temporary Appointments until the next Meeting of\nthe Legislature, which shall then fill such Vacancies.]*"
+    },
+    {
+      "type": "paragraph",
+      "id": 15,
+      "page number": 2,
+      "bounding box": [
+        72,
+        629.27796,
+        288.88303265625,
+        719.16439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "No Person shall be a Senator who shall not have attained\nto the Age of thirty Years, and been nine Years a Citizen of\nthe United States, and who shall not, when elected, be an\nInhabitant of that State for which he shall be chosen\nThe Vice President of the United States shall be\nPresident of the Senate, but shall have no Vote, unless\nthey be equally divided."
+    },
+    {
+      "type": "paragraph",
+      "id": 16,
+      "page number": 2,
+      "bounding box": [
+        71.9902142,
+        488.03796,
+        286.7875559999998,
+        616.919765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Senate shall chuse their other Officers, and also a\nPresident pro tempore, in the Absence of the Vice\nPresident, or when he shall exercise the Office of\nPresident of the United States\nThe Senate shall have the sole Power to try all Impeach-\nments. When sitting for that Purpose, they shall be on\nOath or Affirmation. When the President of the United\nStates is tried, the Chief Justice shall preside: And no\nPerson shall be convicted without the Concurrence of two\nthirds of the Members present."
+    },
+    {
+      "type": "paragraph",
+      "id": 17,
+      "page number": 2,
+      "bounding box": [
+        72,
+        404.52084,
+        293.5700836,
+        475.679765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Judgment in Cases of Impeachment shall not extend\nfurther than to removal from Office, and disqualification to\nhold and enjoy any Office of honor, Trust or Profit under\nthe United States: but the Party convicted shall nevertheless\nbe liable and subject to Indictment, Trial, Judgment and\nPunishment, according to Law."
+    },
+    {
+      "type": "paragraph",
+      "id": 18,
+      "page number": 2,
+      "bounding box": [
+        72,
+        380.04,
+        135.94799999999998,
+        387.838828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 4"
+    },
+    {
+      "type": "paragraph",
+      "id": 19,
+      "page number": 2,
+      "bounding box": [
+        72,
+        309.36012,
+        285.58629599999995,
+        367.559765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Times, Places and Manner of holding Elections for\nSenators and Representatives, shall be prescribed in each\nState by the Legislature thereof; but the Congress may at\nany time by Law make or alter such Regulations, except as\nto the Places of chusing Senators."
+    },
+    {
+      "type": "paragraph",
+      "id": 20,
+      "page number": 2,
+      "bounding box": [
+        71.97155999999998,
+        264.84204,
+        295.472988,
+        297.00475453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Congress shall assemble at least once in every Year, and\nsuch Meeting shall be [on the first Monday in December,]*\nunless they shall by Law appoint a different Day."
+    },
+    {
+      "type": "paragraph",
+      "id": 21,
+      "page number": 2,
+      "bounding box": [
+        72,
+        240.36,
+        138.228,
+        248.158828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 5."
+    },
+    {
+      "type": "paragraph",
+      "id": 22,
+      "page number": 2,
+      "bounding box": [
+        72,
+        143.63855999999998,
+        293.38611056000013,
+        227.88439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Each House shall be the Judge of the Elections, Returns\nand Qualifications of its own Members, and a Majority\nof each shall constitute a Quorum to do Business; but a\nsmaller Number may adjourn from day to day, and may be\nauthorized to compel the Attendance of absent Members,\nin such Manner, and under such Penalties as each House\nmay provide."
+    },
+    {
+      "type": "paragraph",
+      "id": 23,
+      "page number": 2,
+      "bounding box": [
+        72.00131999999999,
+        99.12191999999999,
+        289.3805639999998,
+        131.28000562499997
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Each House may determine the Rules of its Proceedings,\npunish its Members for disorderly Behaviour, and, with the\nConcurrence of two thirds, expel a Member."
+    },
+    {
+      "type": "paragraph",
+      "id": 24,
+      "page number": 2,
+      "bounding box": [
+        315.00216,
+        647.8811999999999,
+        535.922184,
+        719.163245625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Each House shall keep a Journal of its Proceedings, and\nfrom time to time publish the same, excepting such Parts\nas may in their Judgment require Secrecy; and the Yeas\nand Nays of the Members of either House on any question\nshall, at the Desire of one fifth of those Present, be entered\non the Journal."
+    },
+    {
+      "type": "paragraph",
+      "id": 25,
+      "page number": 2,
+      "bounding box": [
+        315.02112,
+        590.4039599999999,
+        532.7387999999994,
+        635.6444456249999
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Neither House, during the Session of Congress, shall, with-\nout the Consent of the other, adjourn for more than three\ndays, nor to any other Place than that in which the two\nHouses shall be sitting."
+    },
+    {
+      "type": "paragraph",
+      "id": 26,
+      "page number": 2,
+      "bounding box": [
+        315,
+        565.92,
+        378.948,
+        573.718828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 6"
+    },
+    {
+      "type": "paragraph",
+      "id": 27,
+      "page number": 2,
+      "bounding box": [
+        315,
+        456.23940000000005,
+        533.1641879999996,
+        553.4397656250001
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Senators and Representatives shall receive a Compen-\nsation for their Services, to be ascertained by Law, and paid\nout of the Treasury of the United States. They shall in all\nCases, except Treason, Felony and Breach of the Peace, be\nprivileged from Arrest during their Attendance at the Ses-\nsion of their respective Houses, and in going to and return-\ning from the same; and for any Speech or Debate in either\nHouse, they shall not be questioned in any other Place."
+    },
+    {
+      "type": "paragraph",
+      "id": 28,
+      "page number": 2,
+      "bounding box": [
+        315,
+        359.76144000000005,
+        533.0418959999998,
+        443.87940562500006
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "No Senator or Representative shall, during the Time for\nwhich he was elected, be appointed to any civil Office\nunder the Authority of the United States, which shall have\nbeen created, or the Emoluments whereof shall have been\nencreased during such time; and no Person holding any\nOffice under the United States, shall be a Member of either\nHouse during his Continuance in Office."
+    },
+    {
+      "type": "paragraph",
+      "id": 29,
+      "page number": 3,
+      "bounding box": [
+        72,
+        710.76,
+        135.94799999999998,
+        718.558828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 7"
+    },
+    {
+      "type": "paragraph",
+      "id": 30,
+      "page number": 3,
+      "bounding box": [
+        71.94312000000014,
+        291.2256,
+        295.7583360000002,
+        698.2566210937499
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "All Bills for raising Revenue shall originate in the House of\nRepresentatives; but the Senate may propose or concur with\nAmendments as on other Bills\nEvery Bill which shall have passed the House of Represen-\ntatives and the Senate, shall, before it become a Law, be\npresented to the President of the United States; If he ap-\nprove he shall sign it, but if not he shall return it, with his\nObjections to that House in which it shall have originated,\nwho shall enter the Objections at large on their Journal,\nand proceed to reconsider it. If after such Reconsideration\ntwo thirds of that House shall agree to pass the Bill, it shall\nbe sent, together with the Objections, to the other House,\nby which it shall likewise be reconsidered, and if approved\nby two thirds of that House, it shall become a Law. But in\nall such Cases the Votes of both Houses shall be determined\nby Yeas and Nays, and the Names of the Persons voting for\nand against the Bill shall be entered on the Journal of each\nHouse respectively, If any Bill shall not be returned by the\nPresident within ten Days (Sundays excepted) after it shall\nhave been presented to him, the Same shall be a Law, in\nlike Manner as if he had signed it, unless the Congress by\ntheir Adjournment prevent its Return, in which Case it shall\nnot be a Law\nEvery Order, Resolution, or Vote to which the Concur-\nrence of the Senate and House of Representatives may be\nnecessary (except on a question of Adjournment) shall be\npresented to the President of the United States; and before\nthe Same shall take Effect, shall be approved by him, or be-\ning disapproved by him, shall be repassed by two thirds of\nthe Senate and House of Representatives, according to the\nRules and Limitations prescribed in the Case of a Bill."
+    },
+    {
+      "type": "paragraph",
+      "id": 31,
+      "page number": 3,
+      "bounding box": [
+        315,
+        710.76,
+        378.948,
+        718.558828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 8"
+    },
+    {
+      "type": "paragraph",
+      "id": 32,
+      "page number": 3,
+      "bounding box": [
+        314.98042839999994,
+        640.08084,
+        538.17104048,
+        698.279765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Congress shall have Power To lay and collect Taxes,\nDuties, Imposts and Excises, to pay the Debts and provide\nfor the common Defence and general Welfare of the United\nStates; but all Duties, Imposts and Excises shall be uniform\nthroughout the United States;"
+    },
+    {
+      "type": "paragraph",
+      "id": 33,
+      "page number": 3,
+      "bounding box": [
+        315.00276,
+        621.4802400000001,
+        511.3259760000001,
+        627.7246345312501
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "To borrow Money on the credit of the United States;"
+    },
+    {
+      "type": "paragraph",
+      "id": 34,
+      "page number": 3,
+      "bounding box": [
+        315,
+        589.68084,
+        526.694154852969,
+        608.879765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "To regulate Commerce with foreign Nations, and among\nthe several States, and with the Indian Tribes;"
+    },
+    {
+      "type": "paragraph",
+      "id": 35,
+      "page number": 3,
+      "bounding box": [
+        315,
+        545.04,
+        529.2796626,
+        577.32439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "To establish an uniform Rule of Naturalization, and uni-\nform Laws on the subject of Bankruptcies throughout the\nUnited States;"
+    },
+    {
+      "type": "paragraph",
+      "id": 36,
+      "page number": 3,
+      "bounding box": [
+        314.99591999999996,
+        513.35784,
+        528.0086759999997,
+        532.680005625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "To coin Money, regulate the Value thereof, and of foreign\nCoin, and fix the Standard of Weights and Measures;"
+    },
+    {
+      "type": "paragraph",
+      "id": 37,
+      "page number": 3,
+      "bounding box": [
+        314.99591999999996,
+        481.67568,
+        536.00316,
+        500.874605625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "To provide for the Punishment of counterfeiting the Securi-\nties and current Coin of the United States;"
+    },
+    {
+      "type": "paragraph",
+      "id": 38,
+      "page number": 3,
+      "bounding box": [
+        314.99592,
+        423.95196,
+        535.6135320000006,
+        469.19707453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "To establish Post Offices and post Roads;\nTo promote the Progress of Science and useful Arts, by\nsecuring for limited Times to Authors and Inventors the\nexclusive Right to their respective Writings and Discoveries;"
+    },
+    {
+      "type": "paragraph",
+      "id": 39,
+      "page number": 3,
+      "bounding box": [
+        315.0054000000001,
+        405.3522,
+        515.5462680000002,
+        411.59659453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "To constitute Tribunals inferior to the supreme Court;"
+    },
+    {
+      "type": "paragraph",
+      "id": 40,
+      "page number": 3,
+      "bounding box": [
+        314.9959200000003,
+        373.54679999999996,
+        527.506236,
+        392.868965625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "To define and punish Piracies and Felonies committed on\nthe high Seas, and Offenses against the Law of Nations;"
+    },
+    {
+      "type": "paragraph",
+      "id": 41,
+      "page number": 3,
+      "bounding box": [
+        314.99592000000035,
+        341.86463999999995,
+        529.3358760000001,
+        361.06356562499997
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "To declare War, grant Letters of Marque and Reprisal, and\nmake Rules concerning Captures on Land and Water;"
+    },
+    {
+      "type": "paragraph",
+      "id": 42,
+      "page number": 3,
+      "bounding box": [
+        314.99592000000035,
+        297.22331999999994,
+        516.3824040000002,
+        329.50927453124996
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "To raise and support Armies, but no Appropriation of\nMoney to that Use shall be for a longer Term than two\nYears;"
+    },
+    {
+      "type": "paragraph",
+      "id": 43,
+      "page number": 3,
+      "bounding box": [
+        315,
+        278.52,
+        438.92932836,
+        284.759765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "To provide and maintain a Navy;"
+    },
+    {
+      "type": "paragraph",
+      "id": 44,
+      "page number": 3,
+      "bounding box": [
+        315.00275999999997,
+        246.72407999999996,
+        529.2678239999998,
+        265.923005625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "To make Rules for the Government and Regulation of the\nland and naval Forces;"
+    },
+    {
+      "type": "paragraph",
+      "id": 45,
+      "page number": 3,
+      "bounding box": [
+        315.00275999999997,
+        215.16515999999996,
+        531.4140959999995,
+        234.36408562499994
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "To provide for calling forth the Militia to execute the Laws\nof the Union, suppress Insurrections and repel Invasions;"
+    },
+    {
+      "type": "paragraph",
+      "id": 46,
+      "page number": 3,
+      "bounding box": [
+        315.00275999999997,
+        131.40935999999996,
+        526.1128800000002,
+        202.56816562499995
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "To provide for organizing, arming, and disciplining, the\nMilitia, and for governing such Part of them as may be\nemployed in the Service of the United States, reserving to\nthe States respectively, the Appointment of the Officers,\nand the Authority of training the Militia according to the\ndiscipline prescribed by Congress;"
+    },
+    {
+      "type": "paragraph",
+      "id": 47,
+      "page number": 4,
+      "bounding box": [
+        71.98104000000006,
+        551.39976,
+        290.6211240000003,
+        719.085703125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "To exercise exclusive Legislation in all Cases whatsoever,\nover such District (not exceeding ten Miles square) as\nmay, by Cession of particular States, and the Acceptance\nof Congress, become the Seat of the Government of the\nUnited States, and to exercise like Authority over all Places\npurchased by the Consent of the Legislature of the State in\nwhich the Same shall be, for the Erection of Forts, Maga-\nzines, Arsenals, dock-Yards and other needful Buildings;\n-And\nTo make all Laws which shall be necessary and proper for\ncarrying into Execution the foregoing Powers, and all other\nPowers vested by this Constitution in the Government of\nthe United States, or in any Department or Officer thereof."
+    },
+    {
+      "type": "paragraph",
+      "id": 48,
+      "page number": 4,
+      "bounding box": [
+        72,
+        527.04,
+        135.94799999999998,
+        534.838828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 9"
+    },
+    {
+      "type": "paragraph",
+      "id": 49,
+      "page number": 4,
+      "bounding box": [
+        72,
+        398.75964,
+        292.4924759999999,
+        514.51810546875
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Migration or Importation of such Persons as any of the\nStates now existing shall think proper to admit, shall not be\nprohibited by the Congress prior to the Year one thousand\neight hundred and eight, but a Tax or duty may be imposed\non such Importation, not exceeding ten dollars for each\nPerson\nThe Privilege of the Writ of Habeas Corpus shall not be\nsuspended, unless when in Cases of Rebellion or Invasion\nthe public Safety may require it."
+    },
+    {
+      "type": "paragraph",
+      "id": 50,
+      "page number": 4,
+      "bounding box": [
+        72.00948000000002,
+        380.03664,
+        283.589808,
+        386.28103453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "No Bill of Attainder or ex post facto Law shall be passed."
+    },
+    {
+      "type": "paragraph",
+      "id": 51,
+      "page number": 4,
+      "bounding box": [
+        71.97156000000003,
+        245.99891999999994,
+        290.54393606250005,
+        367.55803453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "[No Capitation, or other direct, Tax shall be laid, unless in\nProportion to the Census or Enumeration herein before\ndirected to be taken.]*\nNo Tax or Duty shall be laid on Articles exported from any\nState\nNo Preference shall be given by any Regulation of Com-\nmerce or Revenue to the Ports of one State over those of\nanother: nor shall Vessels bound to, or from, one State, be\nobliged to enter, clear, or pay Duties in another."
+    },
+    {
+      "type": "paragraph",
+      "id": 52,
+      "page number": 4,
+      "bounding box": [
+        71.97156000000004,
+        188.39843999999994,
+        293.93871665624994,
+        233.52031453124994
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "No Money shall be drawn from the Treasury, but in Con-\nsequence of Appropriations made by Law; and a regular\nStatement and Account of the Receipts and Expenditures of\nall public Money shall be published from time to time."
+    },
+    {
+      "type": "paragraph",
+      "id": 53,
+      "page number": 4,
+      "bounding box": [
+        71.96208000000001,
+        117.71555999999993,
+        288.96022800000003,
+        175.91983453124993
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "No Title of Nobility shall be granted by the United States:\nAnd no Person holding any Office of Profit or Trust under\nthem, shall, without the Consent of the Congress, accept\nof any present, Emolument, Office, or Title, of any kind\nwhatever, from any King, Prince, or foreign State."
+    },
+    {
+      "type": "paragraph",
+      "id": 54,
+      "page number": 4,
+      "bounding box": [
+        315,
+        710.76,
+        384.22799999999995,
+        718.558828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 10"
+    },
+    {
+      "type": "paragraph",
+      "id": 55,
+      "page number": 4,
+      "bounding box": [
+        315,
+        626.99772,
+        535.41,
+        698.279765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "No State shall enter into any Treaty, Alliance, or Confedera-\ntion; grant Letters of Marque and Reprisal; coin Money;\nemit Bills of Credit; make any Thing but gold and silver\nCoin a Tender in Payment of Debts; pass any Bill of At-\ntainder, ex post facto Law, or Law impairing the Obligation\nof Contracts, or grant any Title of Nobility."
+    },
+    {
+      "type": "paragraph",
+      "id": 56,
+      "page number": 4,
+      "bounding box": [
+        314.98103999999995,
+        530.39844,
+        535.5256559999998,
+        614.59606546875
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "No State shall, without the Consent of the Congress, lay\nany Imposts or Duties on Imports or Exports, except what\nmay be absolutely necessary for executing it\u2019s inspection\nLaws: and the net Produce of all Duties and Imposts, laid\nby any State on Imports or Exports, shall be for the Use of\nthe Treasury of the United States; and all such Laws shall be\nsubject to the Revision and Controul of the Congress."
+    },
+    {
+      "type": "paragraph",
+      "id": 57,
+      "page number": 4,
+      "bounding box": [
+        314.99052000000006,
+        447.00288000000006,
+        530.6079726562498,
+        518.1200254687501
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "No State shall, without the Consent of Congress, lay any\nDuty of Tonnage, keep Troops, or Ships of War in time of\nPeace, enter into any Agreement or Compact with another\nState, or with a foreign Power, or engage in War, unless\nactually invaded, or in such imminent Danger as will not\nadmit of delay."
+    },
+    {
+      "type": "heading",
+      "id": 58,
+      "page number": 5,
+      "bounding box": [
+        72,
+        704.4,
+        193.08,
+        722.540625
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 24,
+      "text color": "[0.0]",
+      "content": "Article. II."
+    },
+    {
+      "type": "paragraph",
+      "id": 59,
+      "page number": 5,
+      "bounding box": [
+        72,
+        679.8,
+        135.94799999999998,
+        687.598828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 1"
+    },
+    {
+      "type": "paragraph",
+      "id": 60,
+      "page number": 5,
+      "bounding box": [
+        71.99052,
+        622.07928,
+        284.84496,
+        667.32439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The executive Power shall be vested in a President of the\nUnited States of America. He shall hold his Office during\nthe Term of four Years, and, together with the Vice Presi-\ndent, chosen for the same Term, be elected, as follows:"
+    },
+    {
+      "type": "paragraph",
+      "id": 61,
+      "page number": 5,
+      "bounding box": [
+        71.98104000000006,
+        538.4372400000001,
+        294.67572000000007,
+        609.5219831250001
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Each State shall appoint, in such Manner as the Legislature\nthereof may direct, a Number of Electors, equal to the\nwhole Number of Senators and Representatives to which\nthe State may be entitled in the Congress: but no Senator or\nRepresentative, or Person holding an Office of Trust or Prof-\nit under the United States, shall be appointed an Elector."
+    },
+    {
+      "type": "paragraph",
+      "id": 62,
+      "page number": 5,
+      "bounding box": [
+        71.98104000000004,
+        169.56096,
+        292.4234999999999,
+        526.200485625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "[The Electors shall meet in their respective States, and vote\nby Ballot for two Persons, of whom one at least shall not\nbe an Inhabitant of the same State with themselves. And\nthey shall make a List of all the Persons voted for, and of\nthe Number of Votes for each; which List they shall sign\nand certify, and transmit sealed to the Seat of the Govern-\nment of the United States, directed to the President of the\nSenate. The President of the Senate shall, in the Presence\nof the Senate and House of Representatives, open all the\nCertificates, and the Votes shall then be counted. The\nPerson having the greatest Number of Votes shall be the\nPresident, if such Number be a Majority of the whole\nNumber of Electors appointed; and if there be more than\none who have such Majority, and have an equal Number of\nVotes, then the House of Representatives shall immediately\nchuse by Ballot one of them for President; and if no Person\nhave a Majority, then from the five highest on the List\nthe said House shall in like Manner chuse the President.\nBut in chusing the President, the Votes shall be taken by\nStates, the Representation from each State having one Vote;\nA quorum for this Purpose shall consist of a Member or\nMembers from two thirds of the States, and a Majority of\nall the States shall be necessary to a Choice. In every Case,\nafter the Choice of the President, the Person having the\ngreatest Number of Votes of the Electors shall be the Vice\nPresident. But if there should remain two or more who\nhave equal Votes, the Senate shall chuse from them by Bal-\nlot the Vice President.]*"
+    },
+    {
+      "type": "paragraph",
+      "id": 63,
+      "page number": 5,
+      "bounding box": [
+        314.97064259999985,
+        635.27844,
+        535.8840990199998,
+        667.5597656250001
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Congress may determine the Time of chusing the\nElectors, and the Day on which they shall give their Votes;\nwhich Day shall be the same throughout the United States."
+    },
+    {
+      "type": "paragraph",
+      "id": 64,
+      "page number": 5,
+      "bounding box": [
+        314.99021419999997,
+        358.68,
+        535.9962366562495,
+        622.92439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "No Person except a natural born Citizen, or a Citizen\nof the United States, at the time of the Adoption of this\nConstitution, shall be eligible to the Office of President;\nneither shall any person be eligible to that Office who shall\nnot have attained to the Age of thirty five Years, and been\nfourteen Years a Resident within the United States\nIn Case of the Removal of the President from Office, or of\nhis Death, Resignation, or Inability to discharge the Powers\nand Duties of the said Office, the Same shall devolve on the\nVice President, and the Congress may by Law provide for\nthe Case of Removal, Death, Resignation or Inability, both\nof the President and Vice President, declaring what Officer\nshall then act as President, and such Officer shall act ac-\ncordingly, until the Disability be removed, or a President\nshall be elected.]*\nThe President shall, at stated Times, receive for his Services,\na Compensation, which shall neither be increased nor\ndiminished during the Period for which he shall have been\nelected, and he shall not receive within that Period any\nother Emolument from the United States, or any of them."
+    },
+    {
+      "type": "paragraph",
+      "id": 65,
+      "page number": 5,
+      "bounding box": [
+        314.99051999999995,
+        275.03796,
+        530.1529326562503,
+        346.15510546875
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Before he enter on the Execution of his Office, he shall\ntake the following Oath or Affirmation:- \u201CI do solemnly\nswear (or affirm) that I will faithfully execute the Office of\nPresident of the United States, and will to the best of my\nAbility, preserve, protect and defend the Constitution of\nthe United States.\u201D"
+    },
+    {
+      "type": "paragraph",
+      "id": 66,
+      "page number": 6,
+      "bounding box": [
+        72,
+        710.76,
+        135.94799999999998,
+        718.558828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 2"
+    },
+    {
+      "type": "paragraph",
+      "id": 67,
+      "page number": 6,
+      "bounding box": [
+        72,
+        587.997,
+        289.12044,
+        698.28439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The President shall be Commander in Chief of the Army\nand Navy of the United States, and of the Militia of the\nseveral States, when called into the actual Service of the\nUnited States; he may require the Opinion, in writing, of\nthe principal Officer in each of the executive Departments,\nupon any Subject relating to the Duties of their respective\nOffices, and he shall have Power to grant Reprieves and\nPardons for Offenses against the United States, except in\nCases of Impeachment."
+    },
+    {
+      "type": "paragraph",
+      "id": 68,
+      "page number": 6,
+      "bounding box": [
+        72,
+        439.54967999999997,
+        294.342024,
+        575.87863453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "He shall have Power, by and with the Advice and Consent\nof the Senate, to make Treaties, provided two thirds of the\nSenators present concur; and he shall nominate, and by and\nwith the Advice and Consent of the Senate, shall appoint\nAmbassadors, other public Ministers and Consuls, Judges\nof the supreme Court, and all other Officers of the United\nStates, whose Appointments are not herein otherwise\nprovided for, and which shall be established by Law: but\nthe Congress may by Law vest the Appointment of such in-\nferior Officers, as they think proper, in the President alone,\nin the Courts of Law, or in the Heads of Departments."
+    },
+    {
+      "type": "paragraph",
+      "id": 69,
+      "page number": 6,
+      "bounding box": [
+        72.02843999999993,
+        382.1862,
+        274.43740865624994,
+        427.426685625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The President shall have Power to fill up all Vacancies\nthat may happen during the Recess of the Senate, by\ngranting Commissions which shall expire at the End of\ntheir next Session"
+    },
+    {
+      "type": "paragraph",
+      "id": 70,
+      "page number": 6,
+      "bounding box": [
+        315,
+        710.76,
+        378.948,
+        718.558828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 3"
+    },
+    {
+      "type": "paragraph",
+      "id": 71,
+      "page number": 6,
+      "bounding box": [
+        314.98103999999984,
+        561.95544,
+        532.7688720000001,
+        698.23810546875
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "He shall from time to time give to the Congress Informa-\ntion of the State of the Union, and recommend to their\nConsideration such Measures as he shall judge neces-\nsary and expedient; he may, on extraordinary Occasions,\nconvene both Houses, or either of them, and in Case of\nDisagreement between them, with Respect to the Time of\nAdjournment, he may adjourn them to such Time as he\nshall think proper; he shall receive Ambassadors and other\npublic Ministers; he shall take Care that the Laws be faith-\nfully executed, and shall Commission all the Officers of the\nUnited States"
+    },
+    {
+      "type": "paragraph",
+      "id": 72,
+      "page number": 6,
+      "bounding box": [
+        315,
+        537.84,
+        378.948,
+        545.638828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 4"
+    },
+    {
+      "type": "paragraph",
+      "id": 73,
+      "page number": 6,
+      "bounding box": [
+        315,
+        480.11928,
+        527.1993719999995,
+        525.359765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The President, Vice President and all civil Officers of the\nUnited States, shall be removed from Office on Impeach-\nment for, and Conviction of, Treason, Bribery, or other\nhigh Crimes and Misdemeanors."
+    },
+    {
+      "type": "heading",
+      "id": 74,
+      "page number": 7,
+      "bounding box": [
+        72,
+        704.4,
+        202.20000000000002,
+        722.540625
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 24,
+      "text color": "[0.0]",
+      "content": "Article. III."
+    },
+    {
+      "type": "paragraph",
+      "id": 75,
+      "page number": 7,
+      "bounding box": [
+        72,
+        679.8,
+        135.94799999999998,
+        687.598828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 1"
+    },
+    {
+      "type": "paragraph",
+      "id": 76,
+      "page number": 7,
+      "bounding box": [
+        71.99021420000008,
+        582.84,
+        294.6866433799999,
+        667.32439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The judicial Power of the United States, shall be vested\nin one supreme Court, and in such inferior Courts as the\nCongress may from time to time ordain and establish. The\nJudges, both of the supreme and inferior Courts, shall hold\ntheir Offices during good Behaviour, and shall at stated\nTimes, receive for their Services, a Compensation, which\nshall not be diminished during their Continuance in Office."
+    },
+    {
+      "type": "paragraph",
+      "id": 77,
+      "page number": 7,
+      "bounding box": [
+        72,
+        558.72,
+        135.94799999999998,
+        566.518828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 2"
+    },
+    {
+      "type": "paragraph",
+      "id": 78,
+      "page number": 7,
+      "bounding box": [
+        71.94128520000018,
+        300.59772,
+        294.9107382000001,
+        546.239765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The judicial Power shall extend to all Cases, in Law and\nEquity, arising under this Constitution, the Laws of the\nUnited States, and Treaties made, or which shall be made,\nunder their Authority; - to all Cases affecting Ambassa-\ndors, other public Ministers and Consuls; - to all Cases of\nadmiralty and maritime Jurisdiction; - to Controversies to\nwhich the United States shall be a Party; - to Controversies\nbetween two or more States; - [between a State and Citizens\nof another State;-]* between Citizens of different States,\n- between Citizens of the same State claiming Lands under\nGrants of different States, [and between a State, or the Citi-\nzens thereof;- and foreign States, Citizens or Subjects.]*\nIn all Cases affecting Ambassadors, other public Ministers\nand Consuls, and those in which a State shall be Party, the\nsupreme Court shall have original Jurisdiction. In all the\nother Cases before mentioned, the supreme Court shall\nhave appellate Jurisdiction, both as to Law and Fact, with\nsuch Exceptions, and under such Regulations as the Con-\ngress shall make."
+    },
+    {
+      "type": "paragraph",
+      "id": 79,
+      "page number": 7,
+      "bounding box": [
+        72,
+        230.16012,
+        294.60150691999996,
+        288.31810546875
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Trial of all Crimes, except in Cases of Impeachment;\nshall be by Jury; and such Trial shall be held in the State\nwhere the said Crimes shall have been committed; but when\nnot committed within any State, the Trial shall be at such\nPlace or Places as the Congress may by Law have directed."
+    },
+    {
+      "type": "paragraph",
+      "id": 80,
+      "page number": 7,
+      "bounding box": [
+        315,
+        678.48,
+        378.948,
+        686.278828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 3"
+    },
+    {
+      "type": "paragraph",
+      "id": 81,
+      "page number": 7,
+      "bounding box": [
+        314.99051999999995,
+        607.80084,
+        536.1437520000004,
+        665.999765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Treason against the United States, shall consist only in levy-\ning War against them, or in adhering to their Enemies, giv-\ning them Aid and Comfort. No Person shall be convicted\nof Treason unless on the Testimony of two Witnesses to the\nsame overt Act, or on Confession in open Court."
+    },
+    {
+      "type": "paragraph",
+      "id": 82,
+      "page number": 7,
+      "bounding box": [
+        314.9810400000001,
+        550.20036,
+        534.8933399999999,
+        595.4408456250001
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Congress shall have Power to declare the Punishment\nof Treason, but no Attainder of Treason shall work Corrup-\ntion of Blood, or Forfeiture except during the Life of the\nPerson attainted"
+    },
+    {
+      "type": "heading",
+      "id": 83,
+      "page number": 8,
+      "bounding box": [
+        72,
+        704.4,
+        199.68,
+        722.540625
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 24,
+      "text color": "[0.0]",
+      "content": "Article. IV."
+    },
+    {
+      "type": "heading",
+      "id": 84,
+      "page number": 8,
+      "bounding box": [
+        315,
+        704.4,
+        433.56000000000006,
+        722.540625
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 24,
+      "text color": "[0.0]",
+      "content": "Article. V."
+    },
+    {
+      "type": "paragraph",
+      "id": 85,
+      "page number": 8,
+      "bounding box": [
+        72,
+        672.6,
+        135.94799999999998,
+        680.398828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 1"
+    },
+    {
+      "type": "paragraph",
+      "id": 86,
+      "page number": 8,
+      "bounding box": [
+        71.99999999999997,
+        601.79688,
+        291.33496799999995,
+        660.12439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Full Faith and Credit shall be given in each State to the\npublic Acts, Records, and judicial Proceedings of every oth-\ner State. And the Congress may by general Laws prescribe\nthe Manner in which such Acts, Records and Proceedings\nshall be proved, and the Effect thereof."
+    },
+    {
+      "type": "paragraph",
+      "id": 87,
+      "page number": 8,
+      "bounding box": [
+        72,
+        577.44,
+        135.94799999999998,
+        585.238828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 2"
+    },
+    {
+      "type": "paragraph",
+      "id": 88,
+      "page number": 8,
+      "bounding box": [
+        71.98042840000008,
+        480.71687999999995,
+        290.1108033000001,
+        564.96439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Citizens of each State shall be entitled to all Privileges\nand Immunities of Citizens in the several States\nA Person charged in any State with Treason, Felony, or\nother Crime, who shall flee from Justice, and be found in\nanother State, shall on Demand of the executive Author-\nity of the State from which he fled, be delivered up, to be\nremoved to the State having Jurisdiction of the Crime."
+    },
+    {
+      "type": "paragraph",
+      "id": 89,
+      "page number": 8,
+      "bounding box": [
+        72.00276,
+        397.20120000000003,
+        290.9452559999998,
+        468.48787453125004
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "No Person held to Service or Labour in one State, under\nthe Laws thereof, escaping into another, shall, in Conse-\nquence of any Law or Regulation therein, be discharged\nfrom such Service or Labour, but shall be delivered up on\nClaim of the Party to whom such Service or Labour may be\ndue.]*"
+    },
+    {
+      "type": "paragraph",
+      "id": 90,
+      "page number": 8,
+      "bounding box": [
+        72,
+        372.84,
+        135.94799999999998,
+        380.638828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 3"
+    },
+    {
+      "type": "paragraph",
+      "id": 91,
+      "page number": 8,
+      "bounding box": [
+        72,
+        289.20096,
+        288.8455199999999,
+        360.36439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "New States may be admitted by the Congress into this\nUnion; but no new State shall be formed or erected within\nthe Jurisdiction of any other State; nor any State be formed\nby the Junction of two or more States, or Parts of States,\nwithout the Consent of the Legislatures of the States con-\ncerned as well as of the Congress."
+    },
+    {
+      "type": "paragraph",
+      "id": 92,
+      "page number": 8,
+      "bounding box": [
+        72,
+        218.64132,
+        288.65582371874996,
+        276.717725625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Congress shall have Power to dispose of and make all\nneedful Rules and Regulations respecting the Territory or\nother Property belonging to the United States; and nothing\nin this Constitution shall be so construed as to Prejudice\nany Claims of the United States, or of any particular State."
+    },
+    {
+      "type": "paragraph",
+      "id": 93,
+      "page number": 8,
+      "bounding box": [
+        72,
+        194.16,
+        135.94799999999998,
+        201.958828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION. 4"
+    },
+    {
+      "type": "paragraph",
+      "id": 94,
+      "page number": 8,
+      "bounding box": [
+        71.99999999999997,
+        123.48012,
+        292.8688319999998,
+        181.679765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The United States shall guarantee to every State in this\nUnion a Republican Form of Government, and shall\nprotect each of them against Invasion; and on Application\nof the Legislature, or of the Executive (when the Legislature\ncannot be convened) against domestic Violence."
+    },
+    {
+      "type": "paragraph",
+      "id": 95,
+      "page number": 8,
+      "bounding box": [
+        315,
+        490.55556,
+        532.7328479999994,
+        678.84439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Congress, whenever two thirds of both Houses shall\ndeem it necessary, shall propose Amendments to this Con-\nstitution, or, on the Application of the Legislatures of two\nthirds of the several States, shall call a Convention for pro-\nposing Amendments, which in either Case, shall be valid to\nall Intents and Purposes, as Part of this Constitution, when\nratified by the Legislatures of three-fourths of the several\nStates, or by Conventions in three fourths thereof, as the\none or the other Mode of Ratification may be proposed by\nthe Congress; Provided that no Amendment which may be\nmade prior to the Year One thousand eight hundred and\neight shall in any Manner affect the first and fourth Clauses\nin the Ninth Section of the first Article; and that no State,\nwithout its Consent, shall be deprived of its equal Suffrage\nin the Senate"
+    },
+    {
+      "type": "heading",
+      "id": 96,
+      "page number": 9,
+      "bounding box": [
+        72,
+        704.4,
+        199.68,
+        722.540625
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 24,
+      "text color": "[0.0]",
+      "content": "Article. VI."
+    },
+    {
+      "type": "heading",
+      "id": 97,
+      "page number": 9,
+      "bounding box": [
+        315,
+        704.4,
+        451.9200000000001,
+        722.540625
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 24,
+      "text color": "[0.0]",
+      "content": "Article. VII."
+    },
+    {
+      "type": "paragraph",
+      "id": 98,
+      "page number": 9,
+      "bounding box": [
+        72,
+        536.99856,
+        292.0630703999999,
+        678.84439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "All Debts contracted and Engagements entered into, before\nthe Adoption of this Constitution, shall be as valid against\nthe United States under this Constitution, as under the\nConfederation\nThis Constitution, and the Laws of the United States\nwhich shall be made in Pursuance thereof; and all Treaties\nmade, or which shall be made, under the Authority of the\nUnited States, shall be the supreme Law of the Land; and\nthe Judges in every State shall be bound thereby, any Thing\nin the Constitution or Laws of any State to the Contrary\nnotwithstanding."
+    },
+    {
+      "type": "paragraph",
+      "id": 99,
+      "page number": 9,
+      "bounding box": [
+        71.98643999999996,
+        440.52203999999995,
+        294.5114279999998,
+        524.76787453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Senators and Representatives before mentioned, and\nthe Members of the several State Legislatures, and all execu-\ntive and judicial Officers, both of the United States and of\nthe several States, shall be bound by Oath or Affirmation,\nto support this Constitution; but no religious Test shall ever\nbe required as a Qualification to any Office or public Trust\nunder the United States"
+    },
+    {
+      "type": "paragraph",
+      "id": 100,
+      "page number": 9,
+      "bounding box": [
+        315,
+        646.55844,
+        521.2478279999995,
+        678.79810546875
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Ratification of the Conventions of nine States, shall\nbe sufficient for the Establishment of this Constitution\nbetween the States so ratifying the Same."
+    },
+    {
+      "type": "paragraph",
+      "id": 101,
+      "page number": 9,
+      "bounding box": [
+        315,
+        531.36084,
+        534.6307439999998,
+        634.2030745312501
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Done in Convention by the Unanimous Consent of the\nStates present the Seventeenth Day of September in the\nYear of our Lord one thousand seven hundred and Eighty\nseven and of the Independence of the United States of\nAmerica the Twelfth In Witness whereof We have hereunto\nsubscribed our Names,\nGo. Washington--Presidt:\nand deputy from Virginia"
+    },
+    {
+      "type": "paragraph",
+      "id": 102,
+      "page number": 9,
+      "bounding box": [
+        315,
+        512.64,
+        413.11319999999995,
+        520.509140625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "NEW HAMPSHIRE"
+    },
+    {
+      "type": "paragraph",
+      "id": 103,
+      "page number": 9,
+      "bounding box": [
+        333,
+        480.96084,
+        396.9061669000001,
+        500.15976562500003
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "John Langdon\nNicholas Gilman"
+    },
+    {
+      "type": "paragraph",
+      "id": 104,
+      "page number": 9,
+      "bounding box": [
+        315,
+        462.24,
+        410.98799999999994,
+        470.109140625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "MASSACHUSETTS"
+    },
+    {
+      "type": "paragraph",
+      "id": 105,
+      "page number": 9,
+      "bounding box": [
+        333,
+        430.56084,
+        402.343356,
+        449.685703125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "Nathaniel Gorham\nRufus King"
+    },
+    {
+      "type": "paragraph",
+      "id": 106,
+      "page number": 9,
+      "bounding box": [
+        317.52,
+        411.72,
+        406.55144026,
+        419.518828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "CONNECTICUT"
+    },
+    {
+      "type": "paragraph",
+      "id": 107,
+      "page number": 9,
+      "bounding box": [
+        332.88,
+        380.04084,
+        407.3597238,
+        399.165703125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "Wm. Saml. Johnson\nRoger Sherman"
+    },
+    {
+      "type": "paragraph",
+      "id": 108,
+      "page number": 9,
+      "bounding box": [
+        315,
+        361.32,
+        378.47999999999996,
+        368.8903125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "NEW YORK"
+    },
+    {
+      "type": "paragraph",
+      "id": 109,
+      "page number": 9,
+      "bounding box": [
+        333,
+        342.6,
+        407.2985520000001,
+        348.83976562500004
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "Alexander Hamilton"
+    },
+    {
+      "type": "paragraph",
+      "id": 110,
+      "page number": 9,
+      "bounding box": [
+        315,
+        323.76,
+        386.09179687499994,
+        331.4709375
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "NEW JERSEY"
+    },
+    {
+      "type": "paragraph",
+      "id": 111,
+      "page number": 9,
+      "bounding box": [
+        332.8702142,
+        266.03928,
+        391.38538388,
+        311.19181640625004
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "Wil: Livingston\nDavid Brearley\nWm. Paterson\nJona: Dayton"
+    },
+    {
+      "type": "paragraph",
+      "id": 112,
+      "page number": 9,
+      "bounding box": [
+        315,
+        247.44,
+        405.3240000000001,
+        255.309140625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "PENNSYLVANIA"
+    },
+    {
+      "type": "paragraph",
+      "id": 113,
+      "page number": 9,
+      "bounding box": [
+        332.63976,
+        137.63616,
+        396.9331199999999,
+        234.922734375
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "B Franklin\nThomas Mifflin\nRobt Morris\nGeo. Clymer\nThos. FitzSimons\nJared Ingersoll\nJames Wilson\nGouv Morris"
+    },
+    {
+      "type": "paragraph",
+      "id": 114,
+      "page number": 10,
+      "bounding box": [
+        72,
+        710.76,
+        137.59200000000004,
+        718.629140625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "DELAWARE"
+    },
+    {
+      "type": "paragraph",
+      "id": 115,
+      "page number": 10,
+      "bounding box": [
+        89.99021420000003,
+        640.07928,
+        170.94324469999998,
+        698.279765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "Geo: Read\nGunning Bedford jun\nJohn Dickinson\nRichard Bassett\nJaco: Broom"
+    },
+    {
+      "type": "paragraph",
+      "id": 116,
+      "page number": 10,
+      "bounding box": [
+        72,
+        621.36,
+        138.252,
+        629.229140625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "MARYLAND"
+    },
+    {
+      "type": "paragraph",
+      "id": 117,
+      "page number": 10,
+      "bounding box": [
+        89.99021420000003,
+        576.72084,
+        178.56834006,
+        608.72666015625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "James McHenry\nDan of St. Thos. Jenifer\nDanl Carroll"
+    },
+    {
+      "type": "paragraph",
+      "id": 118,
+      "page number": 10,
+      "bounding box": [
+        72,
+        558,
+        126.20400000000001,
+        565.869140625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "VIRGINIA"
+    },
+    {
+      "type": "paragraph",
+      "id": 119,
+      "page number": 10,
+      "bounding box": [
+        90,
+        526.1976,
+        157.54061302000002,
+        545.445703125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "John Blair-\nJames Madison Jr."
+    },
+    {
+      "type": "paragraph",
+      "id": 120,
+      "page number": 10,
+      "bounding box": [
+        72,
+        507.48,
+        178.64399999999998,
+        515.349140625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "NORTH CAROLINA"
+    },
+    {
+      "type": "paragraph",
+      "id": 121,
+      "page number": 10,
+      "bounding box": [
+        89.88,
+        462.84408,
+        172.17821266,
+        494.91181640625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "Wm. Blount\nRichd. Dobbs Spaight\nHu Williamson"
+    },
+    {
+      "type": "paragraph",
+      "id": 122,
+      "page number": 10,
+      "bounding box": [
+        72,
+        444.12,
+        177.444,
+        451.989140625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SOUTH CAROLINA"
+    },
+    {
+      "type": "paragraph",
+      "id": 123,
+      "page number": 10,
+      "bounding box": [
+        89.99021419999998,
+        385.91736000000003,
+        200.61044172156244,
+        431.639765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "J. Rutledge\nCharles Cotesworth Pinckney\nCharles Pinckney\nPierce Butler"
+    },
+    {
+      "type": "paragraph",
+      "id": 124,
+      "page number": 10,
+      "bounding box": [
+        72,
+        367.56,
+        126.92399999999999,
+        375.429140625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "GEORGIA"
+    },
+    {
+      "type": "paragraph",
+      "id": 125,
+      "page number": 10,
+      "bounding box": [
+        89.88,
+        335.88,
+        137.75345621203127,
+        354.99181640625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "William Few\nAbr Baldwin"
+    },
+    {
+      "type": "paragraph",
+      "id": 126,
+      "page number": 10,
+      "bounding box": [
+        72,
+        309.96,
+        192.44394806250003,
+        316.17662109375
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "Attest William Jackson Secretary"
+    },
+    {
+      "type": "paragraph",
+      "id": 127,
+      "page number": 10,
+      "bounding box": [
+        314.99021419999997,
+        622.08084,
+        532.720524,
+        719.159765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "In Convention Monday\nSeptember 17th, 1787.\nPresent\nThe States of\nNew Hampshire, Massachusetts, Connecticut, Mr. Ham-\nilton from New York, New Jersey, Pennsylvania, Delaware,\nMaryland, Virginia, North Carolina, South Carolina and\nGeorgia."
+    },
+    {
+      "type": "paragraph",
+      "id": 128,
+      "page number": 10,
+      "bounding box": [
+        314.93099999999987,
+        171.1069200000001,
+        537.3213719999997,
+        609.5967656250001
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "Resolved,\nThat the preceeding Constitution be laid before the United\nStates in Congress assembled, and that it is the Opinion\nof this Convention, that it should afterwards be submitted\nto a Convention of Delegates, chosen in each State by the\nPeople thereof, under the Recommendation of its Legisla-\nture, for their Assent and Ratification; and that each Con-\nvention assenting to, and ratifying the Same, should give\nNotice thereof to the United States in Congress assembled.\nResolved, That it is the Opinion of this Convention, that\nas soon as the Conventions of nine States shall have ratified\nthis Constitution, the United States in Congress assembled\nshould fix a Day on which Electors should be appointed by\nthe States which shall have ratified the same, and a Day on\nwhich the Electors should assemble to vote for the Presi-\ndent, and the Time and Place for commencing Proceedings\nunder this Constitution\nThat after such Publication the Electors should be ap-\npointed, and the Senators and Representatives elected: That\nthe Electors should meet on the Day fixed for the Election\nof the President, and should transmit their Votes certified,\nsigned, sealed and directed, as the Constitution requires, to\nthe Secretary of the United States in Congress assembled,\nthat the Senators and Representatives should convene at the\nTime and Place assigned; that the Senators should appoint\na President of the Senate, for the sole Purpose of receiving,\nopening and counting the Votes for President; and, that\nafter he shall be chosen, the Congress, together with the\nPresident, should, without Delay, proceed to execute this\nConstitution\nBy the unanimous Order of the Convention\nGo. Washington-Presidt:\nW. JACKSON Secretary."
+    },
+    {
+      "type": "paragraph",
+      "id": 129,
+      "page number": 10,
+      "bounding box": [
+        315,
+        139.44,
+        526.56516,
+        145.68439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "* Language in brackets has been changed by amendment."
+    },
+    {
+      "type": "heading",
+      "id": 130,
+      "page number": 11,
+      "bounding box": [
+        72,
+        685.0740000000001,
+        488.5200000000002,
+        717.8837109375
+      ],
+      "level": "Subsection",
+      "heading level": 3,
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 18,
+      "text color": "[0.0]",
+      "content": "THE AMENDMENTS TO THE CONSTITUTION OF\nTHE UNITED STATES AS RATIFIED BY THE STATES"
+    },
+    {
+      "type": "heading",
+      "id": 131,
+      "page number": 11,
+      "bounding box": [
+        72,
+        605.28,
+        221.13768,
+        650.0674218749999
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Preamble to the\nBill of Rights"
+    },
+    {
+      "type": "paragraph",
+      "id": 132,
+      "page number": 11,
+      "bounding box": [
+        71.97309689999997,
+        554.6402400000001,
+        222.81877860000003,
+        579.131953125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 8.04,
+      "text color": "[0.0]",
+      "content": "Congress of the United States\nbegun and held at the City of New-York, on\nWednesday the fourth of March,"
+    },
+    {
+      "type": "paragraph",
+      "id": 133,
+      "page number": 11,
+      "bounding box": [
+        72,
+        439.68179999999995,
+        277.64016,
+        523.80439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "THE Conventions of a number of the States, having at\nthe time of their adopting the Constitution, expressed\na desire, in order to prevent misconstruction or abuse\nof its powers, that further declaratory and restrictive\nclauses should be added: And as extending the ground\nof public confidence in the Government, will best\nensure the beneficent ends of its institution"
+    },
+    {
+      "type": "paragraph",
+      "id": 134,
+      "page number": 11,
+      "bounding box": [
+        71.98104000000009,
+        309.837,
+        279.47169600000007,
+        420.12439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "RESOLVED by the Senate and House of\nRepresentatives of the United States of America,\nin Congress assembled, two thirds of both Houses\nconcurring, that the following Articles be proposed to\nthe Legislatures of the several States, as amendments\nto the Constitution of the United States, all, or any of\nwhich Articles, when ratified by three fourths of the said\nLegislatures, to be valid to all intents and purposes, as\npart of the said Constitution; viz."
+    },
+    {
+      "type": "paragraph",
+      "id": 135,
+      "page number": 11,
+      "bounding box": [
+        72,
+        232.20012000000003,
+        276.368892,
+        290.39976562500004
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "ARTICLES in addition to, and Amendment of the\nConstitution of the United States of America, proposed\nby Congress, and ratified by the Legislatures of the\nseveral States, pursuant to the fifth Article of the\noriginal Constitution."
+    },
+    {
+      "type": "paragraph",
+      "id": 136,
+      "page number": 11,
+      "bounding box": [
+        71.99999999999991,
+        174.60168000000002,
+        275.02939247578115,
+        206.74587890625
+      ],
+      "font": "MGFMAZ\u002BGaramond-Italic",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "(Note: The first 10 amendments to the Constitution were\nratified December 15, 1791, and form what is known as\nthe \u201CBill of Rights.\u201D)"
+    },
+    {
+      "type": "heading",
+      "id": 137,
+      "page number": 11,
+      "bounding box": [
+        315,
+        635.04,
+        450.734928,
+        650.1874218749999
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment I."
+    },
+    {
+      "type": "paragraph",
+      "id": 138,
+      "page number": 11,
+      "bounding box": [
+        314.94312000000014,
+        564.3633600000001,
+        530.8516086562494,
+        622.44439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Congress shall make no law respecting an establishment of\nreligion, or prohibiting the free exercise thereof; or abridg-\ning the freedom of speech, or of the press, or the right\nof the people peaceably to assemble, and to petition the\nGovernment for a redress of grievances."
+    },
+    {
+      "type": "heading",
+      "id": 139,
+      "page number": 11,
+      "bounding box": [
+        315,
+        534.72,
+        458.29602000000006,
+        549.867421875
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment II."
+    },
+    {
+      "type": "paragraph",
+      "id": 140,
+      "page number": 11,
+      "bounding box": [
+        314.99021419999985,
+        489.96168,
+        534.7201469164062,
+        522.12439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "A well regulated Militia, being necessary to the security of\na free State, the right of the people to keep and bear Arms,\nshall not be infringed."
+    },
+    {
+      "type": "heading",
+      "id": 141,
+      "page number": 11,
+      "bounding box": [
+        315,
+        460.32,
+        465.9753480000001,
+        475.467421875
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment III."
+    },
+    {
+      "type": "paragraph",
+      "id": 142,
+      "page number": 11,
+      "bounding box": [
+        315,
+        415.56168,
+        522.6637326562492,
+        447.72439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "No Soldier shall, in time of peace be quartered in any\nhouse, without the consent of the Owner, nor in time of\nwar, but in a manner to be prescribed by law."
+    },
+    {
+      "type": "heading",
+      "id": 143,
+      "page number": 11,
+      "bounding box": [
+        315,
+        385.92,
+        463.82305199999996,
+        401.06742187500004
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment IV."
+    },
+    {
+      "type": "paragraph",
+      "id": 144,
+      "page number": 11,
+      "bounding box": [
+        315,
+        302.16096,
+        531.93084,
+        373.32439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The right of the people to be secure in their persons, hous-\nes, papers, and effects, against unreasonable searches and\nseizures, shall not be violated, and no Warrants shall issue,\nbut upon probable cause, supported by Oath or affirma-\ntion, and particularly describing the place to be searched,\nand the persons or things to be seized."
+    },
+    {
+      "type": "heading",
+      "id": 145,
+      "page number": 11,
+      "bounding box": [
+        315,
+        272.64,
+        456.26196,
+        287.787421875
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment V."
+    },
+    {
+      "type": "paragraph",
+      "id": 146,
+      "page number": 11,
+      "bounding box": [
+        314.99999999999994,
+        136.79784,
+        538.2156726562499,
+        260.04439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "No person shall be held to answer for a capital, or otherwise\ninfamous crime, unless on a presentment or indictment of\na Grand Jury, except in cases arising in the land or naval\nforces, or in the Militia, when in actual service in time of\nWar or public danger; nor shall any person be subject for\nthe same offence to be twice put in jeopardy of life or limb;\nnor shall be compelled in any criminal case to be a witness\nagainst himself, nor be deprived of life, liberty, or property,\nwithout due process of law; nor shall private property be\ntaken for public use, without just compensation."
+    },
+    {
+      "type": "heading",
+      "id": 147,
+      "page number": 12,
+      "bounding box": [
+        72,
+        707.04,
+        220.823052,
+        722.1874218749999
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment VI."
+    },
+    {
+      "type": "paragraph",
+      "id": 148,
+      "page number": 12,
+      "bounding box": [
+        71.98104000000004,
+        584.15616,
+        292.58727599999975,
+        694.4397656250001
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "In all criminal prosecutions, the accused shall enjoy the\nright to a speedy and public trial, by an impartial jury of\nthe State and district wherein the crime shall have been\ncommitted, which district shall have been previously\nascertained by law, and to be informed of the nature and\ncause of the accusation; to be confronted with the witnesses\nagainst him; to have compulsory process for obtaining wit-\nnesses in his favor, and to have the Assistance of Counsel\nfor his defence."
+    },
+    {
+      "type": "heading",
+      "id": 149,
+      "page number": 12,
+      "bounding box": [
+        72,
+        554.88,
+        228.50238,
+        570.027421875
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment VII."
+    },
+    {
+      "type": "paragraph",
+      "id": 150,
+      "page number": 12,
+      "bounding box": [
+        72,
+        483.96011999999996,
+        289.9934517187498,
+        542.085703125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "In suits at common law, where the value in controversy\nshall exceed twenty dollars, the right of trial by jury shall be\npreserved, and no fact tried by a jury shall be otherwise re-\nexamined in any Court of the United States, than according\nto the rules of the common law."
+    },
+    {
+      "type": "heading",
+      "id": 151,
+      "page number": 12,
+      "bounding box": [
+        72,
+        454.44,
+        236.416176,
+        469.587421875
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment VIII."
+    },
+    {
+      "type": "paragraph",
+      "id": 152,
+      "page number": 12,
+      "bounding box": [
+        72,
+        422.64084,
+        274.58286,
+        441.84439453125003
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Excessive bail shall not be required, nor excessive fines\nimposed, nor cruel and unusual punishments inflicted."
+    },
+    {
+      "type": "heading",
+      "id": 153,
+      "page number": 12,
+      "bounding box": [
+        72,
+        393,
+        225.74266875,
+        408.147421875
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment IX."
+    },
+    {
+      "type": "paragraph",
+      "id": 154,
+      "page number": 12,
+      "bounding box": [
+        72,
+        348.24,
+        287.40266399999985,
+        380.35810546875
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The enumeration in the Constitution, of certain rights,\nshall not be construed to deny or disparage others retained\nby the people."
+    },
+    {
+      "type": "heading",
+      "id": 155,
+      "page number": 12,
+      "bounding box": [
+        72,
+        318.6,
+        218.15252499999997,
+        333.74742187500004
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment X."
+    },
+    {
+      "type": "paragraph",
+      "id": 156,
+      "page number": 12,
+      "bounding box": [
+        72,
+        273.84168,
+        288.511824,
+        306.00439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The powers not delegated to the United States by the Con-\nstitution, nor prohibited by it to the States, are reserved to\nthe States respectively, or to the people."
+    },
+    {
+      "type": "paragraph",
+      "id": 157,
+      "page number": 12,
+      "bounding box": [
+        72,
+        236.4,
+        186.70800000000003,
+        244.269140625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "AMENDMENTS 11-27"
+    },
+    {
+      "type": "heading",
+      "id": 158,
+      "page number": 12,
+      "bounding box": [
+        72,
+        199.44,
+        225.330408,
+        214.587421875
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XI."
+    },
+    {
+      "type": "paragraph",
+      "id": 159,
+      "page number": 12,
+      "bounding box": [
+        72,
+        180.72,
+        278.6643,
+        186.64822265625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Passed by Congress March 4, 1794. Ratified February 7, 1795."
+    },
+    {
+      "type": "paragraph",
+      "id": 160,
+      "page number": 12,
+      "bounding box": [
+        72,
+        161.76,
+        289.88245730593746,
+        167.93958984374999
+      ],
+      "font": "MGFMAZ\u002BGaramond-Italic",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "(Note: A portion of Article III, Section 2 of the Constitution was"
+    },
+    {
+      "type": "paragraph",
+      "id": 161,
+      "page number": 12,
+      "bounding box": [
+        136.08,
+        151.92,
+        140.213376,
+        155.50476562499998
+      ],
+      "font": "MGFMAZ\u002BGaramond-Italic",
+      "font size": 5.52,
+      "text color": "[0.0]",
+      "content": "th"
+    },
+    {
+      "type": "paragraph",
+      "id": 162,
+      "page number": 12,
+      "bounding box": [
+        71.96937239999997,
+        148.92,
+        192.30729032406245,
+        155.14995890625
+      ],
+      "font": "MGFMAZ\u002BGaramond-Italic",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "modified by the 11 Amendment.)"
+    },
+    {
+      "type": "paragraph",
+      "id": 163,
+      "page number": 12,
+      "bounding box": [
+        71.98967999999991,
+        91.20576,
+        294.64738799999986,
+        136.32763453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Judicial power of the United States shall not be construed\nto extend to any suit in law or equity, commenced or pros-\necuted against one of the United States by Citizens of another\nState, or by Citizens or Subjects of any Foreign State."
+    },
+    {
+      "type": "heading",
+      "id": 164,
+      "page number": 12,
+      "bounding box": [
+        315,
+        707.04,
+        476.058264,
+        722.1874218749999
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XII."
+    },
+    {
+      "type": "paragraph",
+      "id": 165,
+      "page number": 12,
+      "bounding box": [
+        315,
+        688.2,
+        531.7623,
+        694.12822265625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Passed by Congress December 9, 1803. Ratified June 15, 1804."
+    },
+    {
+      "type": "paragraph",
+      "id": 166,
+      "page number": 12,
+      "bounding box": [
+        315,
+        656.40084,
+        538.7966468659374,
+        675.53958984375
+      ],
+      "font": "MGFMAZ\u002BGaramond-Italic",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "(Note: A portion of Article II, Section 1 of the Constitution was\nchanged by the 12th Amendment.)"
+    },
+    {
+      "type": "paragraph",
+      "id": 167,
+      "page number": 12,
+      "bounding box": [
+        314.9013599999997,
+        130.66764,
+        537.5012399999995,
+        644.040005625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Electors shall meet in their respective states, and vote\nby ballot for President and Vice-President, one of whom,\nat least, shall not be an inhabitant of the same state with\nthemselves; they shall name in their ballots the person voted\nfor as President, and in distinct ballots the person voted\nfor as Vice-President, and they shall make distinct lists of\nall persons voted for as President, and of all persons voted\nfor as Vice-President, and of the number of votes for each,\nwhich lists they shall sign and certify, and transmit sealed\nto the seat of the government of the United States, directed\nto the President of the Senate;-the President of the Senate\nshall, in the presence of the Senate and House of Represen-\ntatives, open all the certificates and the votes shall then be\ncounted;-The person having the greatest number of votes\nfor President, shall be the President, if such number be a\nmajority of the whole number of Electors appointed; and if\nno person have such majority, then from the persons having\nthe highest numbers not exceeding three on the list of those\nvoted for as President, the House of Representatives shall\nchoose immediately, by ballot, the President. But in choos-\ning the President, the votes shall be taken by states, the\nrepresentation from each state having one vote; a quorum\nfor this purpose shall consist of a member or members from\ntwo-thirds of the states, and a majority of all the states shall\nbe necessary to a choice. [And if the House of Representa-\ntives shall not choose a President whenever the right of\nchoice shall devolve upon them, before the fourth day of\nMarch next following, then the Vice-President shall act as\nPresident, as in case of the death or other constitutional\ndisability of the President.-]* The person having the greatest\nnumber of votes as Vice-President, shall be the Vice-Presi-\ndent, if such number be a majority of the whole number\nof Electors appointed, and if no person have a majority,\nthen from the two highest numbers on the list, the Senate\nshall choose the Vice-President; a quorum for the purpose\nshall consist of two-thirds of the whole number of Senators,\nand a majority of the whole number shall be necessary to\na choice. But no person constitutionally ineligible to the\noffice of President shall be eligible to that of Vice-President\nof the United States."
+    },
+    {
+      "type": "paragraph",
+      "id": 168,
+      "page number": 12,
+      "bounding box": [
+        315,
+        113.4,
+        503.416896,
+        119.64439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "*Superseded by Section 3 of the 20th Amendment."
+    },
+    {
+      "type": "heading",
+      "id": 169,
+      "page number": 13,
+      "bounding box": [
+        72,
+        707.04,
+        240.750048,
+        722.1874218749999
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XIII."
+    },
+    {
+      "type": "paragraph",
+      "id": 170,
+      "page number": 13,
+      "bounding box": [
+        72,
+        675.123,
+        278.0973,
+        694.12822265625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Passed by Congress January 31, 1865. Ratified December 6,\n1865."
+    },
+    {
+      "type": "paragraph",
+      "id": 171,
+      "page number": 13,
+      "bounding box": [
+        71.98979080000001,
+        643.4376,
+        282.2645995199998,
+        662.69958984375
+      ],
+      "font": "MGFMAZ\u002BGaramond-Italic",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "(Note: A portion of Article IV, Section 2 of the Constitution\nwas changed by the 13th Amendment.)"
+    },
+    {
+      "type": "paragraph",
+      "id": 172,
+      "page number": 13,
+      "bounding box": [
+        72,
+        618.96,
+        132.708,
+        626.758828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 1"
+    },
+    {
+      "type": "paragraph",
+      "id": 173,
+      "page number": 13,
+      "bounding box": [
+        71.9804284,
+        561.23928,
+        288.67481360156256,
+        606.479765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Neither slavery nor involuntary servitude, except as a\npunishment for crime whereof the party shall have been\nduly convicted, shall exist within the United States, or any\nplace subject to their jurisdiction."
+    },
+    {
+      "type": "paragraph",
+      "id": 174,
+      "page number": 13,
+      "bounding box": [
+        72,
+        536.88,
+        132.708,
+        544.678828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 2"
+    },
+    {
+      "type": "paragraph",
+      "id": 175,
+      "page number": 13,
+      "bounding box": [
+        72,
+        505.20083999999997,
+        261.3237320625,
+        524.40439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Congress shall have power to enforce this article by\nappropriate legislation."
+    },
+    {
+      "type": "heading",
+      "id": 176,
+      "page number": 13,
+      "bounding box": [
+        72,
+        475.44,
+        238.08648,
+        490.587421875
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XIV."
+    },
+    {
+      "type": "paragraph",
+      "id": 177,
+      "page number": 13,
+      "bounding box": [
+        72,
+        456.72,
+        266.79599999999994,
+        462.64822265625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Passed by Congress June 13, 1866. Ratified July 9, 1868."
+    },
+    {
+      "type": "paragraph",
+      "id": 178,
+      "page number": 13,
+      "bounding box": [
+        71.97885240000002,
+        424.92084,
+        293.72008743796874,
+        444.10587890625
+      ],
+      "font": "MGFMAZ\u002BGaramond-Italic",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "(Note: Article I, Section 2 of the Constitution was modified by\nSection 2 of the 14th Amendment.)"
+    },
+    {
+      "type": "paragraph",
+      "id": 179,
+      "page number": 13,
+      "bounding box": [
+        72,
+        393.12,
+        132.708,
+        400.918828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 1"
+    },
+    {
+      "type": "paragraph",
+      "id": 180,
+      "page number": 13,
+      "bounding box": [
+        72,
+        283.4394,
+        293.62586265999994,
+        380.64439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "All persons born or naturalized in the United States and\nsubject to the jurisdiction thereof, are citizens of the United\nStates and of the State wherein they reside. No State shall\nmake or enforce any law which shall abridge the privileges\nor immunities of citizens of the United States; nor shall\nany State deprive any person of life, liberty, or property,\nwithout due process of law; nor deny to any person within\nits jurisdiction the equal protection of the laws."
+    },
+    {
+      "type": "paragraph",
+      "id": 181,
+      "page number": 13,
+      "bounding box": [
+        315,
+        710.76,
+        375.708,
+        718.558828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 2"
+    },
+    {
+      "type": "paragraph",
+      "id": 182,
+      "page number": 13,
+      "bounding box": [
+        314.99051999999995,
+        509.99555999999995,
+        533.7197159999992,
+        698.28439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Representatives shall be apportioned among the several\nStates according to their respective numbers, counting the\nwhole number of persons in each State, excluding Indians\nnot taxed. But when the right to vote at any election for\nthe choice of electors for President and Vice President of\nthe United States, Representatives in Congress, the Execu-\ntive and Judicial officers of a State, or the members of the\nLegislature thereof, is denied to any of the male inhabit-\nants of such State, [being twenty-one years of age,]* and\ncitizens of the United States, or in any way abridged, except\nfor participation in rebellion, or other crime, the basis of\nrepresentation therein shall be reduced in the proportion\nwhich the number of such male citizens shall bear to the\nwhole number of male citizens twenty-one years of age in\nsuch State."
+    },
+    {
+      "type": "paragraph",
+      "id": 183,
+      "page number": 13,
+      "bounding box": [
+        315,
+        486,
+        375.708,
+        493.798828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 3"
+    },
+    {
+      "type": "paragraph",
+      "id": 184,
+      "page number": 13,
+      "bounding box": [
+        315,
+        337.31868,
+        531.8189760000001,
+        473.52439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "No person shall be a Senator or Representative in Con-\ngress, or elector of President and Vice President, or hold\nany office, civil or military, under the United States, or\nunder any State, who, having previously taken an oath, as a\nmember of Congress, or as an officer of the United States,\nor as a member of any State legislature, or as an executive\nor judicial officer of any State, to support the Constitution\nof the United States, shall have engaged in insurrection or\nrebellion against the same, or given aid or comfort to the\nenemies thereof. But Congress may by a vote of two-thirds\nof each House, remove such disability."
+    },
+    {
+      "type": "paragraph",
+      "id": 185,
+      "page number": 13,
+      "bounding box": [
+        315,
+        313.08,
+        375.708,
+        320.878828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 4"
+    },
+    {
+      "type": "paragraph",
+      "id": 186,
+      "page number": 13,
+      "bounding box": [
+        315,
+        190.44024000000002,
+        534.3245399999996,
+        300.60439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The validity of the public debt of the United States, au-\nthorized by law, including debts incurred for payment of\npensions and bounties for services in suppressing insurrec-\ntion or rebellion, shall not be questioned. But neither the\nUnited States nor any State shall assume or pay any debt\nor obligation incurred in aid of insurrection or rebellion\nagainst the United States, or any claim for the loss or eman-\ncipation of any slave; but all such debts, obligations and\nclaims shall be held illegal and void."
+    },
+    {
+      "type": "paragraph",
+      "id": 187,
+      "page number": 13,
+      "bounding box": [
+        315,
+        166.2,
+        375.708,
+        173.998828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 5"
+    },
+    {
+      "type": "paragraph",
+      "id": 188,
+      "page number": 13,
+      "bounding box": [
+        315,
+        128.64,
+        534.3292799999999,
+        147.96439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Congress shall have the power to enforce, by appropri-\nate legislation, the provisions of this article."
+    },
+    {
+      "type": "paragraph",
+      "id": 189,
+      "page number": 13,
+      "bounding box": [
+        315,
+        109.92,
+        497.6490212600002,
+        116.16439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "*Changed by Section 1 of the 26th Amendment."
+    },
+    {
+      "type": "heading",
+      "id": 190,
+      "page number": 14,
+      "bounding box": [
+        72,
+        707.04,
+        230.754696,
+        722.1874218749999
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XV."
+    },
+    {
+      "type": "paragraph",
+      "id": 191,
+      "page number": 14,
+      "bounding box": [
+        72,
+        688.2,
+        293.4333000000001,
+        694.12822265625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Passed by Congress February 26, 1869. Ratified February 3, 1870."
+    },
+    {
+      "type": "paragraph",
+      "id": 192,
+      "page number": 14,
+      "bounding box": [
+        72,
+        663.6,
+        132.708,
+        671.398828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 1"
+    },
+    {
+      "type": "paragraph",
+      "id": 193,
+      "page number": 14,
+      "bounding box": [
+        72,
+        618.96084,
+        294.56196,
+        651.12439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The right of citizens of the United States to vote shall not be\ndenied or abridged by the United States or by any State on\naccount of race, color, or previous condition of servitude."
+    },
+    {
+      "type": "paragraph",
+      "id": 194,
+      "page number": 14,
+      "bounding box": [
+        72,
+        594.48,
+        132.708,
+        602.278828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 2"
+    },
+    {
+      "type": "paragraph",
+      "id": 195,
+      "page number": 14,
+      "bounding box": [
+        72,
+        562.80084,
+        292.2285320624998,
+        582.00439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Congress shall have the power to enforce this article by\nappropriate legislation."
+    },
+    {
+      "type": "heading",
+      "id": 196,
+      "page number": 14,
+      "bounding box": [
+        72,
+        533.16,
+        238.08648,
+        548.3074218749999
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XVI."
+    },
+    {
+      "type": "paragraph",
+      "id": 197,
+      "page number": 14,
+      "bounding box": [
+        72,
+        514.44,
+        277.35569999999996,
+        520.36822265625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Passed by Congress July 2, 1909. Ratified February 3, 1913."
+    },
+    {
+      "type": "paragraph",
+      "id": 198,
+      "page number": 14,
+      "bounding box": [
+        72,
+        495.48,
+        293.72008743796874,
+        501.70587890625
+      ],
+      "font": "MGFMAZ\u002BGaramond-Italic",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "(Note: Article I, Section 9 of the Constitution was modified by"
+    },
+    {
+      "type": "paragraph",
+      "id": 199,
+      "page number": 14,
+      "bounding box": [
+        97.92,
+        485.52,
+        100.528752,
+        489.10476562499997
+      ],
+      "font": "MGFMAZ\u002BGaramond-Italic",
+      "font size": 5.52,
+      "text color": "[0.0]",
+      "content": "h"
+    },
+    {
+      "type": "paragraph",
+      "id": 200,
+      "page number": 14,
+      "bounding box": [
+        71.97885240000002,
+        482.52,
+        154.98663700921875,
+        488.74587890624997
+      ],
+      "font": "MGFMAZ\u002BGaramond-Italic",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "the 16 Amendment.)"
+    },
+    {
+      "type": "paragraph",
+      "id": 201,
+      "page number": 14,
+      "bounding box": [
+        72.00192,
+        424.79627999999997,
+        291.3947159999999,
+        470.036765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Congress shall have power to lay and collect taxes on\nincomes, from whatever source derived, without apportion-\nment among the several States, and without regard to any\ncensus or enumeration."
+    },
+    {
+      "type": "heading",
+      "id": 202,
+      "page number": 14,
+      "bounding box": [
+        72,
+        395.28,
+        246.090408,
+        410.427421875
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XVII."
+    },
+    {
+      "type": "paragraph",
+      "id": 203,
+      "page number": 14,
+      "bounding box": [
+        72,
+        376.44,
+        270.64529999999996,
+        382.36822265625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Passed by Congress May 13, 1912. Ratified April 8, 1913."
+    },
+    {
+      "type": "paragraph",
+      "id": 204,
+      "page number": 14,
+      "bounding box": [
+        71.97885240000002,
+        344.76408000000004,
+        293.72008743796874,
+        363.82587890625
+      ],
+      "font": "MGFMAZ\u002BGaramond-Italic",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "(Note: Article I, Section 3 of the Constitution was modified by\nthe 17th Amendment.)"
+    },
+    {
+      "type": "paragraph",
+      "id": 205,
+      "page number": 14,
+      "bounding box": [
+        72.00119999999998,
+        274.07712,
+        292.1893680000001,
+        332.28139453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Senate of the United States shall be composed of two\nSenators from each State, elected by the people thereof, for\nsix years; and each Senator shall have one vote. The electors\nin each State shall have the qualifications requisite for elec-\ntors of the most numerous branch of the State legislatures."
+    },
+    {
+      "type": "paragraph",
+      "id": 206,
+      "page number": 14,
+      "bounding box": [
+        72.00120000000004,
+        190.43507999999997,
+        288.7263240000001,
+        261.55222546874995
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "When vacancies happen in the representation of any State\nin the Senate, the executive authority of such State shall\nissue writs of election to fill such vacancies: Provided, That\nthe legislature of any State may empower the executive\nthereof to make temporary appointments until the people\nfill the vacancies by election as the legislature may direct."
+    },
+    {
+      "type": "paragraph",
+      "id": 207,
+      "page number": 14,
+      "bounding box": [
+        71.96085679999996,
+        145.92168,
+        287.4549371799999,
+        178.08439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "This amendment shall not be so construed as to affect the\nelection or term of any Senator chosen before it becomes\nvalid as part of the Constitution."
+    },
+    {
+      "type": "heading",
+      "id": 208,
+      "page number": 14,
+      "bounding box": [
+        315,
+        707.04,
+        496.578264,
+        722.1874218749999
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XVIII."
+    },
+    {
+      "type": "paragraph",
+      "id": 209,
+      "page number": 14,
+      "bounding box": [
+        314.991,
+        675.123,
+        525.771,
+        694.12822265625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Passed by Congress December 18, 1917. Ratified January 16,\n1919. Repealed by the 21 Amendment, December 5, 1933."
+    },
+    {
+      "type": "paragraph",
+      "id": 210,
+      "page number": 14,
+      "bounding box": [
+        315,
+        650.64,
+        375.708,
+        658.438828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 1"
+    },
+    {
+      "type": "paragraph",
+      "id": 211,
+      "page number": 14,
+      "bounding box": [
+        315,
+        567.00096,
+        529.1285519999993,
+        638.1366210937499
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "After one year from the ratification of this article the\nmanufacture, sale, or transportation of intoxicating liquors\nwithin, the importation thereof into, or the exportation\nthereof from the United States and all territory subject to\nthe jurisdiction thereof for beverage purposes is hereby\nprohibited."
+    },
+    {
+      "type": "paragraph",
+      "id": 212,
+      "page number": 14,
+      "bounding box": [
+        315,
+        542.52,
+        375.708,
+        550.318828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 2"
+    },
+    {
+      "type": "paragraph",
+      "id": 213,
+      "page number": 14,
+      "bounding box": [
+        315,
+        510.84083999999996,
+        527.7198239999994,
+        530.039765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Congress and the several States shall have concurrent\npower to enforce this article by appropriate legislation."
+    },
+    {
+      "type": "paragraph",
+      "id": 214,
+      "page number": 14,
+      "bounding box": [
+        315,
+        486.36,
+        375.708,
+        494.158828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 3"
+    },
+    {
+      "type": "paragraph",
+      "id": 215,
+      "page number": 14,
+      "bounding box": [
+        314.99999999999994,
+        415.68012,
+        532.6513199999999,
+        473.88439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "This article shall be inoperative unless it shall have been\nratified as an amendment to the Constitution by the legisla-\ntures of the several States, as provided in the Constitution,\nwithin seven years from the date of the submission hereof\nto the States by the Congress."
+    },
+    {
+      "type": "heading",
+      "id": 216,
+      "page number": 14,
+      "bounding box": [
+        315,
+        386.16,
+        488.06266875000006,
+        401.30742187500005
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XIX."
+    },
+    {
+      "type": "paragraph",
+      "id": 217,
+      "page number": 14,
+      "bounding box": [
+        315,
+        367.32,
+        520.3557,
+        373.24822265625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Passed by Congress June 4, 1919. Ratified August 18, 1920."
+    },
+    {
+      "type": "paragraph",
+      "id": 218,
+      "page number": 14,
+      "bounding box": [
+        315,
+        322.56168,
+        528.4232399999996,
+        354.71976562500004
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The right of citizens of the United States to vote shall not\nbe denied or abridged by the United States or by any State\non account of sex."
+    },
+    {
+      "type": "paragraph",
+      "id": 219,
+      "page number": 14,
+      "bounding box": [
+        314.99999999999994,
+        290.87952,
+        531.0349799999993,
+        310.20631453125003
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Congress shall have power to enforce this article by appro-\npriate legislation."
+    },
+    {
+      "type": "heading",
+      "id": 220,
+      "page number": 15,
+      "bounding box": [
+        72,
+        707.04,
+        236.88976634999997,
+        722.1874218749999
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XX."
+    },
+    {
+      "type": "paragraph",
+      "id": 221,
+      "page number": 15,
+      "bounding box": [
+        72,
+        688.2,
+        286.7427,
+        694.12822265625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Passed by Congress March 2, 1932. Ratified January 23, 1933."
+    },
+    {
+      "type": "paragraph",
+      "id": 222,
+      "page number": 15,
+      "bounding box": [
+        72,
+        643.44168,
+        289.0727123399999,
+        675.5858789062501
+      ],
+      "font": "MGFMAZ\u002BGaramond-Italic",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "(Note: Article I, Section 4 of the Constitution was modified\nby Section 2 of this Amendment. In addition, a portion of the\n12th Amendment was superseded by Section 3.)"
+    },
+    {
+      "type": "paragraph",
+      "id": 223,
+      "page number": 15,
+      "bounding box": [
+        72,
+        624.84,
+        132.708,
+        632.638828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 1"
+    },
+    {
+      "type": "paragraph",
+      "id": 224,
+      "page number": 15,
+      "bounding box": [
+        71.99052,
+        540.95772,
+        290.8922519999999,
+        612.239765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The terms of the President and the Vice President shall end\nat noon on the 20th day of January, and the terms of Sena-\ntors and Representatives at noon on the 3d day of January,\nof the years in which such terms would have ended if this\narticle had not been ratified; and the terms of their succes-\nsors shall then begin."
+    },
+    {
+      "type": "paragraph",
+      "id": 225,
+      "page number": 15,
+      "bounding box": [
+        72,
+        522.48,
+        132.708,
+        530.278828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 2"
+    },
+    {
+      "type": "paragraph",
+      "id": 226,
+      "page number": 15,
+      "bounding box": [
+        72,
+        477.71844,
+        295.18384799999995,
+        510.00439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Congress shall assemble at least once in every year, and\nsuch meeting shall begin at noon on the 3d day of January,\nunless they shall by law appoint a different day."
+    },
+    {
+      "type": "paragraph",
+      "id": 227,
+      "page number": 15,
+      "bounding box": [
+        72,
+        453.24,
+        132.708,
+        461.038828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 3"
+    },
+    {
+      "type": "paragraph",
+      "id": 228,
+      "page number": 15,
+      "bounding box": [
+        71.99999999999997,
+        291.47628,
+        293.2504686562499,
+        440.76439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "If, at the time fixed for the beginning of the term of the\nPresident, the President elect shall have died, the Vice Presi-\ndent elect shall become President. If a President shall not\nhave been chosen before the time fixed for the beginning of\nhis term, or if the President elect shall have failed to qualify,\nthen the Vice President elect shall act as President until a\nPresident shall have qualified; and the Congress may by law\nprovide for the case wherein neither a President elect nor a\nVice President shall have qualified, declaring who shall then\nact as President, or the manner in which one who is to act\nshall be selected, and such person shall act accordingly until\na President or Vice President shall have qualified."
+    },
+    {
+      "type": "paragraph",
+      "id": 229,
+      "page number": 15,
+      "bounding box": [
+        315,
+        710.76,
+        375.708,
+        718.558828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 4"
+    },
+    {
+      "type": "paragraph",
+      "id": 230,
+      "page number": 15,
+      "bounding box": [
+        314.97155999999984,
+        614.03856,
+        535.8650399999998,
+        698.28439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Congress may by law provide for the case of the death\nof any of the persons from whom the House of Representa-\ntives may choose a President whenever the right of choice\nshall have devolved upon them, and for the case of the\ndeath of any of the persons from whom the Senate may\nchoose a Vice President whenever the right of choice shall\nhave devolved upon them."
+    },
+    {
+      "type": "paragraph",
+      "id": 231,
+      "page number": 15,
+      "bounding box": [
+        315,
+        589.68,
+        375.708,
+        597.478828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 5"
+    },
+    {
+      "type": "paragraph",
+      "id": 232,
+      "page number": 15,
+      "bounding box": [
+        314.9902141999999,
+        558.00084,
+        531.8924711999998,
+        577.199765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Sections 1 and 2 shall take effect on the 15th day of Octo-\nber following the ratification of this article."
+    },
+    {
+      "type": "paragraph",
+      "id": 233,
+      "page number": 15,
+      "bounding box": [
+        315,
+        533.52,
+        375.708,
+        541.318828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 6"
+    },
+    {
+      "type": "paragraph",
+      "id": 234,
+      "page number": 15,
+      "bounding box": [
+        314.97155999999995,
+        475.79927999999995,
+        529.4508719999999,
+        521.04439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "This article shall be inoperative unless it shall have been\nratified as an amendment to the Constitution by the leg-\nislatures of three-fourths of the several States within seven\nyears from the date of its submission."
+    },
+    {
+      "type": "heading",
+      "id": 235,
+      "page number": 15,
+      "bounding box": [
+        315,
+        446.28,
+        487.65040799999997,
+        461.427421875
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XXI."
+    },
+    {
+      "type": "paragraph",
+      "id": 236,
+      "page number": 15,
+      "bounding box": [
+        315,
+        414.363,
+        525.4353,
+        433.36822265625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Passed by Congress February 20, 1933. Ratified December 5,\n933."
+    },
+    {
+      "type": "paragraph",
+      "id": 237,
+      "page number": 15,
+      "bounding box": [
+        315,
+        389.88,
+        375.708,
+        397.678828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 1"
+    },
+    {
+      "type": "paragraph",
+      "id": 238,
+      "page number": 15,
+      "bounding box": [
+        314.99021419999997,
+        358.20084,
+        529.3794777599999,
+        377.39976562500004
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The eighteenth article of amendment to the Constitution\nof the United States is hereby repealed."
+    },
+    {
+      "type": "paragraph",
+      "id": 239,
+      "page number": 15,
+      "bounding box": [
+        315,
+        333.6,
+        375.708,
+        341.398828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 2"
+    },
+    {
+      "type": "paragraph",
+      "id": 240,
+      "page number": 15,
+      "bounding box": [
+        315,
+        276.00252,
+        537.5837639999994,
+        321.045703125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The transportation or importation into any State, Territory,\nor possession of the United States for delivery or use therein\nof intoxicating liquors, in violation of the laws thereof, is\nhereby prohibited."
+    },
+    {
+      "type": "paragraph",
+      "id": 241,
+      "page number": 15,
+      "bounding box": [
+        315,
+        251.52,
+        375.708,
+        259.318828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 3"
+    },
+    {
+      "type": "paragraph",
+      "id": 242,
+      "page number": 15,
+      "bounding box": [
+        314.99999999999994,
+        180.84012,
+        528.6787926562494,
+        239.04439453125002
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "This article shall be inoperative unless it shall have been\nratified as an amendment to the Constitution by conven-\ntions in the several States, as provided in the Constitution,\nwithin seven years from the date of the submission hereof\nto the States by the Congress."
+    },
+    {
+      "type": "heading",
+      "id": 243,
+      "page number": 16,
+      "bounding box": [
+        72,
+        707.04,
+        252.96648,
+        722.1874218749999
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XXII."
+    },
+    {
+      "type": "paragraph",
+      "id": 244,
+      "page number": 16,
+      "bounding box": [
+        72,
+        675.123,
+        274.34699999999987,
+        694.12822265625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Passed by Congress March 21, 1947. Ratified February 27,\n951."
+    },
+    {
+      "type": "paragraph",
+      "id": 245,
+      "page number": 16,
+      "bounding box": [
+        72,
+        650.64,
+        132.708,
+        658.438828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 1"
+    },
+    {
+      "type": "paragraph",
+      "id": 246,
+      "page number": 16,
+      "bounding box": [
+        72,
+        488.87627999999995,
+        292.24969171874983,
+        638.16439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "No person shall be elected to the office of the President\nmore than twice, and no person who has held the office of\nPresident, or acted as President, for more than two years of\na term to which some other person was elected President\nshall be elected to the office of President more than once.\nBut this Article shall not apply to any person holding the\noffice of President when this Article was proposed by Con-\ngress, and shall not prevent any person who may be holding\nthe office of President, or acting as President, during the\nterm within which this Article becomes operative from\nholding the office of President or acting as President during\nthe remainder of such term."
+    },
+    {
+      "type": "paragraph",
+      "id": 247,
+      "page number": 16,
+      "bounding box": [
+        72,
+        464.76,
+        132.708,
+        472.558828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 2"
+    },
+    {
+      "type": "paragraph",
+      "id": 248,
+      "page number": 16,
+      "bounding box": [
+        71.9620799999999,
+        394.08012,
+        286.4413919999999,
+        452.28439453125003
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "This article shall be inoperative unless it shall have been\nratified as an amendment to the Constitution by the leg-\nislatures of three-fourths of the several States within seven\nyears from the date of its submission to the States by the\nCongress."
+    },
+    {
+      "type": "heading",
+      "id": 249,
+      "page number": 16,
+      "bounding box": [
+        315,
+        707.04,
+        504.96648000000005,
+        722.1874218749999
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XXIII."
+    },
+    {
+      "type": "paragraph",
+      "id": 250,
+      "page number": 16,
+      "bounding box": [
+        315,
+        688.2,
+        523.5002999999999,
+        694.12822265625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Passed by Congress June 16, 1960. Ratified March 29, 1961."
+    },
+    {
+      "type": "paragraph",
+      "id": 251,
+      "page number": 16,
+      "bounding box": [
+        315,
+        663.6,
+        375.708,
+        671.398828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 1"
+    },
+    {
+      "type": "paragraph",
+      "id": 252,
+      "page number": 16,
+      "bounding box": [
+        315,
+        618.96168,
+        524.6151239999994,
+        651.07810546875
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The District constituting the seat of Government of the\nUnited States shall appoint in such manner as Congress\nmay direct:"
+    },
+    {
+      "type": "paragraph",
+      "id": 253,
+      "page number": 16,
+      "bounding box": [
+        315,
+        483.23652000000004,
+        533.782284,
+        606.48307453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "A number of electors of President and Vice President equal\nto the whole number of Senators and Representatives\nin Congress to which the District would be entitled if it\nwere a State, but in no event more than the least populous\nState; they shall be in addition to those appointed by the\nStates, but they shall be considered, for the purposes of\nthe election of President and Vice President, to be electors\nappointed by a State; and they shall meet in the District\nand perform such duties as provided by the twelfth article\nof amendment."
+    },
+    {
+      "type": "paragraph",
+      "id": 254,
+      "page number": 16,
+      "bounding box": [
+        315,
+        459,
+        375.708,
+        466.798828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 2"
+    },
+    {
+      "type": "paragraph",
+      "id": 255,
+      "page number": 16,
+      "bounding box": [
+        315,
+        427.32084,
+        521.3270600624995,
+        446.52439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Congress shall have power to enforce this article by\nappropriate legislation."
+    },
+    {
+      "type": "heading",
+      "id": 256,
+      "page number": 16,
+      "bounding box": [
+        315,
+        397.68,
+        502.074696,
+        412.827421875
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XXIV."
+    },
+    {
+      "type": "paragraph",
+      "id": 257,
+      "page number": 16,
+      "bounding box": [
+        315,
+        378.96,
+        535.6016999999999,
+        384.88822265625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Passed by Congress August 27, 1962. Ratified January 23, 1964."
+    },
+    {
+      "type": "paragraph",
+      "id": 258,
+      "page number": 16,
+      "bounding box": [
+        315,
+        354.36,
+        375.708,
+        362.158828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 1"
+    },
+    {
+      "type": "paragraph",
+      "id": 259,
+      "page number": 16,
+      "bounding box": [
+        314.99052,
+        270.59772,
+        533.1941240624996,
+        341.879765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The right of citizens of the United States to vote in any pri-\nmary or other election for President or Vice President, for\nelectors for President or Vice President, or for Senator or\nRepresentative in Congress, shall not be denied or abridged\nby the United States or any State by reason of failure to pay\npoll tax or other tax."
+    },
+    {
+      "type": "paragraph",
+      "id": 260,
+      "page number": 16,
+      "bounding box": [
+        315,
+        246.24,
+        375.708,
+        254.038828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 2"
+    },
+    {
+      "type": "paragraph",
+      "id": 261,
+      "page number": 16,
+      "bounding box": [
+        315,
+        214.56084,
+        521.3099960624993,
+        233.76439453125002
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Congress shall have power to enforce this article by\nappropriate legislation."
+    },
+    {
+      "type": "heading",
+      "id": 262,
+      "page number": 17,
+      "bounding box": [
+        72,
+        707.04,
+        250.55469599999998,
+        722.1874218749999
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XXV."
+    },
+    {
+      "type": "paragraph",
+      "id": 263,
+      "page number": 17,
+      "bounding box": [
+        72,
+        662.16384,
+        293.85732956656244,
+        694.12822265625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Passed by Congress July 6, 1965. Ratified February 10, 1967.\n(Note: Article II, Section 1 of the Constitution was modified by\nthe 25th Amendment.)"
+    },
+    {
+      "type": "paragraph",
+      "id": 264,
+      "page number": 17,
+      "bounding box": [
+        72,
+        643.44,
+        132.708,
+        651.238828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 1"
+    },
+    {
+      "type": "paragraph",
+      "id": 265,
+      "page number": 17,
+      "bounding box": [
+        72,
+        598.67844,
+        280.40127665624993,
+        630.959765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "In case of the removal of the President from office or of\nhis death or resignation, the Vice President shall become\nPresident."
+    },
+    {
+      "type": "paragraph",
+      "id": 266,
+      "page number": 17,
+      "bounding box": [
+        72,
+        574.32,
+        132.708,
+        582.118828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 2"
+    },
+    {
+      "type": "paragraph",
+      "id": 267,
+      "page number": 17,
+      "bounding box": [
+        72,
+        516.47604,
+        289.41432000000003,
+        561.79810546875
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Whenever there is a vacancy in the office of the Vice Presi-\ndent, the President shall nominate a Vice President who\nshall take office upon confirmation by a majority vote of\nboth Houses of Congress."
+    },
+    {
+      "type": "paragraph",
+      "id": 268,
+      "page number": 17,
+      "bounding box": [
+        72,
+        492.12,
+        132.708,
+        499.918828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 3"
+    },
+    {
+      "type": "paragraph",
+      "id": 269,
+      "page number": 17,
+      "bounding box": [
+        71.98103999999992,
+        395.39856,
+        288.3298079999999,
+        479.639765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Whenever the President transmits to the President pro\ntempore of the Senate and the Speaker of the House of\nRepresentatives his written declaration that he is unable\nto discharge the powers and duties of his office, and until\nhe transmits to them a written declaration to the contrary,\nsuch powers and duties shall be discharged by the Vice\nPresident as Acting President."
+    },
+    {
+      "type": "paragraph",
+      "id": 270,
+      "page number": 17,
+      "bounding box": [
+        72,
+        371.16,
+        132.708,
+        378.958828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 4"
+    },
+    {
+      "type": "paragraph",
+      "id": 271,
+      "page number": 17,
+      "bounding box": [
+        72,
+        261.3576,
+        291.1823399999998,
+        358.559765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Whenever the Vice President and a majority of either the\nprincipal officers of the executive departments or of such\nother body as Congress may by law provide, transmit to the\nPresident pro tempore of the Senate and the Speaker of the\nHouse of Representatives their written declaration that the\nPresident is unable to discharge the powers and duties of\nhis office, the Vice President shall immediately assume the\npowers and duties of the office as Acting President."
+    },
+    {
+      "type": "paragraph",
+      "id": 272,
+      "page number": 17,
+      "bounding box": [
+        315.0008399999999,
+        465.83172,
+        537.8453039999998,
+        719.034965625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "Thereafter, when the President transmits to the President\npro tempore of the Senate and the Speaker of the House of\nRepresentatives his written declaration that no inability ex-\nists, he shall resume the powers and duties of his office un-\nless the Vice President and a majority of either the principal\nofficers of the executive department or of such other body\nas Congress may by law provide, transmit within four days\nto the President pro tempore of the Senate and the Speaker\nof the House of Representatives their written declaration\nthat the President is unable to discharge the powers and\nduties of his office. Thereupon Congress shall decide the\nissue, assembling within forty-eight hours for that purpose\nif not in session. If the Congress, within twenty-one days\nafter receipt of the latter written declaration, or, if Congress\nis not in session, within twenty-one days after Congress is\nrequired to assemble, determines by two-thirds vote of both\nHouses that the President is unable to discharge the powers\nand duties of his office, the Vice President shall continue to\ndischarge the same as Acting President; otherwise, the Presi-\ndent shall resume the powers and duties of his office."
+    },
+    {
+      "type": "heading",
+      "id": 273,
+      "page number": 17,
+      "bounding box": [
+        315,
+        436.92,
+        502.074696,
+        452.06742187500004
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XXVI."
+    },
+    {
+      "type": "paragraph",
+      "id": 274,
+      "page number": 17,
+      "bounding box": [
+        315,
+        418.08,
+        516.7773,
+        424.00822265625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Passed by Congress March 23, 1971. Ratified July 1, 1971."
+    },
+    {
+      "type": "paragraph",
+      "id": 275,
+      "page number": 17,
+      "bounding box": [
+        315,
+        386.28084,
+        517.7999410157812,
+        405.46587890625
+      ],
+      "font": "MGFMAZ\u002BGaramond-Italic",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "(Note: Amendment 14, Section 2 of the Constitution was\nmodified by Section 1 of the 26th Amendment.)"
+    },
+    {
+      "type": "paragraph",
+      "id": 276,
+      "page number": 17,
+      "bounding box": [
+        315,
+        361.8,
+        375.708,
+        369.598828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 1"
+    },
+    {
+      "type": "paragraph",
+      "id": 277,
+      "page number": 17,
+      "bounding box": [
+        315,
+        317.16168,
+        536.3997119999996,
+        349.319765625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The right of citizens of the United States, who are eighteen\nyears of age or older, to vote shall not be denied or abridged\nby the United States or by any State on account of age."
+    },
+    {
+      "type": "paragraph",
+      "id": 278,
+      "page number": 17,
+      "bounding box": [
+        315,
+        292.68,
+        375.708,
+        300.478828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "SECTION 2"
+    },
+    {
+      "type": "paragraph",
+      "id": 279,
+      "page number": 17,
+      "bounding box": [
+        315,
+        261.00084,
+        521.3099960624993,
+        280.20439453125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "The Congress shall have power to enforce this article by\nappropriate legislation."
+    },
+    {
+      "type": "heading",
+      "id": 280,
+      "page number": 17,
+      "bounding box": [
+        315,
+        231.24,
+        511.02684000000005,
+        246.387421875
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 20.04,
+      "text color": "[0.0]",
+      "content": "Amendment XXVII."
+    },
+    {
+      "type": "paragraph",
+      "id": 281,
+      "page number": 17,
+      "bounding box": [
+        315,
+        212.52,
+        516.6477,
+        218.443828125
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9,
+      "text color": "[0.0]",
+      "content": "Originally proposed Sept. 25, 1789. Ratified May 7, 1992."
+    },
+    {
+      "type": "paragraph",
+      "id": 282,
+      "page number": 17,
+      "bounding box": [
+        314.99052,
+        167.76168,
+        535.28676,
+        199.87810546875
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "No law, varying the compensation for the services of the\nSenators and Representatives, shall take effect, until an elec-\ntion of representatives shall have intervened."
+    },
+    {
+      "type": "paragraph",
+      "id": 283,
+      "page number": 17,
+      "bounding box": [
+        536.64,
+        42.12,
+        540.3665883789062,
+        45.2635546875
+      ],
+      "font": "HGWIIJ\u002BGeorgia-Italic",
+      "font size": 6,
+      "text color": "[0.0]",
+      "content": "7"
+    },
+    {
+      "type": "paragraph",
+      "id": 284,
+      "page number": 18,
+      "bounding box": [
+        104.03891999999999,
+        331.19592,
+        203.77231199999994,
+        337.435685625
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "he NCC is an independent,"
+    },
+    {
+      "type": "heading",
+      "id": 285,
+      "page number": 18,
+      "bounding box": [
+        72.36,
+        305.04,
+        223.14469200000002,
+        334.59755859375
+      ],
+      "level": "Level 4",
+      "heading level": 4,
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 16.68,
+      "text color": "[0.0]",
+      "content": "T organization that was established"
+    },
+    {
+      "type": "paragraph",
+      "id": 286,
+      "page number": 18,
+      "bounding box": [
+        104.03891999999999,
+        319.31748,
+        190.30123199999997,
+        325.51558546875
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "non-partisan, nonprofit"
+    },
+    {
+      "type": "paragraph",
+      "id": 287,
+      "page number": 18,
+      "bounding box": [
+        72.006,
+        247.5538799999999,
+        219.20859600000003,
+        301.55388562499996
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.480000000000002,
+      "text color": "[0.0]",
+      "content": "in 1988 under the Constitution Heritage\nAct. The Center\u2019s mission is to increase\nawareness and understanding of the\nConstitution, the Constitution\u2019s history\nand its relevance to people\u2019s daily lives."
+    },
+    {
+      "type": "paragraph",
+      "id": 288,
+      "page number": 18,
+      "bounding box": [
+        72,
+        105.47927999999999,
+        179.41124399999998,
+        150.63181640624998
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "National Constitution Center\n525 Arch Street\nIndependence Mall\nPhiladelphia, PA 19106"
+    },
+    {
+      "type": "paragraph",
+      "id": 289,
+      "page number": 18,
+      "bounding box": [
+        72,
+        79.68,
+        129.75579159999998,
+        85.74849609375
+      ],
+      "font": "BFSYCV\u002BGaramond",
+      "font size": 9.48,
+      "text color": "[0.0]",
+      "content": "(215) 409-6600"
+    },
+    {
+      "type": "heading",
+      "id": 290,
+      "page number": 18,
+      "bounding box": [
+        72,
+        66.6,
+        210.38280000000003,
+        74.34609375
+      ],
+      "level": "Level 5",
+      "heading level": 5,
+      "font": "MGFMAZ\u002BGaramond-Bold",
+      "font size": 12,
+      "text color": "[0.0]",
+      "content": "www.constitutioncenter.org"
+    }
+  ]
+}

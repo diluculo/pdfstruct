@@ -1,0 +1,998 @@
+{
+  "file name": "table_of_contents.pdf",
+  "number of pages": 2,
+  "author": null,
+  "title": "",
+  "creation date": "2026-04-30T06:04:48\u002B00:00",
+  "modification date": "2026-04-30T15:06:33\u002B09:00",
+  "kids": [
+    {
+      "type": "heading",
+      "id": 1,
+      "page number": 1,
+      "bounding box": [
+        244.5001,
+        2359.9167,
+        872.3475999999999,
+        2398.1892000000003
+      ],
+      "level": "Section",
+      "heading level": 2,
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 52.5,
+      "text color": "[0.0]",
+      "content": "STRUCTURED MAGAZINE"
+    },
+    {
+      "type": "heading",
+      "id": 2,
+      "page number": 1,
+      "bounding box": [
+        244.5001,
+        2255.6667,
+        619.2000999999999,
+        2283.0792
+      ],
+      "level": "Subsection",
+      "heading level": 3,
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 37.5,
+      "text color": "[0.0]",
+      "content": "TABLE OF CONTENTS"
+    },
+    {
+      "type": "paragraph",
+      "id": 3,
+      "page number": 1,
+      "bounding box": [
+        244.5001,
+        1768.0952,
+        551.4938500000001,
+        1787.02145
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 26.25,
+      "text color": "[0.0]",
+      "content": "The quick brown fox jumped"
+    },
+    {
+      "type": "paragraph",
+      "id": 4,
+      "page number": 1,
+      "bounding box": [
+        244.5001,
+        1678.8452,
+        551.4938500000001,
+        1697.77145
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 26.25,
+      "text color": "[0.0]",
+      "content": "The quick brown fox jumped"
+    },
+    {
+      "type": "paragraph",
+      "id": 5,
+      "page number": 1,
+      "bounding box": [
+        244.5001,
+        1321.8452,
+        551.4938500000001,
+        1608.52145
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 26.25,
+      "text color": "[0.0]",
+      "content": "The quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped"
+    },
+    {
+      "type": "paragraph",
+      "id": 6,
+      "page number": 1,
+      "bounding box": [
+        666.04885,
+        1768.0952,
+        691.0126,
+        1786.4964499999999
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 26.25,
+      "text color": "[0.0]",
+      "content": "01"
+    },
+    {
+      "type": "paragraph",
+      "id": 7,
+      "page number": 1,
+      "bounding box": [
+        660.22135,
+        1678.8452,
+        691.0126,
+        1697.2464499999999
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 26.25,
+      "text color": "[0.0]",
+      "content": "05"
+    },
+    {
+      "type": "paragraph",
+      "id": 8,
+      "page number": 1,
+      "bounding box": [
+        643.5263500000001,
+        1321.8452,
+        691.0126000000001,
+        1607.9964499999999
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 26.25,
+      "text color": "[0.0]",
+      "content": "09\n011\n014\n019\n022\n027\n030"
+    },
+    {
+      "type": "paragraph",
+      "id": 9,
+      "page number": 1,
+      "bounding box": [
+        775.9156,
+        1681.4796999999999,
+        1024.9807590000003,
+        1785.773015
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 33.48,
+      "text color": "[0.0]",
+      "content": "The quick brown\nfox jumped over\nthe lazy dog"
+    },
+    {
+      "type": "heading",
+      "id": 10,
+      "page number": 1,
+      "bounding box": [
+        1072.5543,
+        1680.8845,
+        1222.4277237,
+        1784.4933004
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 149.72,
+      "text color": "[0.0]",
+      "content": "41"
+    },
+    {
+      "type": "paragraph",
+      "id": 11,
+      "page number": 1,
+      "bounding box": [
+        1307.3314,
+        1411.0347,
+        1614.3251499999994,
+        1786.96095
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 26.25,
+      "text color": "[0.0]",
+      "content": "The quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped"
+    },
+    {
+      "type": "paragraph",
+      "id": 12,
+      "page number": 1,
+      "bounding box": [
+        1706.1739,
+        1411.0347,
+        1753.8439000000003,
+        1786.4359499999998
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 26.25,
+      "text color": "[0.0]",
+      "content": "070\n075\n080\n082\n085\n089\n090\n092\n095"
+    },
+    {
+      "type": "paragraph",
+      "id": 13,
+      "page number": 1,
+      "bounding box": [
+        1307.3314,
+        1126.1334,
+        1456.4557740000002,
+        1230.426715
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 33.48,
+      "text color": "[0.0]",
+      "content": "The quick\nbrown fox\njumped"
+    },
+    {
+      "type": "heading",
+      "id": 14,
+      "page number": 1,
+      "bounding box": [
+        1497.5173,
+        1125.5383,
+        1753.8442744,
+        1230.3448899999999
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 149.72,
+      "text color": "[0.0]",
+      "content": "100"
+    },
+    {
+      "type": "paragraph",
+      "id": 15,
+      "page number": 1,
+      "bounding box": [
+        244.5001,
+        731.2298000000001,
+        493.56525899999997,
+        835.523115
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 33.48,
+      "text color": "[0.0]",
+      "content": "The quick brown\nfox jumped over\nthe lazy dog"
+    },
+    {
+      "type": "heading",
+      "id": 16,
+      "page number": 1,
+      "bounding box": [
+        540.5407,
+        730.6346,
+        691.0130185,
+        835.2914663
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 149.72,
+      "text color": "[0.0]",
+      "content": "31"
+    },
+    {
+      "type": "paragraph",
+      "id": 17,
+      "page number": 1,
+      "bounding box": [
+        244.5001,
+        535.7176000000001,
+        493.56525899999997,
+        640.010915
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 33.48,
+      "text color": "[0.0]",
+      "content": "The quick brown\nfox jumped over\nthe lazy dog"
+    },
+    {
+      "type": "heading",
+      "id": 18,
+      "page number": 1,
+      "bounding box": [
+        521.9749,
+        535.1224,
+        691.0129573,
+        639.7792663
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 149.72,
+      "text color": "[0.0]",
+      "content": "37"
+    },
+    {
+      "type": "paragraph",
+      "id": 19,
+      "page number": 1,
+      "bounding box": [
+        775.9158,
+        531.228,
+        1082.90955,
+        907.1542499999999
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 26.25,
+      "text color": "[0.0]",
+      "content": "The quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped"
+    },
+    {
+      "type": "paragraph",
+      "id": 20,
+      "page number": 1,
+      "bounding box": [
+        1175.3620500000002,
+        531.228,
+        1222.4283000000003,
+        906.62925
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 26.25,
+      "text color": "[0.0]",
+      "content": "042\n045\n049\n050\n054\n055\n059\n063\n065"
+    },
+    {
+      "type": "paragraph",
+      "id": 21,
+      "page number": 1,
+      "bounding box": [
+        1307.3314,
+        926.7419000000001,
+        1456.4557740000002,
+        1031.035215
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 33.48,
+      "text color": "[0.0]",
+      "content": "The quick\nbrown fox\njumped"
+    },
+    {
+      "type": "heading",
+      "id": 22,
+      "page number": 1,
+      "bounding box": [
+        1505.6024,
+        926.1467,
+        1753.8442946,
+        1030.95329
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 149.72,
+      "text color": "[0.0]",
+      "content": "103"
+    },
+    {
+      "type": "paragraph",
+      "id": 23,
+      "page number": 1,
+      "bounding box": [
+        1307.3314,
+        731.2298000000001,
+        1456.4557740000002,
+        835.523115
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 33.48,
+      "text color": "[0.0]",
+      "content": "The quick\nbrown fox\njumped"
+    },
+    {
+      "type": "heading",
+      "id": 24,
+      "page number": 1,
+      "bounding box": [
+        1504.8522,
+        730.6346,
+        1753.8427130999999,
+        835.44119
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 149.72,
+      "text color": "[0.0]",
+      "content": "108"
+    },
+    {
+      "type": "paragraph",
+      "id": 25,
+      "page number": 1,
+      "bounding box": [
+        1307.3314,
+        535.7176000000001,
+        1456.4557740000002,
+        640.010915
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 33.48,
+      "text color": "[0.0]",
+      "content": "The quick\nbrown fox\njumped"
+    },
+    {
+      "type": "heading",
+      "id": 26,
+      "page number": 1,
+      "bounding box": [
+        1571.4808,
+        535.1224,
+        1753.8442665999999,
+        638.5814766999999
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 149.72,
+      "text color": "[0.0]",
+      "content": "111"
+    },
+    {
+      "type": "paragraph",
+      "id": 27,
+      "page number": 2,
+      "bounding box": [
+        117.6751,
+        1681.4796999999999,
+        266.79947400000003,
+        1785.773015
+      ],
+      "font": "MVFGAZ\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 33.48,
+      "text color": "[0.0]",
+      "content": "The quick\nbrown fox\njumped"
+    },
+    {
+      "type": "heading",
+      "id": 28,
+      "page number": 2,
+      "bounding box": [
+        352.928,
+        1680.8845,
+        564.1881407,
+        1785.5413663
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 149.72,
+      "text color": "[0.0]",
+      "content": "113"
+    },
+    {
+      "type": "paragraph",
+      "id": 29,
+      "page number": 2,
+      "bounding box": [
+        653.4198,
+        1681.4796999999999,
+        802.5441740000001,
+        1785.773015
+      ],
+      "font": "MVFGAZ\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 33.48,
+      "text color": "[0.0]",
+      "content": "The quick\nbrown fox\njumped"
+    },
+    {
+      "type": "heading",
+      "id": 30,
+      "page number": 2,
+      "bounding box": [
+        889.2706,
+        1680.8845,
+        1099.9318458999999,
+        1784.4933004
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 149.72,
+      "text color": "[0.0]",
+      "content": "141"
+    },
+    {
+      "type": "paragraph",
+      "id": 31,
+      "page number": 2,
+      "bounding box": [
+        653.4198,
+        1482.0881,
+        802.5441740000001,
+        1586.381415
+      ],
+      "font": "MVFGAZ\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 33.48,
+      "text color": "[0.0]",
+      "content": "The quick\nbrown fox\njumped"
+    },
+    {
+      "type": "heading",
+      "id": 32,
+      "page number": 2,
+      "bounding box": [
+        851.9911,
+        1481.4929,
+        1099.9335472,
+        1585.1017004
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 149.72,
+      "text color": "[0.0]",
+      "content": "144"
+    },
+    {
+      "type": "paragraph",
+      "id": 33,
+      "page number": 2,
+      "bounding box": [
+        1180.5113499999998,
+        1500.2906,
+        1487.5050999999992,
+        1786.96685
+      ],
+      "font": "MVFGAZ\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 26.25,
+      "text color": "[0.0]",
+      "content": "The quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped"
+    },
+    {
+      "type": "paragraph",
+      "id": 34,
+      "page number": 2,
+      "bounding box": [
+        653.4198,
+        1286.5759999999998,
+        802.5441740000001,
+        1390.869315
+      ],
+      "font": "MVFGAZ\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 33.48,
+      "text color": "[0.0]",
+      "content": "The quick\nbrown fox\njumped"
+    },
+    {
+      "type": "heading",
+      "id": 35,
+      "page number": 2,
+      "bounding box": [
+        890.3195,
+        1285.9808,
+        1099.93268,
+        1389.4398767
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 149.72,
+      "text color": "[0.0]",
+      "content": "151"
+    },
+    {
+      "type": "paragraph",
+      "id": 36,
+      "page number": 2,
+      "bounding box": [
+        1588.5938499999997,
+        1500.2906,
+        1627.0238499999998,
+        1786.44185
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 26.25,
+      "text color": "[0.0]",
+      "content": "170\n171\n172\n173\n174\n175\n176"
+    },
+    {
+      "type": "paragraph",
+      "id": 37,
+      "page number": 2,
+      "bounding box": [
+        117.6751,
+        533.9231,
+        424.66884999999996,
+        909.84935
+      ],
+      "font": "MVFGAZ\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 26.25,
+      "text color": "[0.0]",
+      "content": "The quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped"
+    },
+    {
+      "type": "paragraph",
+      "id": 38,
+      "page number": 2,
+      "bounding box": [
+        525.2588499999999,
+        533.9231,
+        564.1876,
+        909.32435
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 26.25,
+      "text color": "[0.0]",
+      "content": "119\n121\n122\n125\n127\n129\n131\n134\n137"
+    },
+    {
+      "type": "paragraph",
+      "id": 39,
+      "page number": 2,
+      "bounding box": [
+        649.0908,
+        533.9231,
+        956.08455,
+        820.59935
+      ],
+      "font": "MVFGAZ\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 26.25,
+      "text color": "[0.0]",
+      "content": "The quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped\nThe quick brown fox jumped"
+    },
+    {
+      "type": "paragraph",
+      "id": 40,
+      "page number": 2,
+      "bounding box": [
+        1180.507,
+        930.0735000000001,
+        1329.6313740000003,
+        1034.366815
+      ],
+      "font": "MVFGAZ\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 33.48,
+      "text color": "[0.0]",
+      "content": "The quick\nbrown fox\njumped"
+    },
+    {
+      "type": "heading",
+      "id": 41,
+      "page number": 2,
+      "bounding box": [
+        1400.0405,
+        929.4781,
+        1627.0216292,
+        1032.9371767
+      ],
+      "level": "Title",
+      "heading level": 1,
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-75Bd",
+      "font size": 149.72,
+      "text color": "[0.0]",
+      "content": "177"
+    },
+    {
+      "type": "paragraph",
+      "id": 42,
+      "page number": 2,
+      "bounding box": [
+        1054.99455,
+        533.9231,
+        1095.6033,
+        820.0481
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 26.25,
+      "text color": "[0.0]",
+      "content": "152\n156\n160\n165\n166\n167\n168"
+    },
+    {
+      "type": "paragraph",
+      "id": 43,
+      "page number": 2,
+      "bounding box": [
+        1772.8513500000001,
+        1422.0752499999999,
+        1770.9951,
+        1442.0439999999999
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": ". W"
+    },
+    {
+      "type": "paragraph",
+      "id": 44,
+      "page number": 2,
+      "bounding box": [
+        1784.40135,
+        1461.694,
+        1770.9951,
+        1478.569
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "W"
+    },
+    {
+      "type": "paragraph",
+      "id": 45,
+      "page number": 2,
+      "bounding box": [
+        1784.40135,
+        1443.4315,
+        1770.9951,
+        1460.3065
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "W"
+    },
+    {
+      "type": "paragraph",
+      "id": 46,
+      "page number": 2,
+      "bounding box": [
+        1784.40135,
+        1397.96275,
+        1770.9951,
+        1408.98775
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "T"
+    },
+    {
+      "type": "paragraph",
+      "id": 47,
+      "page number": 2,
+      "bounding box": [
+        1784.40135,
+        1384.7627499999999,
+        1770.9951,
+        1395.769
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "R"
+    },
+    {
+      "type": "paragraph",
+      "id": 48,
+      "page number": 2,
+      "bounding box": [
+        1784.6076,
+        1371.3002499999998,
+        1770.9951,
+        1382.6064999999999
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "U"
+    },
+    {
+      "type": "paragraph",
+      "id": 49,
+      "page number": 2,
+      "bounding box": [
+        1784.9263500000002,
+        1409.6815,
+        1770.9951,
+        1421.0065
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "S"
+    },
+    {
+      "type": "paragraph",
+      "id": 50,
+      "page number": 2,
+      "bounding box": [
+        1784.40135,
+        1345.1627499999997,
+        1770.9951,
+        1356.1877499999998
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "T"
+    },
+    {
+      "type": "paragraph",
+      "id": 51,
+      "page number": 2,
+      "bounding box": [
+        1772.8513500000001,
+        1244.1377499999996,
+        1770.9951,
+        1261.7064999999996
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": ". G"
+    },
+    {
+      "type": "paragraph",
+      "id": 52,
+      "page number": 2,
+      "bounding box": [
+        1772.8513500000001,
+        1196.7771249999996,
+        1770.9951,
+        1211.9627499999997
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": ". E"
+    },
+    {
+      "type": "paragraph",
+      "id": 53,
+      "page number": 2,
+      "bounding box": [
+        1784.40135,
+        1318.6877499999996,
+        1770.9951,
+        1329.6939999999997
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "R"
+    },
+    {
+      "type": "paragraph",
+      "id": 54,
+      "page number": 2,
+      "bounding box": [
+        1784.40135,
+        1306.0877499999997,
+        1770.9951,
+        1316.4939999999997
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "E"
+    },
+    {
+      "type": "paragraph",
+      "id": 55,
+      "page number": 2,
+      "bounding box": [
+        1784.40135,
+        1292.3252499999996,
+        1770.9951,
+        1303.8939999999998
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "D"
+    },
+    {
+      "type": "paragraph",
+      "id": 56,
+      "page number": 2,
+      "bounding box": [
+        1784.40135,
+        1275.8252499999996,
+        1770.9951,
+        1290.1314999999997
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "M"
+    },
+    {
+      "type": "paragraph",
+      "id": 57,
+      "page number": 2,
+      "bounding box": [
+        1784.40135,
+        1262.7377499999996,
+        1770.9951,
+        1274.7002499999996
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "A"
+    },
+    {
+      "type": "paragraph",
+      "id": 58,
+      "page number": 2,
+      "bounding box": [
+        1784.40135,
+        1226.5314999999996,
+        1770.9951,
+        1243.0689999999997
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "I S"
+    },
+    {
+      "type": "paragraph",
+      "id": 59,
+      "page number": 2,
+      "bounding box": [
+        1784.40135,
+        1214.1564999999996,
+        1770.9951,
+        1225.1814999999997
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "T"
+    },
+    {
+      "type": "paragraph",
+      "id": 60,
+      "page number": 2,
+      "bounding box": [
+        1784.6076,
+        1331.8877499999996,
+        1770.9951,
+        1343.1939999999997
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "U"
+    },
+    {
+      "type": "paragraph",
+      "id": 61,
+      "page number": 2,
+      "bounding box": [
+        1784.96385,
+        1357.0689999999997,
+        1770.9951,
+        1369.6127499999998
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "C"
+    },
+    {
+      "type": "paragraph",
+      "id": 62,
+      "page number": 2,
+      "bounding box": [
+        1784.96385,
+        1183.4814999999996,
+        1770.9951,
+        1196.0252499999997
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "C"
+    },
+    {
+      "type": "paragraph",
+      "id": 63,
+      "page number": 2,
+      "bounding box": [
+        1784.40135,
+        1151.4189999999996,
+        1770.9951,
+        1165.7252499999997
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "M"
+    },
+    {
+      "type": "paragraph",
+      "id": 64,
+      "page number": 2,
+      "bounding box": [
+        1784.9826,
+        1167.9189999999996,
+        1770.9951,
+        1181.7939999999996
+      ],
+      "font": "NDPMOX\u002BNHaasGroteskDSPro-55Rg",
+      "font size": 18.75,
+      "text color": "[0.0]",
+      "content": "O"
+    }
+  ]
+}
