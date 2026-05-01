@@ -67,10 +67,18 @@ public sealed class PdfStructOptions
     /// <summary>Gets or sets whether to exclude headers/footers. Default: true.</summary>
     public bool ExcludeHeadersFooters { get; set; } = true;
 
-    /// <summary>Gets or sets the minimum horizontal gap ratio for XY-Cut column detection. Default: 0.01.</summary>
+    /// <summary>
+    /// Gets or sets the legacy minimum horizontal gap ratio. Retained for API
+    /// compatibility; the current XY-Cut analyzer uses an ODL-style absolute
+    /// gap threshold.
+    /// </summary>
     public double MinGapRatioX { get; set; } = 0.01;
 
-    /// <summary>Gets or sets the minimum vertical gap ratio for XY-Cut row detection. Default: 0.005.</summary>
+    /// <summary>
+    /// Gets or sets the legacy minimum vertical gap ratio. Retained for API
+    /// compatibility; the current XY-Cut analyzer uses an ODL-style absolute
+    /// gap threshold.
+    /// </summary>
     public double MinGapRatioY { get; set; } = 0.005;
 
     /// <summary>

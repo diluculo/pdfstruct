@@ -45,18 +45,18 @@ public sealed record TextBlock(
 /// </summary>
 public sealed class XyCutLayoutAnalyzer : ILayoutAnalyzer
 {
-    private readonly double _minGapRatioX;
-    private readonly double _minGapRatioY;
+    private const double MinGapThreshold = 5.0;
+    private const double NarrowElementWidthRatio = 0.1;
 
     /// <summary>
     /// Initializes a new instance of <see cref="XyCutLayoutAnalyzer"/>.
     /// </summary>
-    /// <param name="minGapRatioX">Minimum horizontal gap ratio (vs page width) for X-cut. Default 0.01.</param>
-    /// <param name="minGapRatioY">Minimum vertical gap ratio (vs page height) for Y-cut. Default 0.005.</param>
+    /// <param name="minGapRatioX">Retained for API compatibility; cut detection uses an ODL-style absolute gap threshold.</param>
+    /// <param name="minGapRatioY">Retained for API compatibility; cut detection uses an ODL-style absolute gap threshold.</param>
     public XyCutLayoutAnalyzer(double minGapRatioX = 0.01, double minGapRatioY = 0.005)
     {
-        _minGapRatioX = minGapRatioX;
-        _minGapRatioY = minGapRatioY;
+        _ = minGapRatioX;
+        _ = minGapRatioY;
     }
 
     /// <inheritdoc />
@@ -65,16 +65,13 @@ public sealed class XyCutLayoutAnalyzer : ILayoutAnalyzer
         if (blocks.Count <= 1)
             return blocks;
 
-        var pageBounds = ComputeBounds(blocks);
         var result = new List<TextBlock>(blocks.Count);
-        RecursiveCut(blocks, pageBounds.Width, pageBounds.Height, result);
+        RecursiveCut(blocks, result);
         return result;
     }
 
     private void RecursiveCut(
         IReadOnlyList<TextBlock> blocks,
-        double pageWidth,
-        double pageHeight,
         List<TextBlock> result)
     {
         if (blocks.Count <= 1)
@@ -83,72 +80,157 @@ public sealed class XyCutLayoutAnalyzer : ILayoutAnalyzer
             return;
         }
 
-        var yCut = FindBestYCut(blocks, pageHeight);
-        var xCut = FindBestXCut(blocks, pageWidth);
+        var yCut = FindBestYCut(blocks);
+        var xCut = FindBestXCut(blocks);
 
-        if (yCut is null && xCut is null)
+        var hasValidYCut = yCut.Gap >= MinGapThreshold;
+        var hasValidXCut = xCut.Gap >= MinGapThreshold;
+        if (hasValidYCut && hasValidXCut)
         {
-            // No valid cut — fallback to top-to-bottom, left-to-right
-            result.AddRange(blocks
-                .OrderByDescending(b => b.BoundingBox.Top)
-                .ThenBy(b => b.BoundingBox.Left));
-            return;
+            if (yCut.Gap > xCut.Gap)
+            {
+                SplitYOrFallback(blocks, yCut.Position, result);
+            }
+            else
+            {
+                SplitXOrFallback(blocks, xCut.Position, result);
+            }
         }
-
-        if (yCut is not null && (xCut is null || yCut.Value.NormalizedGap >= xCut.Value.NormalizedGap))
+        else if (hasValidYCut)
         {
-            // Horizontal cut: top first, then bottom
-            var (top, bottom) = PartitionByY(blocks, yCut.Value.Position);
-            RecursiveCut(top, pageWidth, pageHeight, result);
-            RecursiveCut(bottom, pageWidth, pageHeight, result);
+            SplitYOrFallback(blocks, yCut.Position, result);
+        }
+        else if (hasValidXCut)
+        {
+            SplitXOrFallback(blocks, xCut.Position, result);
         }
         else
         {
-            // Vertical cut: left first, then right
-            var (left, right) = PartitionByX(blocks, xCut!.Value.Position);
-            RecursiveCut(left, pageWidth, pageHeight, result);
-            RecursiveCut(right, pageWidth, pageHeight, result);
+            AddFallbackOrder(blocks, result);
         }
     }
 
-    private CutResult? FindBestYCut(IReadOnlyList<TextBlock> blocks, double pageHeight)
+    private void SplitYOrFallback(IReadOnlyList<TextBlock> blocks, double cutY, List<TextBlock> result)
     {
-        var minGap = _minGapRatioY * pageHeight;
-        var sorted = blocks.OrderByDescending(b => b.BoundingBox.Top).ToList();
-
-        CutResult? best = null;
-        for (int i = 0; i < sorted.Count - 1; i++)
+        var (top, bottom) = PartitionByY(blocks, cutY);
+        if (top.Count == 0 || bottom.Count == 0)
         {
-            var gap = sorted[i].BoundingBox.Bottom - sorted[i + 1].BoundingBox.Top;
-            if (gap < minGap) continue;
-
-            var normalized = gap / pageHeight;
-            var position = (sorted[i].BoundingBox.Bottom + sorted[i + 1].BoundingBox.Top) / 2.0;
-
-            if (best is null || normalized > best.Value.NormalizedGap)
-                best = new CutResult(position, normalized);
+            AddFallbackOrder(blocks, result);
+            return;
         }
-        return best;
+
+        RecursiveCut(top, result);
+        RecursiveCut(bottom, result);
     }
 
-    private CutResult? FindBestXCut(IReadOnlyList<TextBlock> blocks, double pageWidth)
+    private void SplitXOrFallback(IReadOnlyList<TextBlock> blocks, double cutX, List<TextBlock> result)
     {
-        var minGap = _minGapRatioX * pageWidth;
-        var sorted = blocks.OrderBy(b => b.BoundingBox.Left).ToList();
-
-        CutResult? best = null;
-        for (int i = 0; i < sorted.Count - 1; i++)
+        var (left, right) = PartitionByX(blocks, cutX);
+        if (left.Count == 0 || right.Count == 0)
         {
-            var gap = sorted[i + 1].BoundingBox.Left - sorted[i].BoundingBox.Right;
-            if (gap < minGap) continue;
-
-            var normalized = gap / pageWidth;
-            var position = (sorted[i].BoundingBox.Right + sorted[i + 1].BoundingBox.Left) / 2.0;
-
-            if (best is null || normalized > best.Value.NormalizedGap)
-                best = new CutResult(position, normalized);
+            AddFallbackOrder(blocks, result);
+            return;
         }
-        return best;
+
+        RecursiveCut(left, result);
+        RecursiveCut(right, result);
+    }
+
+    private static void AddFallbackOrder(IReadOnlyList<TextBlock> blocks, List<TextBlock> result)
+    {
+        result.AddRange(blocks
+            .OrderByDescending(b => b.BoundingBox.Top)
+            .ThenBy(b => b.BoundingBox.Left));
+    }
+
+    private static CutResult FindBestYCut(IReadOnlyList<TextBlock> blocks)
+    {
+        var sorted = blocks
+            .OrderByDescending(b => b.BoundingBox.Top)
+            .ThenByDescending(b => b.BoundingBox.Bottom)
+            .ToList();
+
+        var largestGap = 0.0;
+        var cutPosition = 0.0;
+        double? previousBottom = null;
+        foreach (var block in sorted)
+        {
+            var top = block.BoundingBox.Top;
+            var bottom = block.BoundingBox.Bottom;
+
+            if (previousBottom is not null && previousBottom.Value > top)
+            {
+                var gap = previousBottom.Value - top;
+                if (gap > largestGap)
+                {
+                    largestGap = gap;
+                    cutPosition = (previousBottom.Value + top) / 2.0;
+                }
+            }
+
+            previousBottom = previousBottom is null
+                ? bottom
+                : Math.Min(previousBottom.Value, bottom);
+        }
+
+        return new CutResult(cutPosition, largestGap);
+    }
+
+    private static CutResult FindBestXCut(IReadOnlyList<TextBlock> blocks)
+    {
+        var edgeCut = FindVerticalCutByEdges(blocks);
+        if (edgeCut.Gap >= MinGapThreshold)
+            return edgeCut;
+
+        if (blocks.Count < 3)
+            return edgeCut;
+
+        var region = ComputeBounds(blocks);
+        var narrowThreshold = region.Width * NarrowElementWidthRatio;
+        var filtered = blocks
+            .Where(b => b.BoundingBox.Width >= narrowThreshold)
+            .ToList();
+
+        if (filtered.Count < 2 || filtered.Count == blocks.Count)
+            return edgeCut;
+
+        var filteredCut = FindVerticalCutByEdges(filtered);
+        return filteredCut.Gap > edgeCut.Gap && filteredCut.Gap >= MinGapThreshold
+            ? filteredCut
+            : edgeCut;
+    }
+
+    private static CutResult FindVerticalCutByEdges(IReadOnlyList<TextBlock> blocks)
+    {
+        var sorted = blocks
+            .OrderBy(b => b.BoundingBox.Left)
+            .ThenBy(b => b.BoundingBox.Right)
+            .ToList();
+
+        var largestGap = 0.0;
+        var cutPosition = 0.0;
+        double? previousRight = null;
+        foreach (var block in sorted)
+        {
+            var left = block.BoundingBox.Left;
+            var right = block.BoundingBox.Right;
+
+            if (previousRight is not null && left > previousRight.Value)
+            {
+                var gap = left - previousRight.Value;
+                if (gap > largestGap)
+                {
+                    largestGap = gap;
+                    cutPosition = (previousRight.Value + left) / 2.0;
+                }
+            }
+
+            previousRight = previousRight is null
+                ? right
+                : Math.Max(previousRight.Value, right);
+        }
+
+        return new CutResult(cutPosition, largestGap);
     }
 
     private static (List<TextBlock>, List<TextBlock>) PartitionByY(IReadOnlyList<TextBlock> blocks, double cutY)
@@ -156,7 +238,7 @@ public sealed class XyCutLayoutAnalyzer : ILayoutAnalyzer
         var top = new List<TextBlock>();
         var bottom = new List<TextBlock>();
         foreach (var b in blocks)
-            (b.BoundingBox.CenterY >= cutY ? top : bottom).Add(b);
+            (b.BoundingBox.CenterY > cutY ? top : bottom).Add(b);
         return (top, bottom);
     }
 
@@ -165,7 +247,7 @@ public sealed class XyCutLayoutAnalyzer : ILayoutAnalyzer
         var left = new List<TextBlock>();
         var right = new List<TextBlock>();
         foreach (var b in blocks)
-            (b.BoundingBox.CenterX <= cutX ? left : right).Add(b);
+            (b.BoundingBox.CenterX < cutX ? left : right).Add(b);
         return (left, right);
     }
 
@@ -186,5 +268,5 @@ public sealed class XyCutLayoutAnalyzer : ILayoutAnalyzer
         return new BoundingBox(left, bottom, right, top);
     }
 
-    private readonly record struct CutResult(double Position, double NormalizedGap);
+    private readonly record struct CutResult(double Position, double Gap);
 }

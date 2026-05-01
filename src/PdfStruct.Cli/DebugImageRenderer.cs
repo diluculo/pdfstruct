@@ -4,6 +4,7 @@
 using System.Runtime.InteropServices;
 using Docnet.Core;
 using Docnet.Core.Models;
+using PdfStruct.Analysis;
 using PdfStruct.Models;
 using SkiaSharp;
 using UglyToad.PdfPig.Content;
@@ -32,7 +33,8 @@ internal static class DebugImageRenderer
     public static IReadOnlyList<string> Render(
         string inputPdfPath,
         Models.PdfDocument document,
-        string outputDirectory)
+        string outputDirectory,
+        IReadOnlyDictionary<int, IReadOnlyList<TextBlock>>? textLinesByPage = null)
     {
         Directory.CreateDirectory(outputDirectory);
 
@@ -47,9 +49,12 @@ internal static class DebugImageRenderer
                 .Where(element => element.PageNumber == pageNumber)
                 .OrderBy(element => element.Id)
                 .ToList();
+            var textLines = textLinesByPage is not null && textLinesByPage.TryGetValue(pageNumber, out var pageTextLines)
+                ? pageTextLines
+                : [];
 
             var outputPath = Path.Combine(outputDirectory, $"page-{pageNumber:000}.png");
-            RenderPage(outputPath, inputPdfPath, pdfiumLib, pageNumber, page, elements);
+            RenderPage(outputPath, inputPdfPath, pdfiumLib, pageNumber, page, elements, textLines);
             outputFiles.Add(outputPath);
         }
 
@@ -63,7 +68,8 @@ internal static class DebugImageRenderer
         IDocLib pdfiumLib,
         int pageNumber,
         Page page,
-        IReadOnlyList<ContentElement> elements)
+        IReadOnlyList<ContentElement> elements,
+        IReadOnlyList<TextBlock> textLines)
     {
         var mediaBox = page.MediaBox.Bounds;
         var pageWidth = mediaBox.Width;
@@ -84,6 +90,11 @@ internal static class DebugImageRenderer
 
         DrawPageBorder(canvas, actualWidth, actualHeight);
 
+        foreach (var line in textLines)
+        {
+            DrawTextLine(canvas, line, mediaBox.Left, mediaBox.Bottom, mediaBox.Top, scale);
+        }
+
         foreach (var element in elements)
         {
             DrawElement(canvas, element, mediaBox.Left, mediaBox.Bottom, mediaBox.Top, scale);
@@ -93,6 +104,32 @@ internal static class DebugImageRenderer
         using var data = image.Encode(SKEncodedImageFormat.Png, 95);
         using var stream = File.Create(outputPath);
         data.SaveTo(stream);
+    }
+
+    /// <summary>Strokes a pre-paragraph text-line bounding box for line-level pipeline debugging.</summary>
+    private static void DrawTextLine(
+        SKCanvas canvas,
+        TextBlock line,
+        double mediaBoxLeft,
+        double mediaBoxBottom,
+        double mediaBoxTop,
+        float scale)
+    {
+        var rect = ToCanvasRect(line.BoundingBox, mediaBoxLeft, mediaBoxBottom, mediaBoxTop, scale);
+        if (rect.Width <= 0 || rect.Height <= 0)
+        {
+            return;
+        }
+
+        using var stroke = new SKPaint
+        {
+            Color = new SKColor(0, 150, 136, 190),
+            IsAntialias = true,
+            StrokeWidth = Math.Max(1, scale * 0.8f),
+            Style = SKPaintStyle.Stroke
+        };
+
+        canvas.DrawRect(rect, stroke);
     }
 
     /// <summary>

@@ -1,6 +1,8 @@
 // Copyright (c) Jong Hyun Kim. All rights reserved.
 // Licensed under the Apache License, Version 2.0.
 
+using PdfStruct.Analysis;
+
 namespace PdfStruct.Cli;
 
 /// <summary>Process entry point for the <c>pdfstruct</c> CLI.</summary>
@@ -72,6 +74,7 @@ internal static class App
         var parser = new PdfStructParser(new PdfStructOptions
         {
             Format = format == OutputKind.Json ? OutputFormat.Json : OutputFormat.Markdown,
+            ExcludeHeadersFooters = !options.IncludeRunningHeaders,
             SanitizeText = options.SanitizeText
         });
 
@@ -102,10 +105,21 @@ internal static class App
 
         if (options.DebugImageDirectory is not null)
         {
+            IReadOnlyDictionary<int, IReadOnlyList<TextBlock>>? textLinesByPage = null;
+            if (options.DebugLines)
+            {
+                textLinesByPage = parser.AnalyzeTextLines(options.InputPath)
+                    .GroupBy(row => row.PageNumber)
+                    .ToDictionary(
+                        group => group.Key,
+                        group => (IReadOnlyList<TextBlock>)group.Select(row => row.Line).ToList());
+            }
+
             var files = DebugImageRenderer.Render(
                 options.InputPath,
                 result.Document,
-                options.DebugImageDirectory);
+                options.DebugImageDirectory,
+                textLinesByPage);
 
             Console.Error.WriteLine($"Wrote {files.Count} debug image(s) to {Path.GetFullPath(options.DebugImageDirectory)}");
         }
@@ -213,6 +227,9 @@ internal static class App
         writer.WriteLine("  -o, --output <path>       Write output to a file instead of stdout.");
         writer.WriteLine("      --format <format>     Output format: markdown, json. Default: markdown, or inferred from -o.");
         writer.WriteLine("      --debug-image <dir>   Write per-page PNG overlays with extracted element bounding boxes.");
+        writer.WriteLine("      --debug-lines         Include pre-paragraph text-line boxes in --debug-image overlays.");
+        writer.WriteLine("      --include-running-headers");
+        writer.WriteLine("                            Keep detected running headers, footers, and page furniture.");
         writer.WriteLine("      --sanitize            Mask common sensitive values in extracted text.");
         writer.WriteLine();
         writer.WriteLine("Diagnose options:");
@@ -224,7 +241,7 @@ internal static class App
         writer.WriteLine("  pdfstruct extract document.pdf");
         writer.WriteLine("  pdfstruct extract document.pdf -o out.md");
         writer.WriteLine("  pdfstruct extract document.pdf -o out.json --format json");
-        writer.WriteLine("  pdfstruct extract document.pdf --debug-image out");
+        writer.WriteLine("  pdfstruct extract document.pdf --debug-image out --debug-lines");
         writer.WriteLine("  pdfstruct diagnose document.pdf -o scores.csv");
     }
 }
@@ -242,6 +259,12 @@ internal sealed class ExtractOptions
 
     /// <summary>Directory where per-page debug PNG overlays are written, or <c>null</c> to skip rendering.</summary>
     public string? DebugImageDirectory { get; private set; }
+
+    /// <summary><c>true</c> when debug PNG overlays should include pre-paragraph text lines.</summary>
+    public bool DebugLines { get; private set; }
+
+    /// <summary><c>true</c> when detected running headers, footers, and page furniture should be retained.</summary>
+    public bool IncludeRunningHeaders { get; private set; }
 
     /// <summary><c>true</c> when sensitive text should be masked in the extracted output.</summary>
     public bool SanitizeText { get; private set; }
@@ -286,6 +309,14 @@ internal sealed class ExtractOptions
                     options.DebugImageDirectory = ReadValue(args, ref index, arg);
                     break;
 
+                case "--debug-lines":
+                    options.DebugLines = true;
+                    break;
+
+                case "--include-running-headers":
+                    options.IncludeRunningHeaders = true;
+                    break;
+
                 case "--sanitize":
                     options.SanitizeText = true;
                     break;
@@ -315,6 +346,11 @@ internal sealed class ExtractOptions
         if (!File.Exists(fullInputPath))
         {
             throw new CliException($"Input PDF not found: {inputPath}");
+        }
+
+        if (options.DebugLines && options.DebugImageDirectory is null)
+        {
+            throw new CliException("--debug-lines requires --debug-image <dir>.");
         }
 
         options.InputPath = fullInputPath;

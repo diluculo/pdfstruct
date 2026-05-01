@@ -54,7 +54,7 @@ public static partial class RunningFurnitureDetector
         ArgumentNullException.ThrowIfNull(pageHeights);
 
         var totalPages = pageHeights.Count;
-        if (totalPages < 2) return new HashSet<int>();
+        if (totalPages < 3) return new HashSet<int>();
 
         var minPagesForRepeat = Math.Max(2, (int)Math.Ceiling(totalPages * RepeatRatioThreshold));
 

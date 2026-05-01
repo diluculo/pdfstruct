@@ -67,6 +67,48 @@ public sealed class FixtureSmokeTests
         }
     }
 
+    [Fact]
+    public void TableOfContents_ElementBoxesDoNotOverlap()
+    {
+        var path = Path.Combine(AppContext.BaseDirectory, "Fixtures", "table_of_contents.pdf");
+        Assert.True(File.Exists(path), $"Fixture missing on disk: {path}");
+
+        var parser = new PdfStructParser();
+        var result = parser.Parse(path);
+        var elements = result.Document.Kids.ToList();
+
+        var overlaps = new List<string>();
+        for (var i = 0; i < elements.Count; i++)
+        {
+            for (var j = i + 1; j < elements.Count; j++)
+            {
+                if (elements[i].PageNumber != elements[j].PageNumber)
+                    continue;
+
+                var area = elements[i].BoundingBox.IntersectionArea(elements[j].BoundingBox);
+                if (area > 1.0)
+                    overlaps.Add($"p{elements[i].PageNumber}:{elements[i].Id}<->{elements[j].Id}: {area:F1}");
+            }
+        }
+
+        Assert.Empty(overlaps);
+    }
+
+    [Fact]
+    public void TableOfContents_PageNumberColumnSurvivesRunningFurnitureFiltering()
+    {
+        var path = Path.Combine(AppContext.BaseDirectory, "Fixtures", "table_of_contents.pdf");
+        Assert.True(File.Exists(path), $"Fixture missing on disk: {path}");
+
+        var filtered = new PdfStructParser(new PdfStructOptions { ExcludeHeadersFooters = true }).Parse(path);
+        var included = new PdfStructParser(new PdfStructOptions { ExcludeHeadersFooters = false }).Parse(path);
+
+        var filteredPageNumberColumns = filtered.Document.Kids.Count(IsNumericPageColumn);
+        var includedPageNumberColumns = included.Document.Kids.Count(IsNumericPageColumn);
+
+        Assert.Equal(includedPageNumberColumns, filteredPageNumberColumns);
+    }
+
     /// <summary>Returns the text content of a text-bearing element, or <c>null</c> for non-text element types.</summary>
     private static string? GetText(ContentElement element) => element switch
     {
@@ -75,4 +117,11 @@ public sealed class FixtureSmokeTests
         CaptionElement c => c.Text.Content,
         _ => null
     };
+
+    private static bool IsNumericPageColumn(ContentElement element)
+    {
+        var text = GetText(element);
+        return !string.IsNullOrWhiteSpace(text)
+            && text.All(c => char.IsDigit(c) || char.IsWhiteSpace(c));
+    }
 }

@@ -8,12 +8,16 @@
 #   .\Run-PdfStruct.ps1                       # uses .\playground
 #   .\Run-PdfStruct.ps1 -Path D:\some\folder
 #   .\Run-PdfStruct.ps1 -Cli D:\custom\pdfstruct.cli.exe
+#   .\Run-PdfStruct.ps1 -DebugLines          # include pre-paragraph line boxes in overlays
+#   .\Run-PdfStruct.ps1 -IncludeRunningHeaders
 #   .\Run-PdfStruct.ps1 -Clean                # wipe existing per-PDF output dirs first
 
 [CmdletBinding()]
 param(
     [string] $Path = (Join-Path $PSScriptRoot 'playground'),
     [string] $Cli  = (Join-Path $PSScriptRoot 'src\PdfStruct.Cli\bin\Debug\net8.0\pdfstruct.cli.exe'),
+    [switch] $DebugLines,
+    [switch] $IncludeRunningHeaders,
     [switch] $Clean
 )
 
@@ -56,7 +60,15 @@ foreach ($pdf in $pdfs) {
     # Capture stdout+stderr into a variable rather than piping; piping a native
     # command's stderr through the cmdlet pipeline produces NativeCommandError
     # records that abort the script under the default ErrorActionPreference.
-    $output   = & $Cli extract $pdf.FullName --output $mdPath --debug-image $outputDir 2>&1
+    $extractArgs = @('extract', $pdf.FullName, '--output', $mdPath, '--debug-image', $outputDir)
+    if ($DebugLines) {
+        $extractArgs += '--debug-lines'
+    }
+    if ($IncludeRunningHeaders) {
+        $extractArgs += '--include-running-headers'
+    }
+
+    $output   = & $Cli @extractArgs 2>&1
     $exitCode = $LASTEXITCODE
     $elapsed  = (Get-Date) - $start
     foreach ($line in $output) { Write-Host "  $line" -ForegroundColor DarkGray }

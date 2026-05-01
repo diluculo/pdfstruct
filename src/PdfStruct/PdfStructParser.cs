@@ -1,6 +1,7 @@
 // Copyright (c) Jong Hyun Kim. All rights reserved.
 // Licensed under the Apache License, Version 2.0.
 
+using System.Text.RegularExpressions;
 using PdfStruct.Analysis;
 using PdfStruct.Rendering;
 using PdfStruct.Safety;
@@ -33,6 +34,15 @@ public readonly record struct HeadingDiagnosticRow(
     Analysis.TextBlock Block,
     Analysis.HeadingProbabilityBreakdown Breakdown,
     bool ClassifiedAsHeading);
+
+/// <summary>
+/// One row of text-line diagnostic output, produced before paragraph merging.
+/// </summary>
+/// <param name="PageNumber">1-indexed page number where the line appears.</param>
+/// <param name="Line">The extracted text line, including its line-level bounding box and style signals.</param>
+public readonly record struct TextLineDiagnosticRow(
+    int PageNumber,
+    Analysis.TextBlock Line);
 
 /// <summary>
 /// Main entry point for RAG-optimized PDF extraction.
@@ -116,6 +126,30 @@ public sealed class PdfStructParser
         return AnalyzeHeadingProbabilitiesInternal(pdf);
     }
 
+    /// <summary>
+    /// Extracts text lines before paragraph merging. Intended for pipeline
+    /// diagnostics and debug overlays; it does not affect the public JSON
+    /// schema.
+    /// </summary>
+    /// <param name="filePath">Path to the input PDF.</param>
+    /// <returns>One row per pre-paragraph text line, in page extraction order.</returns>
+    /// <exception cref="FileNotFoundException">Thrown when the file does not exist.</exception>
+    public IReadOnlyList<TextLineDiagnosticRow> AnalyzeTextLines(string filePath)
+    {
+        if (!File.Exists(filePath))
+            throw new FileNotFoundException("PDF file not found.", filePath);
+
+        using var pdf = UglyToad.PdfPig.PdfDocument.Open(filePath);
+        var rows = new List<TextLineDiagnosticRow>();
+        for (var p = 1; p <= pdf.NumberOfPages; p++)
+        {
+            foreach (var line in ExtractPageTextLines(pdf.GetPage(p)))
+                rows.Add(new TextLineDiagnosticRow(p, line.ToTextBlock()));
+        }
+
+        return rows;
+    }
+
     /// <summary>Per-page extraction + scoring for diagnostic output.</summary>
     private IReadOnlyList<HeadingDiagnosticRow> AnalyzeHeadingProbabilitiesInternal(UglyToad.PdfPig.PdfDocument pdf)
     {
@@ -161,14 +195,26 @@ public sealed class PdfStructParser
             ModificationDate = NormalizePdfDate(info.ModifiedDate)
         };
 
-        var pageBlocks = new Dictionary<int, IReadOnlyList<TextBlock>>(pdf.NumberOfPages);
+        var pageLines = new Dictionary<int, IReadOnlyList<TextLineBlock>>(pdf.NumberOfPages);
+        var pageGeometries = new Dictionary<int, PageGeometry>(pdf.NumberOfPages);
         var pageHeights = new Dictionary<int, double>(pdf.NumberOfPages);
-        var allBlocks = new List<TextBlock>();
         for (var p = 1; p <= pdf.NumberOfPages; p++)
         {
             var page = pdf.GetPage(p);
+            pageGeometries[p] = new PageGeometry(page.Width, page.Height);
             pageHeights[p] = page.Height;
-            var blocks = ExtractPageBlocks(page);
+            pageLines[p] = ExtractPageTextLines(page);
+        }
+
+        if (_options.ExcludeHeadersFooters)
+            pageLines = FilterRunningFurnitureLines(pageLines, pageGeometries);
+
+        var pageBlocks = new Dictionary<int, IReadOnlyList<TextBlock>>(pdf.NumberOfPages);
+        var allBlocks = new List<TextBlock>();
+        for (var p = 1; p <= pdf.NumberOfPages; p++)
+        {
+            PageGeometry? pageGeometry = _options.ExcludeHeadersFooters ? pageGeometries[p] : null;
+            var blocks = BuildPageBlocks(pageLines[p], pageGeometry);
             pageBlocks[p] = blocks;
             allBlocks.AddRange(blocks);
         }
@@ -191,7 +237,7 @@ public sealed class PdfStructParser
                 doc.Kids.RemoveAll(e => repeatingIds.Contains(e.Id));
         }
 
-        RenumberInReadingOrder(doc.Kids);
+        RenumberElements(doc.Kids);
 
         string? markdown = _options.Format.HasFlag(OutputFormat.Markdown)
             ? new MarkdownRenderer().Render(doc) : null;
@@ -243,7 +289,7 @@ public sealed class PdfStructParser
 
     /// <summary>
     /// Heuristic bold detection from a font name. Mirrors the
-    /// <see cref="LineGroup.IsBold"/> derivation but is repeated here because
+    /// <see cref="TextLineBuilder.IsBold"/> derivation but is repeated here because
     /// only the rendered <see cref="Models.TextProperties.Font"/> string is
     /// preserved on the heading element.
     /// </summary>
@@ -262,27 +308,103 @@ public sealed class PdfStructParser
     };
 
     /// <summary>
-    /// Stable-sorts elements top-to-bottom within each page and renumbers
-    /// IDs sequentially. The per-page extraction pipeline emits blocks in
-    /// reading order, but two blocks at very similar Y values can flip
-    /// because XY-Cut chooses splits arbitrarily when gaps tie; sorting on
-    /// Top descending corrects this without disturbing column structure
-    /// (left/right column blocks have distinct Tops in practice, since
-    /// each is a multi-line paragraph). Crucially, no Left-edge tiebreaker
-    /// is applied — that was the cause of the multi-column interleaving
-    /// observed before this commit.
+    /// Renumbers elements sequentially while preserving the order produced by
+    /// the extraction and layout-analysis pipeline.
     /// </summary>
-    private static void RenumberInReadingOrder(List<Models.ContentElement> elements)
+    private static void RenumberElements(List<Models.ContentElement> elements)
     {
-        elements.Sort((a, b) =>
-        {
-            var pageCmp = a.PageNumber.CompareTo(b.PageNumber);
-            if (pageCmp != 0) return pageCmp;
-            return b.BoundingBox.Top.CompareTo(a.BoundingBox.Top);
-        });
-
         for (var i = 0; i < elements.Count; i++)
             elements[i].Id = i + 1;
+    }
+
+    private static Dictionary<int, IReadOnlyList<TextLineBlock>> FilterRunningFurnitureLines(
+        IReadOnlyDictionary<int, IReadOnlyList<TextLineBlock>> pageLines,
+        IReadOnlyDictionary<int, PageGeometry> pageGeometries)
+    {
+        if (pageLines.Count < 3) return pageLines.ToDictionary(pair => pair.Key, pair => pair.Value);
+
+        var candidates = new List<RunningLineCandidate>();
+        foreach (var (pageNumber, lines) in pageLines)
+        {
+            if (!pageGeometries.TryGetValue(pageNumber, out var pageGeometry))
+                continue;
+
+            for (var index = 0; index < lines.Count; index++)
+            {
+                var band = ClassifyRunningFurnitureBand(lines[index].BoundingBox, pageGeometry);
+                if (band is null) continue;
+
+                var normalized = NormalizeRunningFurnitureText(lines[index].Text);
+                if (string.IsNullOrWhiteSpace(normalized)) continue;
+
+                candidates.Add(new RunningLineCandidate(pageNumber, index, band.Value, normalized));
+            }
+        }
+
+        var repeatedHeaderFooter = candidates
+            .Where(candidate => candidate.Band is not RunningFurnitureBand.Side);
+
+        var minPagesForRepeat = Math.Max(2, (int)Math.Ceiling(pageLines.Count * RunningFurnitureDetector.RepeatRatioThreshold));
+        var rejected = repeatedHeaderFooter
+            .GroupBy(candidate => (candidate.Band, candidate.NormalizedText))
+            .Where(group => group.Select(candidate => candidate.PageNumber).Distinct().Count() >= minPagesForRepeat)
+            .SelectMany(group => group.Select(candidate => (candidate.PageNumber, candidate.LineIndex)))
+            .ToHashSet();
+
+        foreach (var candidate in candidates.Where(candidate => candidate.Band is RunningFurnitureBand.Side))
+            rejected.Add((candidate.PageNumber, candidate.LineIndex));
+
+        if (rejected.Count == 0)
+            return pageLines.ToDictionary(pair => pair.Key, pair => pair.Value);
+
+        return pageLines.ToDictionary(
+            pair => pair.Key,
+            pair => (IReadOnlyList<TextLineBlock>)pair.Value
+                .Where((_, index) => !rejected.Contains((pair.Key, index)))
+                .ToList());
+    }
+
+    private static RunningFurnitureBand? ClassifyRunningFurnitureBand(Models.BoundingBox bbox, PageGeometry pageGeometry)
+    {
+        if (pageGeometry.Height <= 0 || pageGeometry.Width <= 0)
+            return null;
+
+        var bottomRatio = bbox.Bottom / pageGeometry.Height;
+        var topRatio = bbox.Top / pageGeometry.Height;
+        if (topRatio < RunningFurnitureDetector.FooterBandBottomRatio)
+            return RunningFurnitureBand.Footer;
+        if (bottomRatio > 1.0 - RunningFurnitureDetector.HeaderBandTopRatio)
+            return RunningFurnitureBand.Header;
+
+        var nearLeftOrRightEdge = bbox.Right <= pageGeometry.Width * 0.12
+            || bbox.Left >= pageGeometry.Width * 0.88;
+        var narrowAndTall = bbox.Width <= SideFurnitureMaxWidth(pageGeometry)
+            && bbox.Height >= pageGeometry.Height * 0.15;
+        return nearLeftOrRightEdge && narrowAndTall
+            ? RunningFurnitureBand.Side
+            : null;
+    }
+
+    private static bool IsSideFurnitureBlock(Models.BoundingBox bbox, PageGeometry pageGeometry)
+    {
+        if (pageGeometry.Height <= 0 || pageGeometry.Width <= 0)
+            return false;
+
+        var nearLeftOrRightEdge = bbox.Right <= pageGeometry.Width * 0.12
+            || bbox.Left >= pageGeometry.Width * 0.88;
+        return nearLeftOrRightEdge
+            && bbox.Width <= SideFurnitureMaxWidth(pageGeometry)
+            && bbox.Height >= pageGeometry.Height * 0.08;
+    }
+
+    private static double SideFurnitureMaxWidth(PageGeometry pageGeometry) =>
+        Math.Max(16.0, Math.Min(28.0, pageGeometry.Width * 0.08));
+
+    private static string NormalizeRunningFurnitureText(string text)
+    {
+        var normalized = s_digitRun.Replace(text.Trim(), "#");
+        normalized = s_whitespace.Replace(normalized, " ");
+        return normalized;
     }
 
     /// <summary>
@@ -348,22 +470,59 @@ public sealed class PdfStructParser
     /// </summary>
     private IReadOnlyList<TextBlock> ExtractPageBlocks(Page page)
     {
-        var words = page.GetWords().ToList();
-        if (words.Count == 0) return [];
+        var lines = ExtractPageTextLines(page);
+        PageGeometry? pageGeometry = _options.ExcludeHeadersFooters ? new PageGeometry(page.Width, page.Height) : null;
+        return BuildPageBlocks(lines, pageGeometry);
+    }
 
-        var textBlocks = GroupWordsIntoBlocks(words);
+    private IReadOnlyList<TextBlock> BuildPageBlocks(
+        IReadOnlyList<TextLineBlock> lines,
+        PageGeometry? pageGeometry = null)
+    {
+        if (lines.Count == 0) return [];
 
-        if (_options.FilterHiddenText)
-            textBlocks = PromptInjectionFilter.Filter(textBlocks, page.Width, page.Height);
-
-        textBlocks = TextSanitizer.ProcessBlocks(
-            textBlocks,
-            _options.SanitizeText,
-            _options.InvalidCharacterReplacement,
-            _options.SanitizationRules);
+        var orderedLines = DetermineTextLineReadingOrder(lines);
+        var textBlocks = MergeLinesIntoBlocks(orderedLines);
+        if (pageGeometry is { } geometry)
+        {
+            textBlocks = textBlocks
+                .Where(block => !IsSideFurnitureBlock(block.BoundingBox, geometry))
+                .ToList();
+            if (textBlocks.Count == 0) return [];
+        }
 
         var ordered = _layoutAnalyzer.DetermineReadingOrder(textBlocks);
         return WithStandaloneFlag(ordered);
+    }
+
+    private IReadOnlyList<TextLineBlock> DetermineTextLineReadingOrder(IReadOnlyList<TextLineBlock> lines)
+    {
+        if (lines.Count <= 1) return lines;
+
+        var lineBlocks = lines.Select(line => line.ToTextBlock()).ToList();
+        var lineByBlock = new Dictionary<TextBlock, TextLineBlock>(ReferenceEqualityComparer.Instance);
+        for (var i = 0; i < lineBlocks.Count; i++)
+            lineByBlock[lineBlocks[i]] = lines[i];
+
+        return _layoutAnalyzer.DetermineReadingOrder(lineBlocks)
+            .Select(block => lineByBlock[block])
+            .ToList();
+    }
+
+    /// <summary>
+    /// Extracts text lines for a page before paragraph merging. This keeps the
+    /// word-to-line stage separate from the later line-to-block stage.
+    /// </summary>
+    private IReadOnlyList<TextLineBlock> ExtractPageTextLines(Page page)
+    {
+        var words = page.GetWords().ToList();
+        if (words.Count == 0) return [];
+
+        var lines = GroupWordsIntoLines(words);
+        if (_options.FilterHiddenText)
+            lines = FilterTextLines(lines, page.Width, page.Height);
+
+        return ProcessTextLines(lines);
     }
 
     /// <summary>
@@ -403,7 +562,38 @@ public sealed class PdfStructParser
         return a.Height > 0 ? overlap / a.Height : 0;
     }
 
-    private static List<TextBlock> GroupWordsIntoBlocks(List<Word> words)
+    private List<TextLineBlock> ProcessTextLines(IReadOnlyList<TextLineBlock> lines)
+    {
+        var lineBlocks = lines.Select(l => l.ToTextBlock()).ToList();
+        var processed = TextSanitizer.ProcessBlocks(
+            lineBlocks,
+            _options.SanitizeText,
+            _options.InvalidCharacterReplacement,
+            _options.SanitizationRules);
+
+        var result = new List<TextLineBlock>(lines.Count);
+        for (var i = 0; i < lines.Count; i++)
+            result.Add(lines[i] with { Text = processed[i].Text });
+
+        return result;
+    }
+
+    private static List<TextLineBlock> FilterTextLines(
+        IReadOnlyList<TextLineBlock> lines,
+        double pageWidth,
+        double pageHeight)
+    {
+        return lines.Where(line =>
+        {
+            if (line.FontSize < 1.0) return false;
+            if (string.IsNullOrWhiteSpace(line.Text)) return false;
+            if (line.BoundingBox.Right < 0 || line.BoundingBox.Left > pageWidth) return false;
+            if (line.BoundingBox.Top < 0 || line.BoundingBox.Bottom > pageHeight) return false;
+            return true;
+        }).ToList();
+    }
+
+    private static List<TextLineBlock> GroupWordsIntoLines(List<Word> words)
     {
         if (words.Count == 0) return [];
 
@@ -422,16 +612,18 @@ public sealed class PdfStructParser
         // (e.g. an arxiv left-margin watermark glyph next to a body line, or
         // the left and right columns of a two-column paper) from being merged
         // into a single line just because they share a baseline.
-        var lines = new List<LineGroup>();
-        var current = new LineGroup(sorted[0]);
+        var lines = new List<TextLineBlock>();
+        var current = new TextLineBuilder(sorted[0]);
 
         for (int i = 1; i < sorted.Count; i++)
         {
             var w = sorted[i];
             var wLowerY = Math.Min(w.BoundingBox.Bottom, w.BoundingBox.Top);
             var yDist = Math.Abs(wLowerY - current.BaselineY);
-            var xGap = w.BoundingBox.Left - current.Right;
-            var maxXGap = Math.Max(15.0, current.AvgHeight * 1.5);
+            var xGap = Math.Max(0, Math.Max(
+                current.Left - w.BoundingBox.Right,
+                w.BoundingBox.Left - current.Right));
+            var maxXGap = Math.Min(35.0, Math.Max(15.0, current.AvgHeight * 1.5));
 
             if (yDist <= current.AvgHeight * 0.5 && xGap <= maxXGap)
             {
@@ -439,79 +631,87 @@ public sealed class PdfStructParser
             }
             else
             {
-                lines.Add(current);
-                current = new LineGroup(w);
+                lines.Add(current.ToTextLineBlock());
+                current = new TextLineBuilder(w);
             }
         }
-        lines.Add(current);
+        lines.Add(current.ToTextLineBlock());
 
-        // Detect column right edges: lines that wrap inside a paragraph end
-        // at the column's right edge, so the most common Right values across
-        // the page are treated as column boundaries. Lines NOT ending at any
-        // common right are short standalone elements (headings, captions).
-        var rightBuckets = lines
-            .GroupBy(l => Math.Round(l.Right / 5.0) * 5.0)
-            .Where(g => g.Count() >= Math.Max(3, lines.Count / 8))
-            .OrderByDescending(g => g.Count())
-            .Take(3)
-            .Select(g => g.Key)
-            .ToHashSet();
-
-        bool LineEndsAtColumnRight(LineGroup line) =>
-            rightBuckets.Contains(Math.Round(line.Right / 5.0) * 5.0);
-
-        // Merge lines into blocks with column awareness. For each new line we
-        // search the open blocks (one per active column) for the closest
-        // previous line whose horizontal extent overlaps; ODL's
-        // ParagraphProcessor calls this the "areOverlapping" check and uses
-        // it as the column firewall without explicit column detection.
-        var openBlocks = new List<List<LineGroup>>();
-        foreach (var curr in lines)
-        {
-            var bestIdx = -1;
-            var bestGap = double.MaxValue;
-
-            for (var j = openBlocks.Count - 1; j >= 0; j--)
-            {
-                var lastLine = openBlocks[j][^1];
-                var hasOverlap = lastLine.Right > curr.Left && curr.Right > lastLine.Left;
-                if (!hasOverlap) continue;
-
-                var gap = lastLine.Bottom - curr.Top;
-                if (gap < 0) continue;
-
-                var continues = IsLineContinuation(lastLine.Text)
-                    && IsSameFontSize(lastLine, curr)
-                    && LineEndsAtColumnRight(lastLine);
-                var maxGap = lastLine.AvgHeight * (continues ? 3.0 : 1.5);
-                if (gap > maxGap) continue;
-
-                if (gap < bestGap)
-                {
-                    bestGap = gap;
-                    bestIdx = j;
-                }
-            }
-
-            if (bestIdx >= 0)
-                openBlocks[bestIdx].Add(curr);
-            else
-                openBlocks.Add([curr]);
-        }
-
-        return openBlocks.Select(MergeLines).ToList();
+        return lines;
     }
 
-    private static TextBlock MergeLines(List<LineGroup> lines)
+    private static List<TextBlock> MergeLinesIntoBlocks(IReadOnlyList<TextLineBlock> lines)
+    {
+        if (lines.Count == 0) return [];
+
+        var blocks = new List<List<TextLineBlock>>();
+        var current = new List<TextLineBlock> { lines[0] };
+        for (var i = 1; i < lines.Count; i++)
+        {
+            var curr = lines[i];
+            if (ShouldMergeWithCurrentBlock(current, curr))
+            {
+                current.Add(curr);
+            }
+            else
+            {
+                blocks.Add(current);
+                current = [curr];
+            }
+        }
+        blocks.Add(current);
+
+        return blocks.Select(MergeLines).ToList();
+    }
+
+    private static bool ShouldMergeWithCurrentBlock(IReadOnlyList<TextLineBlock> currentBlock, TextLineBlock next)
+    {
+        var previous = currentBlock[^1];
+        if (!IsSameFontSize(previous, next))
+            return false;
+
+        if (!AreHorizontallyOverlapping(previous, next))
+            return false;
+
+        var gap = previous.Bottom - next.Top;
+        if (gap < -Math.Max(previous.AvgHeight, next.AvgHeight) * 0.25)
+            return false;
+
+        var avgHeight = Math.Max(previous.AvgHeight, next.AvgHeight);
+        var continues = IsLineContinuation(previous.Text);
+        var maxGap = avgHeight * (continues ? 2.2 : 1.35);
+        if (gap > maxGap)
+            return false;
+
+        var sameLeft = Math.Abs(previous.Left - next.Left) <= Math.Max(6.0, avgHeight * 0.75);
+        var sameRight = Math.Abs(previous.Right - next.Right) <= Math.Max(8.0, avgHeight);
+        if (!sameLeft && next.Width > previous.Width * 2.5)
+            return false;
+
+        var lineOverlap = HorizontalOverlapRatio(previous, next);
+        return sameLeft || sameRight || (continues && lineOverlap >= 0.65);
+    }
+
+    private static bool AreHorizontallyOverlapping(TextLineBlock a, TextLineBlock b) =>
+        HorizontalOverlapRatio(a, b) >= 0.35;
+
+    private static double HorizontalOverlapRatio(TextLineBlock a, TextLineBlock b)
+    {
+        var overlap = Math.Max(0, Math.Min(a.Right, b.Right) - Math.Max(a.Left, b.Left));
+        var minWidth = Math.Min(a.Width, b.Width);
+        return minWidth > 0 ? overlap / minWidth : 0;
+    }
+
+    private static TextBlock MergeLines(List<TextLineBlock> lines)
     {
         var text = string.Join("\n", lines.Select(l => l.Text));
-        var bbox = lines.Select(l => l.Bbox).Aggregate((a, b) => a.Merge(b));
+        var bbox = lines.Select(l => l.BoundingBox).Aggregate((a, b) => a.Merge(b));
         var first = lines[0];
         return new TextBlock(
             bbox,
             text,
             first.FontName,
-            first.AvgFontSize,
+            first.FontSize,
             first.IsBold,
             LineCount: lines.Count);
     }
@@ -562,18 +762,55 @@ public sealed class PdfStructParser
         c is '"' or '\'' or '”' or '’' or ')' or ']' or '}' or '」' or '』' or '»';
 
     /// <summary>Returns <c>true</c> when two lines have effectively the same font size (within 10% or 1pt).</summary>
-    private static bool IsSameFontSize(LineGroup a, LineGroup b)
+    private static bool IsSameFontSize(TextLineBlock a, TextLineBlock b)
     {
-        var delta = Math.Abs(a.AvgFontSize - b.AvgFontSize);
-        var tolerance = Math.Max(1.0, 0.1 * Math.Max(a.AvgFontSize, b.AvgFontSize));
+        var delta = Math.Abs(a.FontSize - b.FontSize);
+        var tolerance = Math.Max(1.0, 0.1 * Math.Max(a.FontSize, b.FontSize));
         return delta <= tolerance;
     }
 
-    private sealed class LineGroup
+    private static readonly Regex s_digitRun = new(@"\d+", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+    private static readonly Regex s_whitespace = new(@"\s+", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
+    private readonly record struct PageGeometry(double Width, double Height);
+
+    private readonly record struct RunningLineCandidate(
+        int PageNumber,
+        int LineIndex,
+        RunningFurnitureBand Band,
+        string NormalizedText);
+
+    private enum RunningFurnitureBand { Header, Footer, Side }
+
+    private readonly record struct TextLineBlock(
+        Models.BoundingBox BoundingBox,
+        string Text,
+        string FontName,
+        double FontSize,
+        bool IsBold,
+        double BaselineY,
+        double AvgHeight)
+    {
+        public double Left => BoundingBox.Left;
+        public double Right => BoundingBox.Right;
+        public double Bottom => BoundingBox.Bottom;
+        public double Top => BoundingBox.Top;
+        public double Width => BoundingBox.Width;
+
+        public TextBlock ToTextBlock() => new(
+            BoundingBox,
+            Text,
+            FontName,
+            FontSize,
+            IsBold,
+            LineCount: 1);
+    }
+
+    private sealed class TextLineBuilder
     {
         private readonly List<Word> _words = [];
 
-        public LineGroup(Word w) => _words.Add(w);
+        public TextLineBuilder(Word w) => _words.Add(w);
         public void Add(Word w) => _words.Add(w);
 
         public double BaselineY => Math.Min(_words[0].BoundingBox.Bottom, _words[0].BoundingBox.Top);
@@ -592,5 +829,14 @@ public sealed class PdfStructParser
         public string Text => string.Join(" ", _words.OrderBy(w => w.BoundingBox.Left).Select(w => w.Text));
 
         public Models.BoundingBox Bbox => new(Left, Bottom, Right, Top);
+
+        public TextLineBlock ToTextLineBlock() => new(
+            Bbox,
+            Text,
+            FontName,
+            AvgFontSize,
+            IsBold,
+            BaselineY,
+            AvgHeight);
     }
 }

@@ -101,6 +101,30 @@ public class XyCutLayoutAnalyzerTests
         Assert.Equal("Top", result[0].Text);
         Assert.Equal("Bottom", result[1].Text);
     }
+
+    [Fact]
+    public void TwoColumnsWithNarrowBridge_ShouldKeepLeftColumnFirst()
+    {
+        var analyzer = new XyCutLayoutAnalyzer();
+        var blocks = new[]
+        {
+            new TextBlock(new BoundingBox(50, 570, 300, 600), "L1"),
+            new TextBlock(new BoundingBox(50, 550, 300, 572), "L2"),
+            new TextBlock(new BoundingBox(320, 570, 560, 600), "R1"),
+            new TextBlock(new BoundingBox(320, 550, 560, 572), "R2"),
+            new TextBlock(new BoundingBox(302, 575, 318, 585), "PageNum"),
+        };
+
+        var result = analyzer.DetermineReadingOrder(blocks);
+        var ordered = result.Select(b => b.Text).ToList();
+
+        Assert.True(ordered.IndexOf("L2") < ordered.IndexOf("R1"),
+            $"Left column should come before right column. Order: {string.Join(", ", ordered)}");
+        Assert.True(ordered.IndexOf("L1") < ordered.IndexOf("L2"),
+            $"Left column should remain top-to-bottom. Order: {string.Join(", ", ordered)}");
+        Assert.True(ordered.IndexOf("R1") < ordered.IndexOf("R2"),
+            $"Right column should remain top-to-bottom. Order: {string.Join(", ", ordered)}");
+    }
 }
 
 public class TextSanitizerTests

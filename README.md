@@ -143,9 +143,11 @@ dotnet run --project src/PdfStruct.Cli -- extract playground/document.pdf -o out
 dotnet run --project src/PdfStruct.Cli -- extract playground/document.pdf -o out.json --format json
 dotnet run --project src/PdfStruct.Cli -- extract playground/document.pdf --sanitize -o out.md
 dotnet run --project src/PdfStruct.Cli -- extract playground/document.pdf --debug-image out/debug
+dotnet run --project src/PdfStruct.Cli -- extract playground/document.pdf --debug-image out/debug --debug-lines
+dotnet run --project src/PdfStruct.Cli -- extract playground/document.pdf --include-running-headers -o out.md
 ```
 
-`--sanitize` masks common sensitive values (emails, phone numbers, etc.) in the extracted text. `--debug-image` writes one PNG per page rasterized through PDFium (via Docnet.Core) with extracted element bounding boxes overlaid — the page renders exactly as a viewer would display it (fonts, embedded images, vector graphics) so bbox positions are visually verifiable against the actual layout.
+By default, detected running headers, footers, page numbers, and narrow side furniture are excluded from the main content stream. `--include-running-headers` keeps that detected page furniture. `--sanitize` masks common sensitive values (emails, phone numbers, etc.) in the extracted text. `--debug-image` writes one PNG per page rasterized through PDFium (via Docnet.Core) with extracted element bounding boxes overlaid — the page renders exactly as a viewer would display it (fonts, embedded images, vector graphics) so bbox positions are visually verifiable against the actual layout. Add `--debug-lines` with `--debug-image` to include the pre-paragraph text-line boxes used before block merging.
 
 A `diagnose` subcommand emits a per-block CSV with the heading-probability breakdown (base, font-size rarity, font-weight rarity, bulleted boost, total) — useful for calibrating the threshold against new fixtures:
 
