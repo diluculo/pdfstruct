@@ -26,13 +26,20 @@ internal readonly record struct ListLabel(string Prefix, int Number, char Termin
 /// <param name="Body">Item body text — the start line's content with the label prefix stripped, joined to absorbed continuation lines with newlines.</param>
 /// <param name="BoundingBox">Union of the start line and every absorbed continuation line.</param>
 /// <param name="StartLineIndex">Index of the start line within the page's text-line sequence.</param>
-/// <param name="ClaimedLineIndices">All page-line indices owned by this item (the start line plus any absorbed continuations).</param>
+/// <param name="BodyLineIndices">Page-line indices absorbed as body continuation of the item (the start line plus any continuation lines).</param>
+/// <param name="ChildrenLineIndices">Page-line indices absorbed as children of the item. Phase 2 territory walk; empty for the last item of any list.</param>
 internal sealed record DetectedListItem(
     int Number,
     string Body,
     BoundingBox BoundingBox,
     int StartLineIndex,
-    IReadOnlyList<int> ClaimedLineIndices);
+    IReadOnlyList<int> BodyLineIndices,
+    IReadOnlyList<int> ChildrenLineIndices)
+{
+    /// <summary>Every page-line index owned by this item, body and children combined, in original document order.</summary>
+    public IEnumerable<int> ClaimedLineIndices =>
+        BodyLineIndices.Concat(ChildrenLineIndices).OrderBy(i => i);
+}
 
 /// <summary>
 /// A confirmed run of two or more list items sharing a common label shape.
@@ -128,7 +135,7 @@ internal static class ListDetector
             if (candidate.ItemCount < 2) continue;
             if (candidate.AllLabelsLookLikeDecimals(s_decimalLabel)) continue;
 
-            AbsorbContinuations(candidate, pageLines, claimed);
+            AbsorbTerritories(candidate, pageLines, claimed);
             foreach (var lineIndex in candidate.AllClaimedLineIndices()) claimed.Add(lineIndex);
             lists.Add(candidate.ToDetectedList());
         }
@@ -197,7 +204,14 @@ internal static class ListDetector
         return null;
     }
 
-    private static void AbsorbContinuations(
+    /// <summary>
+    /// Walks each confirmed item's territory, absorbing lines as either
+    /// body continuation (Phase 1 § 7) or as children (Phase 2 § 6). The
+    /// last item of a list does only body absorption with no child zone,
+    /// per Phase 2 § 8 — the territory of the last item is otherwise
+    /// unbounded and risks over-absorbing post-list content.
+    /// </summary>
+    private static void AbsorbTerritories(
         Candidate candidate,
         IReadOnlyList<TextLineBlock> pageLines,
         HashSet<int> alreadyClaimed)
@@ -205,24 +219,41 @@ internal static class ListDetector
         for (var k = 0; k < candidate.ItemCount; k++)
         {
             var item = candidate.GetMutableItem(k);
-            var nextStart = k + 1 < candidate.ItemCount
-                ? candidate.GetMutableItem(k + 1).LineIndex
-                : pageLines.Count;
+            var isLast = k == candidate.ItemCount - 1;
+            var territoryEnd = isLast
+                ? pageLines.Count
+                : candidate.GetMutableItem(k + 1).LineIndex;
+
             var startLine = pageLines[item.LineIndex];
             var previousBaseline = startLine.BaselineY;
             var typicalSpacing = Math.Max(startLine.AvgHeight, 1.0) * InterLineSpacingMultiplier;
+            var bodyMode = true;
 
-            for (var j = item.LineIndex + 1; j < nextStart; j++)
+            for (var j = item.LineIndex + 1; j < territoryEnd; j++)
             {
                 if (alreadyClaimed.Contains(j)) break;
 
                 var line = pageLines[j];
                 var tol = SameLeftTolerance(line.FontSize);
                 if (line.Left < startLine.Left - tol) break;
-                if (Math.Abs(line.BaselineY - previousBaseline) > typicalSpacing) break;
                 if (TryParseLabel(line.Text) is not null) break;
 
-                item.Absorb(line, j);
+                if (bodyMode)
+                {
+                    if (Math.Abs(line.BaselineY - previousBaseline) <= typicalSpacing)
+                    {
+                        item.AbsorbAsBody(line, j);
+                        previousBaseline = line.BaselineY;
+                        continue;
+                    }
+
+                    if (isLast)
+                        break;
+
+                    bodyMode = false;
+                }
+
+                item.AbsorbAsChild(line, j);
                 previousBaseline = line.BaselineY;
             }
         }
@@ -315,7 +346,8 @@ internal static class ListDetector
                     Body: item.BodyText,
                     BoundingBox: item.BoundingBox,
                     StartLineIndex: item.LineIndex,
-                    ClaimedLineIndices: item.ClaimedLineIndices));
+                    BodyLineIndices: item.BodyLineIndices,
+                    ChildrenLineIndices: item.ChildrenLineIndices));
                 listBox = listBox.Merge(item.BoundingBox);
             }
 
@@ -330,12 +362,13 @@ internal static class ListDetector
     }
 
     /// <summary>
-    /// Internal mutable representation of one item while its body is being
-    /// accumulated through continuation absorption.
+    /// Internal mutable representation of one item while its body and any
+    /// children are being accumulated through the territory walk.
     /// </summary>
     private sealed class MutableItem
     {
-        private readonly List<int> _claimedLineIndices = [];
+        private readonly List<int> _bodyLineIndices = [];
+        private readonly List<int> _childrenLineIndices = [];
         private readonly List<string> _bodyLines = [];
         private BoundingBox _boundingBox;
 
@@ -345,7 +378,7 @@ internal static class ListDetector
             Line = line;
             Label = label;
             _boundingBox = line.BoundingBox;
-            _claimedLineIndices.Add(lineIndex);
+            _bodyLineIndices.Add(lineIndex);
 
             var clamped = Math.Min(labelLength, line.Text.Length);
             var stripped = line.Text.Length > clamped ? line.Text[clamped..] : string.Empty;
@@ -362,14 +395,24 @@ internal static class ListDetector
         public ListLabel Label { get; }
         public string RawLabelToken { get; }
         public BoundingBox BoundingBox => _boundingBox;
-        public IReadOnlyList<int> ClaimedLineIndices => _claimedLineIndices;
+        public IReadOnlyList<int> BodyLineIndices => _bodyLineIndices;
+        public IReadOnlyList<int> ChildrenLineIndices => _childrenLineIndices;
         public string BodyText => string.Join("\n", _bodyLines);
 
-        public void Absorb(TextLineBlock continuation, int lineIndex)
+        /// <summary>Every page-line index owned by this item, in original document order.</summary>
+        public IEnumerable<int> ClaimedLineIndices => _bodyLineIndices.Concat(_childrenLineIndices);
+
+        public void AbsorbAsBody(TextLineBlock continuation, int lineIndex)
         {
             _bodyLines.Add(continuation.Text);
             _boundingBox = _boundingBox.Merge(continuation.BoundingBox);
-            _claimedLineIndices.Add(lineIndex);
+            _bodyLineIndices.Add(lineIndex);
+        }
+
+        public void AbsorbAsChild(TextLineBlock childLine, int lineIndex)
+        {
+            _boundingBox = _boundingBox.Merge(childLine.BoundingBox);
+            _childrenLineIndices.Add(lineIndex);
         }
     }
 }

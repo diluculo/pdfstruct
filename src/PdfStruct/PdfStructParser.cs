@@ -253,7 +253,7 @@ public sealed class PdfStructParser
         }
 
         if (pageLists.Count > 0)
-            ReplaceListPlaceholders(doc.Kids, pageLists);
+            ReplaceListPlaceholders(doc.Kids, pageLists, originalPageLines);
 
         AssignHeadingLevels(doc.Kids);
 
@@ -336,12 +336,24 @@ public sealed class PdfStructParser
 
     /// <summary>
     /// Renumbers elements sequentially while preserving the order produced by
-    /// the extraction and layout-analysis pipeline.
+    /// the extraction and layout-analysis pipeline. Top-level elements are
+    /// numbered 1..N first; nested children inside list items are then
+    /// numbered with the next available identifier so every element in the
+    /// document has a unique id.
     /// </summary>
     private static void RenumberElements(List<Models.ContentElement> elements)
     {
-        for (var i = 0; i < elements.Count; i++)
-            elements[i].Id = i + 1;
+        var nextId = 1;
+        foreach (var element in elements)
+            element.Id = nextId++;
+
+        foreach (var element in elements)
+        {
+            if (element is not Models.ListElement list) continue;
+            foreach (var item in list.ListItems)
+                foreach (var child in item.Kids)
+                    child.Id = nextId++;
+        }
     }
 
     /// <summary>
@@ -524,7 +536,8 @@ public sealed class PdfStructParser
     /// </summary>
     private static void ReplaceListPlaceholders(
         List<Models.ContentElement> kids,
-        Dictionary<int, IReadOnlyList<DetectedList>> pageLists)
+        Dictionary<int, IReadOnlyList<DetectedList>> pageLists,
+        IReadOnlyDictionary<int, IReadOnlyList<TextLineBlock>> originalPageLines)
     {
         for (var i = 0; i < kids.Count; i++)
         {
@@ -545,17 +558,28 @@ public sealed class PdfStructParser
             if (!int.TryParse(rest.AsSpan(sep + 1), System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var indexOnPage)) continue;
             if (!pageLists.TryGetValue(pageNumber, out var lists)) continue;
             if (indexOnPage < 0 || indexOnPage >= lists.Count) continue;
+            if (!originalPageLines.TryGetValue(pageNumber, out var pageLines)) continue;
 
-            kids[i] = BuildListElement(lists[indexOnPage], pageNumber, element.Id);
+            kids[i] = BuildListElement(lists[indexOnPage], pageNumber, element.Id, pageLines);
         }
     }
 
     /// <summary>
     /// Materialises a <see cref="Models.ListElement"/> from a detector
     /// output. The numbering style is fixed at <c>"ordered"</c> for Phase 1
-    /// (Arabic-numeric labels only).
+    /// and Phase 2 (Arabic-numeric labels only). Per-item children, if any
+    /// were absorbed by the territory walk (Phase 2 § 6), are formed here
+    /// by feeding each item's child line indices through the same
+    /// paragraph-merger function the page-level pipeline uses, then
+    /// wrapping each resulting block as a paragraph element child of the
+    /// list item. Child element identifiers are assigned later by
+    /// <see cref="RenumberElements"/>.
     /// </summary>
-    private static Models.ListElement BuildListElement(DetectedList list, int pageNumber, int id)
+    private static Models.ListElement BuildListElement(
+        DetectedList list,
+        int pageNumber,
+        int id,
+        IReadOnlyList<TextLineBlock> pageLines)
     {
         var element = new Models.ListElement
         {
@@ -567,7 +591,7 @@ public sealed class PdfStructParser
         };
         foreach (var item in list.Items)
         {
-            element.ListItems.Add(new Models.ListItem
+            var listItem = new Models.ListItem
             {
                 BoundingBox = item.BoundingBox,
                 PageNumber = pageNumber,
@@ -577,7 +601,31 @@ public sealed class PdfStructParser
                     FontSize = list.FontSize,
                     Font = list.FontName
                 }
-            });
+            };
+
+            if (item.ChildrenLineIndices.Count > 0)
+            {
+                var childLines = item.ChildrenLineIndices
+                    .Select(idx => pageLines[idx])
+                    .ToList();
+                var childBlocks = MergeLinesIntoBlocks(childLines);
+                foreach (var block in childBlocks)
+                {
+                    listItem.Kids.Add(new Models.ParagraphElement
+                    {
+                        PageNumber = pageNumber,
+                        BoundingBox = block.BoundingBox,
+                        Text = new Models.TextProperties
+                        {
+                            Content = block.Text,
+                            Font = block.FontName,
+                            FontSize = block.FontSize
+                        }
+                    });
+                }
+            }
+
+            element.ListItems.Add(listItem);
         }
         return element;
     }

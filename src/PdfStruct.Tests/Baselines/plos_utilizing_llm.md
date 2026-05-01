@@ -59,7 +59,7 @@ the correct species identifier with considerable accuracy (83.0%). As our approa
 easily scalable and adaptable to other contexts and languages, it offers a promising
 way to advance dataset generation from historical material using limited resources.
 
-Introduction
+### Introduction
 Ecosystems and the changes they undergo can only be comprehensively understood
 and assessed in light of their past. Estimates of human influence on ecosystems,
 explanations for the extinction of certain species, or the formulation of realistic goals
@@ -132,7 +132,7 @@ In conclusion, we consider this approach a valuable option for building datasets
 ularly when the scope of the material prohibits manual processing. Our approach offers a scalable and adaptable way to
 expand the data available in historical ecology.
 
-Materials and methods
+### Materials and methods
 Source Material
 This study utilizes texts taken from 19th-century regional studies on the 64 Oberämter (administrative districts) of the
 southern German kingdom of Württemberg (see Figure 1). This kingdom had been formed only in 1806 under French
@@ -188,7 +188,7 @@ brief 18 words for the rural Künzelsau district to a comprehensive 9682 words i
 gen (1867), with a mean chapter length of 885 tokens and a general trend toward longer texts in later publication years. In
 total, by extracting the fauna chapters from each volume, a data set of 56640 tokens was created.
 
-Entity Recognition
+#### Entity Recognition
 The first task is the recognition of n-grams naming animal taxa as presented in the chapters. This task also includes col-
 lecting information on the presence of a given animal, as some species are often recorded by the authors as being absent
 or extinct.
@@ -257,11 +257,10 @@ implied. This annotation yielded data for 435 mentions of animals in the sample.
 LLM responses were evaluated using three metrics:
 
 1. A recall score showing how many of the animals found by the human annotator were also recognized by the LLM.
-
 2. A precision score, indicating how many of the animals found by the LLM were correct, i.e., also annotated by the
-human.
-
+    human.
 3. An additional precision score for the information on presence, showing in how many cases the LLM agreed with the
+
 human annotator on whether an animal is described as being present or absent.
 
 This proved challenging, as all tested LLMs tended to modernize historical spellings in their outputs. Additionally,
@@ -270,9 +269,9 @@ issues, we applied two different matching strategies to compute the metrics, fol
 Gallardo et al. [44]:
 
 1. A strict matching function, which only considers items a match if the vernacular or scientific names are exact string
-matches.
-
+    matches.
 2. A fuzzy matching function, which allows for minor variations (an editing distance of 2 was set as acceptable) and
+
 assumes that a match is still valid if the first part of a scientific name is abbreviated in either the human’s or the LLM’s
 output.
 
@@ -328,7 +327,7 @@ Fuzzy Presence
 98.0%
 94.8%
 
-Data Linking
+#### Data Linking
 Building on the extraction of vernacular and scientific names from the texts, a second task involves linking these names to
 records in an authority file. By mapping the names to such unique records, historical mentions of animals can be dis-
 ambiguated, and additional information on each taxon can easily be added for further analysis. The Global Biodiversity
@@ -535,7 +534,7 @@ worst performance on the second most recent quarter. The other two models achiev
 quartile, which contains names from the 1850s and 1860s. Overall, the diachronic analysis of the LLMs’ performance
 yields no significant results.
 
-Results
+### Results
 A dataset of the animals documented in the Oberamtsbeschreibungen was built using the entity recognition workflow with
 GPT-4o and the data linking method with Llama 3.1 (see S1 Biodiversity Dataset). Additionally, the dataset includes infor-
 mation created by employing only a database lookup, without using an LLM for linkage. This is intended for applications
@@ -626,7 +625,7 @@ tions from this expectation are often explained in the texts, such as for Maulbr
 population (in German: “Der Hase ist in Folge der sich täglich mehrenden Jagdfreunde, sowie verschiedener Krankheiten,
 namentlich Leberleiden, in neuerer Zeit seltener geworden [...]”).
 
-Discussion
+### Discussion
 The problem of generating a fauna dataset for the Kingdom of Württemberg from unstructured 19th-century source texts
 in an automated manner was addressed by breaking it down into two tasks: The first task involved detecting animals men-
 tioned in the texts as named entities. This was challenging due to the lack of structure in the texts, the archaic language,
@@ -688,7 +687,7 @@ sources will help mobilize knowledge on past biodiversity at a greater scale in 
 manual processing of large quantities of textual sources is not feasible, such workflows can offer an efficient alternative to
 expand the body of data available to historical ecology.
 
-Supporting information
+### Supporting information
 S1 Text. Biodiversity Dataset. CSV file representing all species documented in the source texts, with the name of
 the district, the year of publication, the original text, the species names as given in the original text, information on the
 presence of the species, a normalized species name, and a GBIF identifier. Available from: https://doi.org/10.5281/
@@ -699,74 +698,63 @@ the Kingdom of Württemberg circa 1848. The data were derived from a contemporan
 through manual retracing. Available from: https://doi.org/10.5281/zenodo.18161575
 (GEOJSON)
 
-S3 Text. Prompts. Final German prompts used for the entity recognition and data linking tasks in dataset generation.
+#### S3 Text. Prompts. Final German prompts used for the entity recognition and data linking tasks in dataset generation.
 (TXT)
 
-Author contributions
+### Author contributions
 Conceptualization: Maximilian C. Teich, Malte Rehbein.
 
-Data curation: Maximilian C. Teich, Belen Escobari.
+#### Data curation: Maximilian C. Teich, Belen Escobari.
 
-Formal analysis: Maximilian C. Teich.
+#### Formal analysis: Maximilian C. Teich.
 
-Investigation: Maximilian C. Teich, Belen Escobari.
+#### Investigation: Maximilian C. Teich, Belen Escobari.
 
-Methodology: Maximilian C. Teich, Belen Escobari, Malte Rehbein.
+#### Methodology: Maximilian C. Teich, Belen Escobari, Malte Rehbein.
 
-Project administration: Maximilian C. Teich.
+#### Project administration: Maximilian C. Teich.
 Software: Maximilian C. Teich.
 Supervision: Malte Rehbein.
 
-Validation: Belen Escobari.
+#### Validation: Belen Escobari.
 
-Visualization: Maximilian C. Teich.
+#### Visualization: Maximilian C. Teich.
 
-Writing – original draft: Maximilian C. Teich.
+#### Writing – original draft: Maximilian C. Teich.
 
-Writing – review & editing: Malte Rehbein.
+#### Writing – review & editing: Malte Rehbein.
 
 ### References
 
 1. Crumley CL. Historical ecology: cultural knowledge and changing landscapes. University of New Mexico Press. 1994. Google-Books-ID:
-
-EDwx1eGD1PEC.
-
+    EDwx1eGD1PEC.
 2. Balée WL. Advances in Historical Ecology. Columbia University Press. 1998. Google-Books-ID: PuadAwAAQBAJ.
 3. Swetnam TW, Allen CD, Betancourt JL. Applied historical ecology: using the past to manage for the future. Ecol Appl. 1999;9(4):1189–206. https://
-doi.org/10.1890/1051-0761(1999)009[1189:aheutp]2.0.co;2
+    doi.org/10.1890/1051-0761(1999)009[1189:aheutp]2.0.co;2
 4. Sutton MQ, Anderson EN. An Introduction to Cultural Ecology. London: Routledge. 2004. https://doi.org/10.4324/9781003135456
 5. Balée W. The research program of historical ecology. Ann Rev Anthropol. 2006;35(10):75–98. https://doi.org/10.1146/annurev.
-
-anthro.35.081705.123231
-
+    anthro.35.081705.123231
 6. SZABÓ P. Why history matters in ecology: an interdisciplinary perspective. Envir Conserv. 2010;37(4):380–7. https://doi.org/10.1017/
-s0376892910000718
-
+    s0376892910000718
 7. Isendahl C, Stump D. Introduction: The construction of the present through the reconstruction of the past. In: Isendahl C, Stump D, editors.
-
-The Oxford Handbook of Historical Ecology and Applied Archaeology. Oxford University Press. 2015. p. xvii–xxxiv. https://doi.org/10.1093/oxfor
-dhb/9780199672691.002.0007
-
+    The Oxford Handbook of Historical Ecology and Applied Archaeology. Oxford University Press. 2015. p. xvii–xxxiv. https://doi.org/10.1093/oxfor
+    dhb/9780199672691.002.0007
 8. Crumley CL. Historical Ecology. The International Encyclopedia of Anthropology. John Wiley & Sons, Ltd. 2018. p. 1–5. https://doi.
-
-org/10.1002/9781118924396.wbiea1887
-
+    org/10.1002/9781118924396.wbiea1887
 9. Vellend M, Brown CD, Kharouba HM, McCune JL, Myers-Smith IH. Historical ecology: using unconventional data sources to test for effects of
+
 global environmental change. Am J Bot. 2013;100(7):1294–305. https://doi.org/10.3732/ajb.1200503 PMID: 23804553
-10. Rehbein M. From historical archives to algorithms: reconstructing biodiversity patterns in 19th century Bavaria. Diversity. 2025;17(5):315. https://
-doi.org/10.3390/d17050315
 
-11. Turvey ST, Crees JJ, Di Fonzo MMI. Historical data as a baseline for conservation: reconstructing long-term faunal extinction dynamics in Late
-Imperial-modern China. Proc Biol Sci. 2015;282(1813):20151299. https://doi.org/10.1098/rspb.2015.1299 PMID: 26246553
-12. Clavero M. The King’s aquatic desires: 16th‐century fish and crayfish introductions into Spain. Fish and Fisheries. 2022;23(6):1251–63. https://doi.
+1. Rehbein M. From historical archives to algorithms: reconstructing biodiversity patterns in 19th century Bavaria. Diversity. 2025;17(5):315. https://
+    doi.org/10.3390/d17050315
+2. Turvey ST, Crees JJ, Di Fonzo MMI. Historical data as a baseline for conservation: reconstructing long-term faunal extinction dynamics in Late
+    Imperial-modern China. Proc Biol Sci. 2015;282(1813):20151299. https://doi.org/10.1098/rspb.2015.1299 PMID: 26246553
+3. Clavero M. The King’s aquatic desires: 16th‐century fish and crayfish introductions into Spain. Fish and Fisheries. 2022;23(6):1251–63. https://doi.
+    org/10.1111/faf.12680
+4. Govaerts S. Biodiversity in the Late Middle Ages: Wild Birds in the Fourteenth-Century County of Holland. Environment and History. 2023:1–26.
+    https://doi.org/10.3828/096734022x16627150608122
+5. Rehbein M, Escobari B, Fischer S, Güntsch A, Haas B, Matheisen G, et al. Quantitative and qualitative Data on historical Vertebrate Distributions
 
-org/10.1111/faf.12680
-
-13. Govaerts S. Biodiversity in the Late Middle Ages: Wild Birds in the Fourteenth-Century County of Holland. Environment and History. 2023:1–26.
-
-https://doi.org/10.3828/096734022x16627150608122
-
-14. Rehbein M, Escobari B, Fischer S, Güntsch A, Haas B, Matheisen G, et al. Quantitative and qualitative Data on historical Vertebrate Distributions
 in Bavaria 1845. Sci Data. 2025;12(1):525. https://doi.org/10.1038/s41597-025-04846-8 PMID: 40155652
 
 15. Blanco-Garrido F, Hermoso V, Clavero M. Fishing historical sources: a snapshot of 19th-century freshwater fauna in Spain. Rev Fish Biol Fisheries.

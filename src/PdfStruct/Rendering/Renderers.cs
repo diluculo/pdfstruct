@@ -93,8 +93,35 @@ public sealed class MarkdownRenderer : IDocumentRenderer
         var ordered = list.NumberingStyle is "ordered" or "decimal" or "roman";
         for (int i = 0; i < list.ListItems.Count; i++)
         {
+            var item = list.ListItems[i];
             sb.Append(ordered ? $"{i + 1}." : "-");
-            sb.Append(' ').AppendLine(list.ListItems[i].Text.Content);
+            sb.Append(' ').AppendLine(item.Text.Content);
+            foreach (var child in item.Kids)
+                RenderListItemChild(child, sb);
+        }
+    }
+
+    /// <summary>
+    /// Renders a child element of a list item with a four-space indent so
+    /// the nesting is visually evident in the resulting Markdown.
+    /// </summary>
+    private static void RenderListItemChild(ContentElement child, StringBuilder sb)
+    {
+        switch (child)
+        {
+            case ParagraphElement p:
+                foreach (var line in p.Text.Content.Split('\n'))
+                {
+                    sb.Append("    ");
+                    sb.AppendLine(line);
+                }
+                break;
+            case CaptionElement c:
+                sb.Append("    *").Append(c.Text.Content).AppendLine("*");
+                break;
+            case ImageElement img:
+                sb.Append("    ").AppendLine(img.Source is not null ? $"![image]({img.Source})" : "[Image]");
+                break;
         }
     }
 }
@@ -174,16 +201,22 @@ public sealed class JsonRenderer : IDocumentRenderer
                 dict["number of list items"] = list.NumberOfListItems;
                 if (list.PreviousListId.HasValue) dict["previous list id"] = list.PreviousListId;
                 if (list.NextListId.HasValue) dict["next list id"] = list.NextListId;
-                dict["list items"] = list.ListItems.Select(item => new Dictionary<string, object?>
+                dict["list items"] = list.ListItems.Select(item =>
                 {
-                    ["type"] = item.Type,
-                    ["level"] = "List Item",
-                    ["page number"] = item.PageNumber,
-                    ["bounding box"] = item.BoundingBox.ToArray(),
-                    ["font"] = item.Text.Font,
-                    ["font size"] = item.Text.FontSize,
-                    ["text color"] = item.Text.TextColor,
-                    ["content"] = item.Text.Content
+                    var itemDict = new Dictionary<string, object?>
+                    {
+                        ["type"] = item.Type,
+                        ["level"] = "List Item",
+                        ["page number"] = item.PageNumber,
+                        ["bounding box"] = item.BoundingBox.ToArray(),
+                        ["font"] = item.Text.Font,
+                        ["font size"] = item.Text.FontSize,
+                        ["text color"] = item.Text.TextColor,
+                        ["content"] = item.Text.Content
+                    };
+                    if (item.Kids.Count > 0)
+                        itemDict["kids"] = item.Kids.Select(ToOdlElement).ToList();
+                    return itemDict;
                 }).ToList();
                 break;
             case ImageElement img:

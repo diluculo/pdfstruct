@@ -2078,19 +2078,292 @@
       "content": "\uC81C89\uC870 \uB2E4\uC74C \uC0AC\uD56D\uC740 \uAD6D\uBB34\uD68C\uC758\uC758 \uC2EC\uC758\uB97C \uAC70\uCCD0\uC57C \uD55C\uB2E4."
     },
     {
-      "type": "paragraph",
+      "type": "list",
       "id": 136,
       "page number": 9,
       "bounding box": [
         50,
-        411,
+        395,
         565.0568749999995,
         675.6181640625
       ],
-      "font": "XHGTKF\u002BMalgunGothic",
-      "font size": 10,
-      "text color": "[0.0]",
-      "content": "1. \uAD6D\uC815\uC758 \uAE30\uBCF8\uACC4\uD68D\uACFC \uC815\uBD80\uC758 \uC77C\uBC18\uC815\uCC45\n2. \uC120\uC804\u318D\uAC15\uD654 \uAE30\uD0C0 \uC911\uC694\uD55C \uB300\uC678\uC815\uCC45\n3. \uD5CC\uBC95\uAC1C\uC815\uC548\u318D\uAD6D\uBBFC\uD22C\uD45C\uC548\u318D\uC870\uC57D\uC548\u318D\uBC95\uB960\uC548 \uBC0F \uB300\uD1B5\uB839\uB839\uC548\n4. \uC608\uC0B0\uC548\u318D\uACB0\uC0B0\u318D\uAD6D\uC720\uC7AC\uC0B0\uCC98\uBD84\uC758 \uAE30\uBCF8\uACC4\uD68D\u318D\uAD6D\uAC00\uC758 \uBD80\uB2F4\uC774 \uB420 \uACC4\uC57D \uAE30\uD0C0 \uC7AC\uC815\uC5D0 \uAD00\uD55C \uC911\uC694\uC0AC\uD56D\n5. \uB300\uD1B5\uB839\uC758 \uAE34\uAE09\uBA85\uB839\u318D\uAE34\uAE09\uC7AC\uC815\uACBD\uC81C\uCC98\uBD84 \uBC0F \uBA85\uB839 \uB610\uB294 \uACC4\uC5C4\uACFC \uADF8 \uD574\uC81C\n6. \uAD70\uC0AC\uC5D0 \uAD00\uD55C \uC911\uC694\uC0AC\uD56D\n7. \uAD6D\uD68C\uC758 \uC784\uC2DC\uD68C \uC9D1\uD68C\uC758 \uC694\uAD6C\n8. \uC601\uC804\uC218\uC5EC\n9. \uC0AC\uBA74\u318D\uAC10\uD615\uACFC \uBCF5\uAD8C\n10. \uD589\uC815\uAC01\uBD80\uAC04\uC758 \uAD8C\uD55C\uC758 \uD68D\uC815\n11. \uC815\uBD80 \uC548\uC758 \uAD8C\uD55C\uC758 \uC704\uC784 \uB610\uB294 \uBC30\uC815\uC5D0 \uAD00\uD55C \uAE30\uBCF8\uACC4\uD68D\n12. \uAD6D\uC815\uCC98\uB9AC\uC0C1\uD669\uC758 \uD3C9\uAC00\u318D\uBD84\uC11D\n13. \uD589\uC815\uAC01\uBD80\uC758 \uC911\uC694\uD55C \uC815\uCC45\uC758 \uC218\uB9BD\uACFC \uC870\uC815\n14. \uC815\uB2F9\uD574\uC0B0\uC758 \uC81C\uC18C\n15. \uC815\uBD80\uC5D0 \uC81C\uCD9C \uB610\uB294 \uD68C\uBD80\uB41C \uC815\uBD80\uC758 \uC815\uCC45\uC5D0 \uAD00\uACC4\uB418\uB294 \uCCAD\uC6D0\uC758 \uC2EC\uC0AC\n16. \uAC80\uCC30\uCD1D\uC7A5\u318D\uD569\uB3D9\uCC38\uBAA8\uC758\uC7A5\u318D\uAC01\uAD70\uCC38\uBAA8\uCD1D\uC7A5\u318D\uAD6D\uB9BD\uB300\uD559\uAD50\uCD1D\uC7A5\u318D\uB300\uC0AC \uAE30\uD0C0 \uBC95\uB960\uC774 \uC815\uD55C \uACF5\uBB34\uC6D0\uACFC \uAD6D\uC601\uAE30\uC5C5\uCCB4\uAD00\uB9AC\uC790\n\uC758 \uC784\uBA85"
+      "level": "List",
+      "numbering style": "ordered",
+      "number of list items": 17,
+      "list items": [
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            667,
+            221.7578125,
+            675.6181640625
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uAD6D\uC815\uC758 \uAE30\uBCF8\uACC4\uD68D\uACFC \uC815\uBD80\uC758 \uC77C\uBC18\uC815\uCC45"
+        },
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            651,
+            211.7578125,
+            659.5400390625
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uC120\uC804\u318D\uAC15\uD654 \uAE30\uD0C0 \uC911\uC694\uD55C \uB300\uC678\uC815\uCC45"
+        },
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            635,
+            318.2421875,
+            643.5400390625
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uD5CC\uBC95\uAC1C\uC815\uC548\u318D\uAD6D\uBBFC\uD22C\uD45C\uC548\u318D\uC870\uC57D\uC548\u318D\uBC95\uB960\uC548 \uBC0F \uB300\uD1B5\uB839\uB839\uC548"
+        },
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            619,
+            479.3359375,
+            627.6181640625
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uC608\uC0B0\uC548\u318D\uACB0\uC0B0\u318D\uAD6D\uC720\uC7AC\uC0B0\uCC98\uBD84\uC758 \uAE30\uBCF8\uACC4\uD68D\u318D\uAD6D\uAC00\uC758 \uBD80\uB2F4\uC774 \uB420 \uACC4\uC57D \uAE30\uD0C0 \uC7AC\uC815\uC5D0 \uAD00\uD55C \uC911\uC694\uC0AC\uD56D"
+        },
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            603,
+            365.8203125,
+            611.5400390625
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uB300\uD1B5\uB839\uC758 \uAE34\uAE09\uBA85\uB839\u318D\uAE34\uAE09\uC7AC\uC815\uACBD\uC81C\uCC98\uBD84 \uBC0F \uBA85\uB839 \uB610\uB294 \uACC4\uC5C4\uACFC \uADF8 \uD574\uC81C"
+        },
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            587,
+            158.2421875,
+            595.5888671875
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uAD70\uC0AC\uC5D0 \uAD00\uD55C \uC911\uC694\uC0AC\uD56D"
+        },
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            571,
+            181.7578125,
+            579.5400390625
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uAD6D\uD68C\uC758 \uC784\uC2DC\uD68C \uC9D1\uD68C\uC758 \uC694\uAD6C"
+        },
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            555,
+            101.2109375,
+            563.5400390625
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uC601\uC804\uC218\uC5EC"
+        },
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            539,
+            144.7265625,
+            547.5888671875
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uC0AC\uBA74\u318D\uAC10\uD615\uACFC \uBCF5\uAD8C"
+        },
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            523,
+            183.75,
+            531.6181640625
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uD589\uC815\uAC01\uBD80\uAC04\uC758 \uAD8C\uD55C\uC758 \uD68D\uC815"
+        },
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            507,
+            291.328125,
+            515.6181640625
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uC815\uBD80 \uC548\uC758 \uAD8C\uD55C\uC758 \uC704\uC784 \uB610\uB294 \uBC30\uC815\uC5D0 \uAD00\uD55C \uAE30\uBCF8\uACC4\uD68D"
+        },
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            491,
+            190.234375,
+            499.6181640625
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uAD6D\uC815\uCC98\uB9AC\uC0C1\uD669\uC758 \uD3C9\uAC00\u318D\uBD84\uC11D"
+        },
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            475,
+            240.78125,
+            483.5400390625
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uD589\uC815\uAC01\uBD80\uC758 \uC911\uC694\uD55C \uC815\uCC45\uC758 \uC218\uB9BD\uACFC \uC870\uC815"
+        },
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            459,
+            140.234375,
+            467.5400390625
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uC815\uB2F9\uD574\uC0B0\uC758 \uC81C\uC18C"
+        },
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            443,
+            344.84375,
+            451.671875
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uC815\uBD80\uC5D0 \uC81C\uCD9C \uB610\uB294 \uD68C\uBD80\uB41C \uC815\uBD80\uC758 \uC815\uCC45\uC5D0 \uAD00\uACC4\uB418\uB294 \uCCAD\uC6D0\uC758 \uC2EC\uC0AC"
+        },
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            411,
+            565.0568749999995,
+            435.671875
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uAC80\uCC30\uCD1D\uC7A5\u318D\uD569\uB3D9\uCC38\uBAA8\uC758\uC7A5\u318D\uAC01\uAD70\uCC38\uBAA8\uCD1D\uC7A5\u318D\uAD6D\uB9BD\uB300\uD559\uAD50\uCD1D\uC7A5\u318D\uB300\uC0AC \uAE30\uD0C0 \uBC95\uB960\uC774 \uC815\uD55C \uACF5\uBB34\uC6D0\uACFC \uAD6D\uC601\uAE30\uC5C5\uCCB4\uAD00\uB9AC\uC790",
+          "kids": [
+            {
+              "type": "paragraph",
+              "id": 211,
+              "page number": 9,
+              "bounding box": [
+                60,
+                411,
+                93.574525,
+                419.5400390625
+              ],
+              "font": "XHGTKF\u002BMalgunGothic",
+              "font size": 10,
+              "text color": "[0.0]",
+              "content": "\uC758 \uC784\uBA85"
+            }
+          ]
+        },
+        {
+          "type": "list item",
+          "level": "List Item",
+          "page number": 9,
+          "bounding box": [
+            50,
+            395,
+            304.296875,
+            403.671875
+          ],
+          "font": "XHGTKF\u002BMalgunGothic",
+          "font size": 10,
+          "text color": "[0.0]",
+          "content": "\uAE30\uD0C0 \uB300\uD1B5\uB839\u318D\uAD6D\uBB34\uCD1D\uB9AC \uB610\uB294 \uAD6D\uBB34\uC704\uC6D0\uC774 \uC81C\uCD9C\uD55C \uC0AC\uD56D"
+        }
+      ]
     },
     {
       "type": "paragraph",
@@ -2100,12 +2373,12 @@
         34,
         321,
         560.71875,
-        403.671875
+        377.5888671875
       ],
       "font": "XHGTKF\u002BMalgunGothic",
       "font size": 10,
       "text color": "[0.0]",
-      "content": "17. \uAE30\uD0C0 \uB300\uD1B5\uB839\u318D\uAD6D\uBB34\uCD1D\uB9AC \uB610\uB294 \uAD6D\uBB34\uC704\uC6D0\uC774 \uC81C\uCD9C\uD55C \uC0AC\uD56D\n\uC81C90\uC870 \u2460\uAD6D\uC815\uC758 \uC911\uC694\uD55C \uC0AC\uD56D\uC5D0 \uAD00\uD55C \uB300\uD1B5\uB839\uC758 \uC790\uBB38\uC5D0 \uC751\uD558\uAE30 \uC704\uD558\uC5EC \uAD6D\uAC00\uC6D0\uB85C\uB85C \uAD6C\uC131\uB418\uB294 \uAD6D\uAC00\uC6D0\uB85C\uC790\uBB38\uD68C\uC758\uB97C \uB458 \uC218\n\uC788\uB2E4.\n\u2461\uAD6D\uAC00\uC6D0\uB85C\uC790\uBB38\uD68C\uC758\uC758 \uC758\uC7A5\uC740 \uC9C1\uC804\uB300\uD1B5\uB839\uC774 \uB41C\uB2E4. \uB2E4\uB9CC, \uC9C1\uC804\uB300\uD1B5\uB839\uC774 \uC5C6\uC744 \uB54C\uC5D0\uB294 \uB300\uD1B5\uB839\uC774 \uC9C0\uBA85\uD55C\uB2E4.\n\u2462\uAD6D\uAC00\uC6D0\uB85C\uC790\uBB38\uD68C\uC758\uC758 \uC870\uC9C1\u318D\uC9C1\uBB34\uBC94\uC704 \uAE30\uD0C0 \uD544\uC694\uD55C \uC0AC\uD56D\uC740 \uBC95\uB960\uB85C \uC815\uD55C\uB2E4."
+      "content": "\uC81C90\uC870 \u2460\uAD6D\uC815\uC758 \uC911\uC694\uD55C \uC0AC\uD56D\uC5D0 \uAD00\uD55C \uB300\uD1B5\uB839\uC758 \uC790\uBB38\uC5D0 \uC751\uD558\uAE30 \uC704\uD558\uC5EC \uAD6D\uAC00\uC6D0\uB85C\uB85C \uAD6C\uC131\uB418\uB294 \uAD6D\uAC00\uC6D0\uB85C\uC790\uBB38\uD68C\uC758\uB97C \uB458 \uC218\n\uC788\uB2E4.\n\u2461\uAD6D\uAC00\uC6D0\uB85C\uC790\uBB38\uD68C\uC758\uC758 \uC758\uC7A5\uC740 \uC9C1\uC804\uB300\uD1B5\uB839\uC774 \uB41C\uB2E4. \uB2E4\uB9CC, \uC9C1\uC804\uB300\uD1B5\uB839\uC774 \uC5C6\uC744 \uB54C\uC5D0\uB294 \uB300\uD1B5\uB839\uC774 \uC9C0\uBA85\uD55C\uB2E4.\n\u2462\uAD6D\uAC00\uC6D0\uB85C\uC790\uBB38\uD68C\uC758\uC758 \uC870\uC9C1\u318D\uC9C1\uBB34\uBC94\uC704 \uAE30\uD0C0 \uD544\uC694\uD55C \uC0AC\uD56D\uC740 \uBC95\uB960\uB85C \uC815\uD55C\uB2E4."
     },
     {
       "type": "paragraph",

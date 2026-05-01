@@ -196,7 +196,8 @@ public class ListDetectorTests
         Assert.Single(result.Lists);
         var first = result.Lists[0].Items[0];
         Assert.Contains("pie", first.Body);
-        Assert.Equal(2, first.ClaimedLineIndices.Count);
+        Assert.Equal(2, first.BodyLineIndices.Count);
+        Assert.Empty(first.ChildrenLineIndices);
     }
 
     [Fact]
@@ -213,6 +214,7 @@ public class ListDetectorTests
 
         Assert.Single(result.Lists);
         Assert.Single(result.Lists[0].Items[0].ClaimedLineIndices);
+        Assert.Empty(result.Lists[0].Items[0].ChildrenLineIndices);
     }
 
     [Fact]
@@ -229,6 +231,7 @@ public class ListDetectorTests
 
         Assert.Single(result.Lists);
         Assert.Single(result.Lists[0].Items[0].ClaimedLineIndices);
+        Assert.Empty(result.Lists[0].Items[0].ChildrenLineIndices);
     }
 
     [Fact]
@@ -262,6 +265,123 @@ public class ListDetectorTests
         Assert.Equal(2, result.ResidualLines.Count);
         Assert.Equal("Heading text", result.ResidualLines[0].Text);
         Assert.Equal("Trailing paragraph", result.ResidualLines[1].Text);
+    }
+
+    [Fact]
+    public void Detect_AbsorbsNonContinuationLineAsChildOfPreviousItem()
+    {
+        // Body absorption fails on item 1 because the third line is too far down
+        // (gap > 1.2 * line height). Phase 2 routes the third line into item 1's
+        // children buffer, so the run survives and item 1 has a child paragraph.
+        var lines = new[]
+        {
+            Line("1. Apple", left: 50, baseline: 700, fontSize: 10, height: 12),
+            Line("apple body wrap", left: 50, baseline: 688, fontSize: 10, height: 12),
+            Line("Far-down child paragraph that elaborates apple", left: 50, baseline: 640, fontSize: 10, height: 12),
+            Line("2. Banana", left: 50, baseline: 615, fontSize: 10, height: 12)
+        };
+
+        var result = ListDetector.Detect(lines);
+
+        Assert.Single(result.Lists);
+        var list = result.Lists[0];
+        Assert.Equal(2, list.Items.Count);
+
+        var first = list.Items[0];
+        Assert.Equal(2, first.BodyLineIndices.Count);
+        Assert.Single(first.ChildrenLineIndices);
+        Assert.Contains("apple body wrap", first.Body);
+        Assert.DoesNotContain("Far-down child paragraph", first.Body);
+    }
+
+    [Fact]
+    public void Detect_LastItemReceivesNoChildrenInPhase2()
+    {
+        // Last item's territory is unbounded (extends to end of page); to avoid
+        // over-absorbing post-list content, Phase 2 leaves the last item with
+        // body absorption only. The far-down line after item 2's continuation
+        // remains in residual.
+        var lines = new[]
+        {
+            Line("1. Apple", left: 50, baseline: 700, fontSize: 10, height: 12),
+            Line("2. Banana", left: 50, baseline: 685, fontSize: 10, height: 12),
+            Line("banana wrap", left: 50, baseline: 673, fontSize: 10, height: 12),
+            Line("Far-down line after the list", left: 50, baseline: 600, fontSize: 10, height: 12)
+        };
+
+        var result = ListDetector.Detect(lines);
+
+        Assert.Single(result.Lists);
+        var list = result.Lists[0];
+        Assert.Equal(2, list.Items.Count);
+        var last = list.Items[1];
+        Assert.Empty(last.ChildrenLineIndices);
+        Assert.Single(result.ResidualLines);
+        Assert.Equal("Far-down line after the list", result.ResidualLines[0].Text);
+    }
+
+    [Fact]
+    public void Detect_ChildAbsorptionStopsOnSiblingLabel()
+    {
+        // After body absorption fails on a far-down line, child mode begins.
+        // But once a sibling-style label appears, the territory walk breaks
+        // and the rest stays in residual.
+        var lines = new[]
+        {
+            Line("1. Apple", left: 50, baseline: 700, fontSize: 10, height: 12),
+            Line("Far-down child paragraph", left: 50, baseline: 640, fontSize: 10, height: 12),
+            Line("(99) different family label", left: 50, baseline: 625, fontSize: 10, height: 12),
+            Line("2. Banana", left: 50, baseline: 600, fontSize: 10, height: 12)
+        };
+
+        var result = ListDetector.Detect(lines);
+
+        Assert.Single(result.Lists);
+        var first = result.Lists[0].Items[0];
+        Assert.Single(first.ChildrenLineIndices);
+        Assert.Single(result.ResidualLines);
+        Assert.Equal("(99) different family label", result.ResidualLines[0].Text);
+    }
+
+    [Fact]
+    public void Detect_ChildAbsorptionStopsOnLineLeftOfItem()
+    {
+        // After body absorption fails, child mode begins; but a line that's
+        // too far to the left breaks the walk and stays in residual.
+        var lines = new[]
+        {
+            Line("1. Apple", left: 50, baseline: 700, fontSize: 10, height: 12),
+            Line("Far-down child paragraph", left: 50, baseline: 640, fontSize: 10, height: 12),
+            Line("under-indented runaway", left: 10, baseline: 625, fontSize: 10, height: 12),
+            Line("2. Banana", left: 50, baseline: 600, fontSize: 10, height: 12)
+        };
+
+        var result = ListDetector.Detect(lines);
+
+        Assert.Single(result.Lists);
+        var first = result.Lists[0].Items[0];
+        Assert.Single(first.ChildrenLineIndices);
+        Assert.Single(result.ResidualLines);
+        Assert.Equal("under-indented runaway", result.ResidualLines[0].Text);
+    }
+
+    [Fact]
+    public void Detect_ChildBoundingBoxExtendsItemBoundingBox()
+    {
+        // Item 1's bounding box must grow to cover its absorbed children, so
+        // the parent list bbox transitively covers all rendered content.
+        var lines = new[]
+        {
+            Line("1. Apple", left: 50, baseline: 700, fontSize: 10, height: 12),
+            Line("Far-down child paragraph", left: 50, baseline: 640, fontSize: 10, height: 12),
+            Line("2. Banana", left: 50, baseline: 600, fontSize: 10, height: 12)
+        };
+
+        var result = ListDetector.Detect(lines);
+
+        var first = result.Lists[0].Items[0];
+        Assert.True(first.BoundingBox.Bottom <= 640.0,
+            $"Item 1's bounding box should reach down to its child line; bottom={first.BoundingBox.Bottom}");
     }
 
     private static TextLineBlock Line(
