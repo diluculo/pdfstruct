@@ -131,6 +131,18 @@ These are the first divergences observed after Phase 2 was committed. They were 
 | judgment | **pending**. Need a per-item bbox comparison before judging. |
 | followup | Pull both JSONs through a per-fixture diff utility (not yet written) that pairs list elements by content and reports bbox deltas. |
 
+### D-010 — kr_lorem_ipsum CJK line joining: shared failure at the line-join step
+
+| field | value |
+|---|---|
+| fixture | `kr_lorem_ipsum.pdf` (single page, 4 elements) |
+| area | paragraph |
+| ground truth | `# 로렘 입숨` (heading, level 1); three Korean lorem-ipsum body paragraphs, each emitted as one Markdown line with no whitespace inserted at PDF visual line-wrap points — e.g. `더한 알리라.`, not `더한 알리 라.`. 4 elements total. Source: `src/PdfStruct.Tests/GroundTruth/kr_lorem_ipsum.md`. |
+| odl | Heading correct, three paragraphs correctly bounded. The `content` string of each paragraph joins PDF visual lines with a single `' '` space — `더한 알리 라.` instead of ground-truth `더한 알리라.`. The Markdown surface is one long line per paragraph. |
+| ours | Heading correct, three paragraphs correctly bounded. The `content` string of each paragraph keeps the PDF visual line breaks as literal `'\n'` — `더한 알리\n라.` instead of ground-truth `더한 알리라.`. The Markdown surface is visually broken across multiple lines per paragraph; CommonMark soft breaks render as a space at HTML / LLM consumption time, so the rendered effect matches ODL — both insert a space at a Korean mid-word wrap. |
+| judgment | **investigate**. Paragraph segmentation matches ground truth on this fixture (a clean case unlike D-008 and D-009). The line-joining step fails the same way in both tools: neither tracks that wrapping inside Korean text occurs mid-word and therefore should not insert any separator at the join. The two outputs differ in surface form (literal `\n` vs space) but agree in rendered effect. With only one Korean ground-truth fixture available, one fixture is too few to commit to a strategy. |
+| followup | Implementation strategy TBD once `kr_constitution` and `kr_patent` ground truth exist. The line-joining step needs to become script-aware in some form — Latin wrapping coincides with whitespace so a space separator is correct, while CJK wrapping does not — but the precise rule (mixed Latin–CJK boundaries, punctuation, hyphenation) is a design question that needs more ground-truth data than one fixture provides. ODL's space-insertion and our literal-`\n` are both candidates to re-evaluate; neither is privileged. Re-score both tools after each new Korean fixture lands. |
+
 ---
 
 ## Format specification for new entries
