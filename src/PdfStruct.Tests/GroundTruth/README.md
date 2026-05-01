@@ -38,7 +38,7 @@ Six fixtures cover PdfStruct's regression matrix. They are added one at a time a
 | `minimal_document` | 2026-05-02 | single-page parable; used to bootstrap the format |
 | `lorem_ipsum` | 2026-05-02 | single-column body with quoted introductory paragraphs; tests paragraph segmentation |
 | `kr_lorem_ipsum` | 2026-05-02 | Korean lorem-ipsum body; tests CJK line-joining inside a paragraph (no separator at mid-word wrap points) |
-| `kr_constitution` | — | Korean legal text with `제N조` headings and `①②③` clauses |
+| `kr_constitution` | 2026-05-02 | Korean legal text with `제N조` headings and `①②③` clauses; tests deep heading hierarchy (5 levels) and ordered lists inside articles |
 | `us_constitution` | — | Western legal text with Article / Amendment hierarchy |
 | `plos_utilizing_llm` | — | two-column academic with references and bullet lists |
 
