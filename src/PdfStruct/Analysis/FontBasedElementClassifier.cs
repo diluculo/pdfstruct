@@ -11,17 +11,46 @@ namespace PdfStruct.Analysis;
 /// headings from body text on a given fixture and whether the threshold
 /// produces clean separations.
 /// </summary>
-/// <param name="Base">Layout-only base probability (font ratio, standalone, single-line-short).</param>
+/// <param name="Neighbour">
+/// Score from the prev/next neighbour comparison, in <c>[0, 1]</c>. When
+/// the previous block is itself a heading, only the next-neighbour score
+/// is used; otherwise the lower of the two is taken so that a candidate
+/// must look heading-like against <em>both</em> sides.
+/// </param>
+/// <param name="Initial">Bonus added when the block is the document's first non-stats-only entry.</param>
+/// <param name="Standalone">Bonus added when no other block on the page overlaps the candidate's row.</param>
 /// <param name="FontSizeRarity">Font-size rarity rank, weighted by the classifier's size weight.</param>
 /// <param name="FontWeightRarity">Font-weight rarity rank, weighted by the classifier's weight weight.</param>
 /// <param name="Bulleted">Bonus added when the block begins with a list-label glyph.</param>
-/// <param name="Total">Sum of the four contributing signals; classification compares this against the threshold.</param>
+/// <param name="LineDecay">
+/// Multiplicative decay applied to the summed signals based on line count.
+/// Computed as <c>max(0, 1 - 0.0291·(lineCount - 1)²)</c>: a 1-line block
+/// is unaffected, a 5-line block keeps about 53% of the score, and a
+/// 7-or-more-line block is crushed to zero.
+/// </param>
+/// <param name="Total">Final probability, clamped to <c>[0, 1]</c>; classification compares this against the threshold.</param>
 public readonly record struct HeadingProbabilityBreakdown(
-    double Base,
+    double Neighbour,
+    double Initial,
+    double Standalone,
     double FontSizeRarity,
     double FontWeightRarity,
     double Bulleted,
+    double LineDecay,
     double Total);
+
+/// <summary>
+/// One entry of a document-wide heading-probability analysis: the breakdown
+/// for a single non-stats-only block, paired with its index in the supplied
+/// document sequence and the threshold-based classification outcome.
+/// </summary>
+/// <param name="Index">Index into the original document sequence supplied to the classifier.</param>
+/// <param name="Breakdown">Per-signal contributions and the summed total.</param>
+/// <param name="ClassifiedAsHeading">Whether the total exceeds the configured threshold.</param>
+public readonly record struct HeadingScoreEntry(
+    int Index,
+    HeadingProbabilityBreakdown Breakdown,
+    bool ClassifiedAsHeading);
 
 /// <summary>
 /// Defines a classifier that determines the semantic type of text blocks.
@@ -49,13 +78,16 @@ public interface IElementClassifier
 }
 
 /// <summary>
-/// Classifies text blocks into headings and paragraphs by combining a base
-/// heading probability (font ratio + standalone + length) with document-wide
-/// rarity boosts on font size and font weight, plus a small bonus for blocks
-/// that begin with a list-label glyph.
+/// Classifies text blocks into headings and paragraphs by combining a
+/// neighbour-relative comparison (font weight and size against the previous
+/// and next non-stats-only blocks) with document-wide rarity boosts on font
+/// size and weight, an initial-heading bonus for the first substantive
+/// block, a standalone-row bonus, and a multiplicative decay against line
+/// count.
 /// </summary>
 /// <remarks>
-/// Ports the OpenDataLoader-pdf <c>HeadingProcessor</c> approach. The probability
+/// Ports the OpenDataLoader-pdf <c>HeadingProcessor</c> approach, which in
+/// turn ports veraPDF's <c>NodeUtils.headingProbability</c>. The probability
 /// model is intentionally language-agnostic — every signal is layout- or
 /// typography-derived, no text patterns are inspected. Documents whose
 /// section headers carry no typographic distinction (e.g. legal corpora that
@@ -65,6 +97,10 @@ public interface IElementClassifier
 /// </remarks>
 public sealed class FontBasedElementClassifier : IElementClassifier
 {
+    private const double InitialHeadingBoost = 0.27;
+    private const double StandaloneBoost = 0.15;
+    private const double LineDecayCoefficient = 0.0291;
+
     private readonly double _headingProbabilityThreshold;
     private readonly double _fontSizeRarityWeight;
     private readonly double _fontWeightRarityWeight;
@@ -102,88 +138,183 @@ public sealed class FontBasedElementClassifier : IElementClassifier
         _bulletedBoost = bulletedBoost;
     }
 
+    /// <summary>The probability threshold above which a block is classified as a heading.</summary>
+    public double HeadingProbabilityThreshold => _headingProbabilityThreshold;
+
     /// <inheritdoc />
     public IReadOnlyList<ContentElement> Classify(
         IReadOnlyList<DocumentTextBlock> documentBlocks, ref int startId)
     {
-        var stats = new DocumentStatistics(documentBlocks.Select(d => d.Block));
         var elements = new List<ContentElement>(documentBlocks.Count);
+        var stats = new DocumentStatistics(documentBlocks.Select(d => d.Block));
+        var classifiedAsHeading = new bool[documentBlocks.Count];
+        var initialIndex = FindFirstNonStatsOnlyIndex(documentBlocks);
 
-        foreach (var entry in documentBlocks)
+        for (var i = 0; i < documentBlocks.Count; i++)
         {
+            var entry = documentBlocks[i];
             if (entry.IsStatsOnly) continue;
 
-            var probability = ComputeHeadingProbability(entry.Block, stats);
-            if (probability > _headingProbabilityThreshold)
+            var breakdown = ComputeBreakdown(i, documentBlocks, classifiedAsHeading, initialIndex, stats);
+            if (breakdown.Total > _headingProbabilityThreshold)
+            {
+                classifiedAsHeading[i] = true;
                 elements.Add(CreateHeading(entry.Block, entry.PageNumber, ref startId));
+            }
             else
+            {
                 elements.Add(CreateParagraph(entry.Block, entry.PageNumber, ref startId));
+            }
         }
         return elements;
     }
 
     /// <summary>
-    /// Computes a block's heading probability as the sum of the base
-    /// probability and document-wide rarity boosts.
+    /// Runs the neighbour-aware classification pass without producing
+    /// <see cref="ContentElement"/>s, returning the per-block breakdowns
+    /// alongside the threshold-based classification outcome. Intended for
+    /// calibration tooling — diagnose this output to understand which
+    /// signals discriminate headings on a given fixture.
     /// </summary>
-    public double ComputeHeadingProbability(TextBlock block, DocumentStatistics stats) =>
-        ComputeHeadingProbabilityBreakdown(block, stats).Total;
+    /// <param name="documentBlocks">The same document sequence supplied to <see cref="Classify"/>.</param>
+    /// <returns>One entry per non-stats-only block, in input order.</returns>
+    public IReadOnlyList<HeadingScoreEntry> AnalyzeHeadings(
+        IReadOnlyList<DocumentTextBlock> documentBlocks)
+    {
+        var stats = new DocumentStatistics(documentBlocks.Select(d => d.Block));
+        var classifiedAsHeading = new bool[documentBlocks.Count];
+        var initialIndex = FindFirstNonStatsOnlyIndex(documentBlocks);
+        var entries = new List<HeadingScoreEntry>(documentBlocks.Count);
+
+        for (var i = 0; i < documentBlocks.Count; i++)
+        {
+            if (documentBlocks[i].IsStatsOnly) continue;
+
+            var breakdown = ComputeBreakdown(i, documentBlocks, classifiedAsHeading, initialIndex, stats);
+            var isHeading = breakdown.Total > _headingProbabilityThreshold;
+            classifiedAsHeading[i] = isHeading;
+            entries.Add(new HeadingScoreEntry(i, breakdown, isHeading));
+        }
+        return entries;
+    }
 
     /// <summary>
-    /// Computes the per-signal breakdown of a block's heading probability.
-    /// Exposed for use by diagnostic tooling (calibration dumps): the same
-    /// numbers consumed by classification, separated so they can be written
-    /// to CSV and inspected against fixture expectations.
+    /// Computes the per-signal breakdown of the candidate at <paramref name="index"/>
+    /// against its neighbours. The previous block's classification (already
+    /// determined by the left-to-right pass) flips the neighbour comparison
+    /// into a next-only check, mirroring veraPDF's "if previous is heading,
+    /// don't compare the candidate against it again" rule.
     /// </summary>
-    /// <param name="block">The candidate block.</param>
-    /// <param name="stats">Document statistics produced by <see cref="DocumentStatistics"/>.</param>
-    /// <returns>The signal-by-signal breakdown plus the summed total.</returns>
-    public HeadingProbabilityBreakdown ComputeHeadingProbabilityBreakdown(TextBlock block, DocumentStatistics stats)
+    private HeadingProbabilityBreakdown ComputeBreakdown(
+        int index,
+        IReadOnlyList<DocumentTextBlock> documentBlocks,
+        IReadOnlyList<bool> classifiedAsHeading,
+        int initialIndex,
+        DocumentStatistics stats)
     {
-        var baseProbability = BaseHeadingProbability(block, stats);
-        var sizeRarityBoost = stats.FontSizeRarity.GetBoost(stats.RoundFontSize(block.FontSize)) * _fontSizeRarityWeight;
-        var weightRarityBoost = stats.FontWeightRarity.GetBoost(DocumentStatistics.WeightFor(block.IsBold)) * _fontWeightRarityWeight;
-        var bulletedBoost = IsBulleted(block.Text) ? _bulletedBoost : 0.0;
+        var current = documentBlocks[index].Block;
+        var prevIndex = FindPrevNonStatsOnly(documentBlocks, index);
+        var nextIndex = FindNextNonStatsOnly(documentBlocks, index);
+        var prevIsHeading = prevIndex >= 0 && classifiedAsHeading[prevIndex];
+
+        double neighbourScore;
+        if (prevIsHeading)
+        {
+            if (nextIndex < 0)
+            {
+                // veraPDF tail-block rule: when the previous block is already a
+                // heading and there is no next neighbour to compare against,
+                // refuse to chain a second heading at the document's tail.
+                return new HeadingProbabilityBreakdown(0, 0, 0, 0, 0, 0, 0, 0);
+            }
+            neighbourScore = ScoreVsNeighbour(current, documentBlocks[nextIndex].Block);
+        }
+        else
+        {
+            var prevScore = prevIndex >= 0 ? ScoreVsNeighbour(current, documentBlocks[prevIndex].Block) : 1.0;
+            var nextScore = nextIndex >= 0 ? ScoreVsNeighbour(current, documentBlocks[nextIndex].Block) : 1.0;
+            neighbourScore = Math.Min(prevScore, nextScore);
+        }
+
+        var initialBoost = index == initialIndex && initialIndex >= 0 ? InitialHeadingBoost : 0.0;
+        var standaloneBoost = current.IsStandalone ? StandaloneBoost : 0.0;
+        var sizeRarityBoost = stats.FontSizeRarity.GetBoost(stats.RoundFontSize(current.FontSize)) * _fontSizeRarityWeight;
+        var weightRarityBoost = stats.FontWeightRarity.GetBoost(DocumentStatistics.WeightFor(current.IsBold)) * _fontWeightRarityWeight;
+        var bulletedBoost = IsBulleted(current.Text) ? _bulletedBoost : 0.0;
+
+        var sum = neighbourScore + initialBoost + standaloneBoost + sizeRarityBoost + weightRarityBoost + bulletedBoost;
+        var lineDecay = LineCountDecay(current.LineCount);
+        var total = Math.Clamp(sum * lineDecay, 0.0, 1.0);
+
         return new HeadingProbabilityBreakdown(
-            Base: baseProbability,
+            Neighbour: neighbourScore,
+            Initial: initialBoost,
+            Standalone: standaloneBoost,
             FontSizeRarity: sizeRarityBoost,
             FontWeightRarity: weightRarityBoost,
             Bulleted: bulletedBoost,
-            Total: baseProbability + sizeRarityBoost + weightRarityBoost + bulletedBoost);
+            LineDecay: lineDecay,
+            Total: total);
     }
 
-    /// <summary>The probability threshold above which a block is classified as a heading.</summary>
-    public double HeadingProbabilityThreshold => _headingProbabilityThreshold;
-
     /// <summary>
-    /// Computes the base heading probability from layout-only signals: how
-    /// much larger than the body baseline the font is, whether the block is
-    /// alone on its row, and whether it is short enough to look like a
-    /// title rather than a paragraph.
+    /// Returns a <c>[0, 1]</c> score expressing how heading-like the
+    /// candidate looks against a single neighbour. Combines two signals: a
+    /// flat <c>+0.5</c> when the candidate is bold and the neighbour is not
+    /// (the cleanest typographic distinction headings carry against body
+    /// text in most corpora) and a size-ratio bonus that grows linearly
+    /// from <c>+0</c> at parity to <c>+0.5</c> at a 33%+ size increase.
     /// </summary>
-    /// <remarks>
-    /// Stands in for the ODL <c>NodeUtils.headingProbability</c> primitive
-    /// (which lives in a closed-source verapdf jar). Tuned conservatively —
-    /// the rarity boosts contribute most of the discriminating signal in
-    /// well-typeset corpora; this base merely shifts the floor.
-    /// </remarks>
-    private static double BaseHeadingProbability(TextBlock block, DocumentStatistics stats)
+    private static double ScoreVsNeighbour(TextBlock current, TextBlock neighbour)
     {
-        double probability = 0.0;
+        double score = 0.0;
 
-        if (stats.MedianFontSize > 0 && block.FontSize > stats.MedianFontSize)
+        if (current.IsBold && !neighbour.IsBold)
+            score += 0.5;
+
+        if (neighbour.FontSize > 0 && current.FontSize > neighbour.FontSize)
         {
-            var ratio = (block.FontSize - stats.MedianFontSize) / stats.MedianFontSize;
-            probability += Math.Min(0.4, ratio * 0.6);
+            var ratio = (current.FontSize - neighbour.FontSize) / neighbour.FontSize;
+            score += Math.Min(0.5, ratio * 1.5);
         }
 
-        if (block.IsStandalone)
-            probability += 0.15;
+        return Math.Clamp(score, 0.0, 1.0);
+    }
 
-        if (block.LineCount == 1 && block.Text.Length < 100)
-            probability += 0.1;
+    /// <summary>
+    /// Computes the multiplicative line-count decay. Single-line blocks
+    /// pass through unchanged; multi-line blocks are progressively crushed.
+    /// Matches the ODL/veraPDF formula <c>max(0, 1 - 0.0291·(n-1)²)</c>.
+    /// </summary>
+    private static double LineCountDecay(int lineCount)
+    {
+        if (lineCount <= 1) return 1.0;
+        var deficit = lineCount - 1;
+        return Math.Max(0.0, 1.0 - LineDecayCoefficient * deficit * deficit);
+    }
 
-        return Math.Min(probability, 0.7);
+    /// <summary>Returns the index of the nearest preceding non-stats-only block, or <c>-1</c> when none exists.</summary>
+    private static int FindPrevNonStatsOnly(IReadOnlyList<DocumentTextBlock> documentBlocks, int index)
+    {
+        for (var i = index - 1; i >= 0; i--)
+            if (!documentBlocks[i].IsStatsOnly) return i;
+        return -1;
+    }
+
+    /// <summary>Returns the index of the nearest following non-stats-only block, or <c>-1</c> when none exists.</summary>
+    private static int FindNextNonStatsOnly(IReadOnlyList<DocumentTextBlock> documentBlocks, int index)
+    {
+        for (var i = index + 1; i < documentBlocks.Count; i++)
+            if (!documentBlocks[i].IsStatsOnly) return i;
+        return -1;
+    }
+
+    /// <summary>Returns the index of the document's first non-stats-only block, or <c>-1</c> when the input has none.</summary>
+    private static int FindFirstNonStatsOnlyIndex(IReadOnlyList<DocumentTextBlock> documentBlocks)
+    {
+        for (var i = 0; i < documentBlocks.Count; i++)
+            if (!documentBlocks[i].IsStatsOnly) return i;
+        return -1;
     }
 
     /// <summary>

@@ -179,7 +179,7 @@ internal static class App
     /// <summary>Writes heading-probability diagnostic rows as CSV.</summary>
     private static void WriteDiagnosticCsv(TextWriter writer, IReadOnlyList<HeadingDiagnosticRow> rows)
     {
-        writer.WriteLine("page,classified,total,base,size_rarity,weight_rarity,bulleted,font_size,is_bold,is_standalone,line_count,font,content");
+        writer.WriteLine("page,classified,total,neighbour,initial,standalone,size_rarity,weight_rarity,bulleted,line_decay,font_size,is_bold,is_standalone,line_count,font,content");
         foreach (var row in rows)
         {
             var b = row.Block;
@@ -188,10 +188,13 @@ internal static class App
             writer.Write($"{row.PageNumber},");
             writer.Write($"{(row.ClassifiedAsHeading ? "H" : "P")},");
             writer.Write($"{bd.Total:F3},");
-            writer.Write($"{bd.Base:F3},");
+            writer.Write($"{bd.Neighbour:F3},");
+            writer.Write($"{bd.Initial:F3},");
+            writer.Write($"{bd.Standalone:F3},");
             writer.Write($"{bd.FontSizeRarity:F3},");
             writer.Write($"{bd.FontWeightRarity:F3},");
             writer.Write($"{bd.Bulleted:F3},");
+            writer.Write($"{bd.LineDecay:F3},");
             writer.Write($"{b.FontSize:F1},");
             writer.Write($"{(b.IsBold ? "1" : "0")},");
             writer.Write($"{(b.IsStandalone ? "1" : "0")},");

@@ -158,33 +158,28 @@ public sealed class PdfStructParser
         return rows;
     }
 
-    /// <summary>Per-page extraction + scoring for diagnostic output.</summary>
+    /// <summary>Per-page extraction + neighbour-aware scoring for diagnostic output.</summary>
     private IReadOnlyList<HeadingDiagnosticRow> AnalyzeHeadingProbabilitiesInternal(UglyToad.PdfPig.PdfDocument pdf)
     {
-        var pageBlocks = new List<(int Page, IReadOnlyList<TextBlock> Blocks)>(pdf.NumberOfPages);
-        var allBlocks = new List<TextBlock>();
+        var documentBlocks = new List<DocumentTextBlock>();
         for (var p = 1; p <= pdf.NumberOfPages; p++)
         {
-            var blocks = ExtractPageBlocks(pdf.GetPage(p));
-            pageBlocks.Add((p, blocks));
-            allBlocks.AddRange(blocks);
+            foreach (var block in ExtractPageBlocks(pdf.GetPage(p)))
+                documentBlocks.Add(new DocumentTextBlock(p, block));
         }
 
         var classifier = new FontBasedElementClassifier(_options.HeadingProbabilityThreshold);
-        var stats = new DocumentStatistics(allBlocks);
+        var entries = classifier.AnalyzeHeadings(documentBlocks);
 
-        var rows = new List<HeadingDiagnosticRow>(allBlocks.Count);
-        foreach (var (page, blocks) in pageBlocks)
+        var rows = new List<HeadingDiagnosticRow>(entries.Count);
+        foreach (var entry in entries)
         {
-            foreach (var block in blocks)
-            {
-                var breakdown = classifier.ComputeHeadingProbabilityBreakdown(block, stats);
-                rows.Add(new HeadingDiagnosticRow(
-                    PageNumber: page,
-                    Block: block,
-                    Breakdown: breakdown,
-                    ClassifiedAsHeading: breakdown.Total > classifier.HeadingProbabilityThreshold));
-            }
+            var doc = documentBlocks[entry.Index];
+            rows.Add(new HeadingDiagnosticRow(
+                PageNumber: doc.PageNumber,
+                Block: doc.Block,
+                Breakdown: entry.Breakdown,
+                ClassifiedAsHeading: entry.ClassifiedAsHeading));
         }
         return rows;
     }
