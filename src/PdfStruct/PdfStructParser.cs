@@ -594,6 +594,13 @@ public sealed class PdfStructParser
         MedianLineRight: item.BoundingBox.Right,
         LastLineRight: item.BoundingBox.Right);
 
+    /// <summary>
+    /// Builds a sentinel <see cref="TextBlock"/> standing in for a detected
+    /// list during reading-order analysis. The marker text encodes the
+    /// page-and-index pair so <see cref="ReplaceListPlaceholders"/> can
+    /// resolve it back to the corresponding <see cref="Models.ListElement"/>
+    /// after classification has run.
+    /// </summary>
     private static TextBlock MakeListPlaceholder(DetectedList list, int pageNumber, int indexOnPage)
     {
         var marker = $"{ListPlaceholderPrefix}{pageNumber}{indexOnPage}";
@@ -717,6 +724,16 @@ public sealed class PdfStructParser
         return element;
     }
 
+    /// <summary>
+    /// Removes lines that look like running headers, footers, or vertical
+    /// side furniture from the per-page line stream. Header and footer
+    /// candidates are rejected only when their normalised text appears in
+    /// the same band-and-x-position bucket on a configurable fraction of
+    /// pages, which keeps a centred document title from being dropped
+    /// alongside a recurring page header that shares its text. Side
+    /// furniture (narrow, tall margin glyph runs) is rejected
+    /// unconditionally — a single occurrence is enough.
+    /// </summary>
     private static Dictionary<int, IReadOnlyList<TextLineBlock>> FilterRunningFurnitureLines(
         IReadOnlyDictionary<int, IReadOnlyList<TextLineBlock>> pageLines,
         IReadOnlyDictionary<int, PageGeometry> pageGeometries)
@@ -769,6 +786,13 @@ public sealed class PdfStructParser
                 .ToList());
     }
 
+    /// <summary>
+    /// Classifies a line's bounding box as belonging to the page's header,
+    /// footer, or side-furniture band, or returns <c>null</c> when the box
+    /// sits in the body region. Header and footer bands are defined by Y
+    /// ratios; side bands require a narrow-and-tall box hugging the left or
+    /// right page edge.
+    /// </summary>
     private static RunningFurnitureBand? ClassifyRunningFurnitureBand(Models.BoundingBox bbox, PageGeometry pageGeometry)
     {
         if (pageGeometry.Height <= 0 || pageGeometry.Width <= 0)
@@ -790,6 +814,13 @@ public sealed class PdfStructParser
             : null;
     }
 
+    /// <summary>
+    /// Returns <c>true</c> when a block's bounding box looks like vertical
+    /// side furniture: hugging a page edge, narrower than the side-furniture
+    /// width allowance, and tall enough relative to the page height.
+    /// Used after block formation to reject merged side-furniture columns
+    /// that the line-level filter alone would have missed.
+    /// </summary>
     private static bool IsSideFurnitureBlock(Models.BoundingBox bbox, PageGeometry pageGeometry)
     {
         if (pageGeometry.Height <= 0 || pageGeometry.Width <= 0)
@@ -802,9 +833,21 @@ public sealed class PdfStructParser
             && bbox.Height >= pageGeometry.Height * 0.08;
     }
 
+    /// <summary>
+    /// Returns the maximum width, in PDF points, allowed for a block to
+    /// qualify as side furniture. Scales modestly with page width but is
+    /// clamped to a 16–28pt band so an unusually wide page does not invite
+    /// false positives in the body column.
+    /// </summary>
     private static double SideFurnitureMaxWidth(PageGeometry pageGeometry) =>
         Math.Max(16.0, Math.Min(28.0, pageGeometry.Width * 0.08));
 
+    /// <summary>
+    /// Normalises a candidate header/footer line for repeat-detection
+    /// matching by collapsing digit runs to <c>#</c> and folding internal
+    /// whitespace to a single space. Page numbers and date stamps that
+    /// vary across pages still match each other after the digit-run mask.
+    /// </summary>
     private static string NormalizeRunningFurnitureText(string text)
     {
         var normalized = s_digitRun.Replace(text.Trim(), "#");
@@ -1000,6 +1043,12 @@ public sealed class PdfStructParser
         return a.Height > 0 ? overlap / a.Height : 0;
     }
 
+    /// <summary>
+    /// Runs each line's text through <see cref="TextSanitizer"/>, returning a
+    /// new line list whose text has been redacted, replaced, or normalised
+    /// according to the parser's options. Geometry, font, and layout fields
+    /// are preserved.
+    /// </summary>
     private List<TextLineBlock> ProcessTextLines(IReadOnlyList<TextLineBlock> lines)
     {
         var lineBlocks = lines.Select(l => l.ToTextBlock()).ToList();
@@ -1016,6 +1065,13 @@ public sealed class PdfStructParser
         return result;
     }
 
+    /// <summary>
+    /// Drops lines whose font size is below 1pt, whose visible text is empty,
+    /// or whose bounding box falls outside the page rectangle. The font-size
+    /// floor is the most useful guard against degenerate trailing-glyph
+    /// fragments; the off-page check rejects lines whose ink ended up
+    /// outside the visible crop box.
+    /// </summary>
     private static List<TextLineBlock> FilterTextLines(
         IReadOnlyList<TextLineBlock> lines,
         double pageWidth,
@@ -1048,11 +1104,14 @@ public sealed class PdfStructParser
     ///
     /// <para>
     /// Phase 2 walks each raw line left-to-right and splits at any gap that
-    /// exceeds the minimum of <c>medianGap × 3</c>, <c>avgHeight × 4</c>, or
-    /// the absolute <see cref="MaxIntraLineGapPoints"/> ceiling. The
-    /// median-relative arm catches column boundaries, the height-relative
-    /// arm covers single-gap raw lines, and the absolute cap handles sparse
-    /// rows with very large fonts.
+    /// exceeds <c>min(max(medianGap × 3, avgHeight × 2), 100pt)</c>. The
+    /// <c>max</c> combiner of the two relative arms gives the threshold a
+    /// glyph-scaled floor so that tightly-kerned small text — where
+    /// <c>medianGap × 3</c> alone would land near 6pt — does not
+    /// misinterpret a 9pt list-marker indent as a column boundary. The
+    /// 100pt absolute cap still cuts sparse rows whose font size pushes
+    /// both relative arms past any plausible same-line gap (large
+    /// page-number badges in a magazine table of contents).
     /// </para>
     ///
     /// <para>
@@ -1236,6 +1295,12 @@ public sealed class PdfStructParser
             ? word.Letters[0].StartBaseLine.Y
             : Math.Min(word.BoundingBox.Bottom, word.BoundingBox.Top);
 
+    /// <summary>
+    /// Aggregates an ordered sequence of lines into paragraph-level
+    /// <see cref="TextBlock"/> records by walking the stream and asking
+    /// <see cref="ShouldMergeWithCurrentBlock"/> whether the next line
+    /// continues the running block. Each transition starts a new block.
+    /// </summary>
     private static List<TextBlock> MergeLinesIntoBlocks(IReadOnlyList<TextLineBlock> lines)
     {
         if (lines.Count == 0) return [];
@@ -1260,6 +1325,14 @@ public sealed class PdfStructParser
         return blocks.Select(MergeLines).ToList();
     }
 
+    /// <summary>
+    /// Returns <c>true</c> when <paramref name="next"/> should extend the
+    /// running block in <paramref name="currentBlock"/>. Requires matching
+    /// font size, bold flag, and font face; horizontal overlap; a vertical
+    /// gap within the local line-spacing budget (relaxed when the previous
+    /// line ends on a continuation cue); and either a same-left, same-right,
+    /// or substantial horizontal-overlap alignment with the previous line.
+    /// </summary>
     private static bool ShouldMergeWithCurrentBlock(IReadOnlyList<TextLineBlock> currentBlock, TextLineBlock next)
     {
         var previous = currentBlock[^1];
@@ -1294,9 +1367,19 @@ public sealed class PdfStructParser
         return sameLeft || sameRight || (continues && lineOverlap >= 0.65);
     }
 
+    /// <summary>
+    /// Returns <c>true</c> when two lines overlap by at least 35% of the
+    /// narrower line's width — the threshold the block merger uses to call
+    /// two lines part of the same paragraph column.
+    /// </summary>
     private static bool AreHorizontallyOverlapping(TextLineBlock a, TextLineBlock b) =>
         HorizontalOverlapRatio(a, b) >= 0.35;
 
+    /// <summary>
+    /// Returns the fraction of the narrower line's width that overlaps the
+    /// other line's horizontal span. Range <c>[0, 1]</c>; zero when the
+    /// boxes do not overlap.
+    /// </summary>
     private static double HorizontalOverlapRatio(TextLineBlock a, TextLineBlock b)
     {
         var overlap = Math.Max(0, Math.Min(a.Right, b.Right) - Math.Max(a.Left, b.Left));
@@ -1304,6 +1387,13 @@ public sealed class PdfStructParser
         return minWidth > 0 ? overlap / minWidth : 0;
     }
 
+    /// <summary>
+    /// Merges a contiguous list of <see cref="TextLineBlock"/> records into
+    /// a single <see cref="TextBlock"/>, joining their text with newlines,
+    /// computing the union bounding box, and capturing first/median/last
+    /// left and right edges so downstream classifiers can spot indented
+    /// or hanging-indented paragraphs without re-scanning the source lines.
+    /// </summary>
     private static TextBlock MergeLines(List<TextLineBlock> lines)
     {
         var text = string.Join("\n", lines.Select(l => l.Text));
@@ -1375,8 +1465,10 @@ public sealed class PdfStructParser
     private static readonly Regex s_digitRun = new(@"\d+", RegexOptions.Compiled | RegexOptions.CultureInvariant);
     private static readonly Regex s_whitespace = new(@"\s+", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
+    /// <summary>Width and height of a PDF page in user-space points, used by the running-furniture geometry checks.</summary>
     private readonly record struct PageGeometry(double Width, double Height);
 
+    /// <summary>One line under consideration as a running-furniture candidate, paired with its band classification, normalised text, and quantised left edge for repeat detection.</summary>
     private readonly record struct RunningLineCandidate(
         int PageNumber,
         int LineIndex,
@@ -1384,57 +1476,108 @@ public sealed class PdfStructParser
         string NormalizedText,
         double QuantisedLeft);
 
+    /// <summary>Page band that a running-furniture candidate occupies: top header, bottom footer, or vertical side margin.</summary>
     private enum RunningFurnitureBand { Header, Footer, Side }
 
+    /// <summary>
+    /// Aggregator that accumulates words sharing one baseline and exposes
+    /// the line-level geometric and typographic statistics
+    /// <see cref="GroupWordsIntoLines"/> needs to emit a
+    /// <see cref="TextLineBlock"/>. Computed properties are evaluated on
+    /// demand from the underlying word list.
+    /// </summary>
     private sealed class TextLineBuilder
     {
         private readonly List<Word> _words = [];
 
+        /// <summary>Initialises the builder with the first word of the line.</summary>
         public TextLineBuilder(Word w) => _words.Add(w);
+
+        /// <summary>Appends another word to the line under construction.</summary>
         public void Add(Word w) => _words.Add(w);
 
+        /// <summary>Visually-lower Y of the line's first word, used as the line's baseline reference.</summary>
         public double BaselineY => Math.Min(_words[0].BoundingBox.Bottom, _words[0].BoundingBox.Top);
+
+        /// <summary>Minimum left x-coordinate across the line's words.</summary>
         public double Left => _words.Min(w => w.BoundingBox.Left);
+
+        /// <summary>Maximum right x-coordinate across the line's words.</summary>
         public double Right => _words.Max(w => w.BoundingBox.Right);
+
         // PdfPig's bounding box can have Bottom > Top for rotated text (left-margin
         // arxiv watermarks, vertical sidebars). Normalise with min/max so downstream
         // gap and overlap math stays correct on mixed-orientation pages.
+
+        /// <summary>Visually-lower Y across the line, normalised against rotated-text bbox flipping.</summary>
         public double Bottom => _words.Min(w => Math.Min(w.BoundingBox.Bottom, w.BoundingBox.Top));
+
+        /// <summary>Visually-upper Y across the line, normalised against rotated-text bbox flipping.</summary>
         public double Top => _words.Max(w => Math.Max(w.BoundingBox.Bottom, w.BoundingBox.Top));
+
+        /// <summary>Visible horizontal extent of the line.</summary>
         public double Width => Right - Left;
+
+        /// <summary>Mean glyph height across the line, used as a proxy for typical inter-line spacing.</summary>
         public double AvgHeight => _words.Average(w => Math.Abs(w.BoundingBox.Top - w.BoundingBox.Bottom));
+
+        /// <summary>Mean point size across the line's first letters, defaulted to 12pt when font information is missing.</summary>
         public double AvgFontSize => _words.Average(w => w.Letters.FirstOrDefault()?.PointSize ?? 12.0);
-        // Embedded subset fonts carry a six-uppercase-letter tag prefix
-        // (`BFSYCV+Garamond`) that is regenerated each embedding pass — two
-        // passes of the same source font yield different prefixes. Strip it
-        // at the source so downstream callers, the JSON renderer, font-face
-        // comparisons, and the heading style-key clustering all see the
-        // stable family identifier.
+
+        /// <summary>
+        /// First word's font name with the PDF subset prefix stripped.
+        /// Embedded subset fonts carry a six-uppercase-letter tag prefix
+        /// (<c>BFSYCV+Garamond</c>) that is regenerated each embedding pass —
+        /// two passes of the same source font yield different prefixes.
+        /// Stripping at the source keeps downstream callers, the JSON
+        /// renderer, font-face comparisons, and the heading style-key
+        /// clustering all looking at the stable family identifier.
+        /// </summary>
         public string FontName => StripSubsetPrefix(_words[0].Letters.FirstOrDefault()?.FontName ?? "");
 
-        // Authoritative typographic flags come from PdfPig's parsed FontDetails
-        // (set during font dictionary parsing). The fallback to font-name
-        // substring matching only fires when FontDetails is unavailable, which
-        // happens for synthetic glyph streams without an embedded font
-        // descriptor.
+        /// <summary>
+        /// First word's parsed font descriptor, or <c>null</c> when no
+        /// letter information is available. Authoritative typographic
+        /// flags come from this descriptor; the substring fallbacks below
+        /// only fire when it is missing, which happens for synthetic glyph
+        /// streams without an embedded font descriptor.
+        /// </summary>
         private UglyToad.PdfPig.PdfFonts.FontDetails? FirstFontDetails =>
             _words[0].Letters.FirstOrDefault()?.FontDetails;
 
+        /// <summary>
+        /// Whether the line's font signals bold weight. Reads
+        /// <c>FontDetails.IsBold</c> when available, otherwise falls back
+        /// to substring matching on the (subset-prefix-stripped) font name.
+        /// </summary>
         public bool IsBold => FirstFontDetails?.IsBold
             ?? FontName.Contains("Bold", StringComparison.OrdinalIgnoreCase)
             || FontName.Contains("Heavy", StringComparison.OrdinalIgnoreCase)
             || FontName.Contains("Black", StringComparison.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Whether the line's font signals italic style. Reads
+        /// <c>FontDetails.IsItalic</c> when available, otherwise falls back
+        /// to substring matching for "Italic" or "Oblique" in the font name.
+        /// </summary>
         public bool IsItalic => FirstFontDetails?.IsItalic
             ?? FontName.Contains("Italic", StringComparison.OrdinalIgnoreCase)
             || FontName.Contains("Oblique", StringComparison.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Numeric font weight from <c>FontDetails.Weight</c>, or 400/700
+        /// derived from <see cref="IsBold"/> as a binary fallback when no
+        /// font descriptor is available.
+        /// </summary>
         public int FontWeight => FirstFontDetails?.Weight ?? (IsBold ? 700 : 400);
 
+        /// <summary>Visible text of the line, with word boundaries reordered left-to-right and joined by spaces.</summary>
         public string Text => string.Join(" ", _words.OrderBy(w => w.BoundingBox.Left).Select(w => w.Text));
 
+        /// <summary>Axis-aligned line bounding box derived from the per-word extents.</summary>
         public Models.BoundingBox Bbox => new(Left, Bottom, Right, Top);
 
+        /// <summary>Materialises the accumulated state as an immutable <see cref="TextLineBlock"/>.</summary>
         public TextLineBlock ToTextLineBlock() => new(
             Bbox,
             Text,

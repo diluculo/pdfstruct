@@ -55,7 +55,10 @@ File.WriteAllText("output.json", result.Json);
 | Probabilistic heading detection (font + standalone signals) | ✅ |
 | Heading-level assignment by typographic-style clustering | ✅ |
 | Paragraph grouping with line-continuation merge | ✅ |
-| Running header / footer filtering | ✅ |
+| Letter-spaced display title recovery (`MY DEAREST` → one heading) | ✅ |
+| Rotated-text word grouping (e.g. arXiv left-margin watermarks) | ✅ |
+| Ordered list detection with nested paragraph children | ✅ |
+| Running header / footer / side-furniture filtering | ✅ |
 | Bounding box per element | ✅ |
 | Markdown output | ✅ |
 | JSON output (OpenDataLoader-compatible, ISO 8601 dates) | ✅ |
@@ -64,9 +67,10 @@ File.WriteAllText("output.json", result.Json);
 | Sensitive text sanitization (optional) | ✅ |
 | Pluggable regex-based heading patterns (per-corpus customization) | ✅ |
 | Table extraction (bordered) | 🔜 Phase 2 |
-| List detection | 🔜 Phase 2 |
+| Unordered list detection | 🔜 Phase 2 |
 | Image extraction | 🔜 Phase 2 |
 | Tagged PDF structure tree | 🔜 Phase 3 |
+| Inline emphasis (bold / italic runs preserved in paragraphs) | 🔜 Phase 3 |
 
 ## What works, what doesn't
 
@@ -83,8 +87,8 @@ Where it doesn't (yet):
 - **Documents whose section markers carry no typographic distinction** — the Korean constitution's `제1장`, `제1절`, `제1관` are typeset in the same font and size as body paragraphs. Without language-specific patterns, only the document title is detected as a heading. Inject patterns via [`RegexHeadingClassifier`](src/PdfStruct/Analysis/RegexHeadingClassifier.cs) when the corpus needs it (see "Custom heading patterns" below).
 - **Magazine pull-quotes** — large display type that visually quotes body text scores high on font rarity and is sometimes misclassified as a heading. Layout-level disambiguation (pull-quote shape, position offset) is not yet implemented.
 - **Tables of contents with prominent page numbers** — the page-number column at heading-sized type is misclassified.
-- **Inline bold or italic runs inside paragraphs** are not preserved — paragraphs are flattened to plain text on the way to Markdown and JSON, matching ODL's behavior.
-- **Tables, lists, and inline images** are not yet detected (Phase 2 roadmap).
+- **Inline bold or italic runs inside paragraphs** are not preserved — paragraphs are flattened to plain text on the way to Markdown and JSON, matching ODL's behavior. Per-line bold and italic flags are tracked internally (sourced from PdfPig's `FontDetails`) but do not yet propagate into paragraph-internal styling.
+- **Tables, unordered lists, and inline images** are not yet detected (Phase 2 roadmap). Ordered numeric lists (`1. … 2. … 3. …`) are detected and emitted as `list` elements with paragraph children.
 
 ## Output
 
@@ -123,8 +127,9 @@ Previous studies have shown that...
 
 ```
 PdfStruct
-├── Models/          # Content element types (heading, paragraph, table, ...)
-├── Analysis/        # XY-Cut++ layout analyzer, element classifier
+├── Models/          # Content element types (heading, paragraph, table, list, ...)
+├── Analysis/        # LetterGrouper, XY-Cut++ layout analyzer, font + regex
+│                    #   classifiers, list detector, document statistics
 ├── Rendering/       # Markdown & JSON renderers
 ├── Safety/          # Prompt injection filtering, text sanitization
 ├── PdfStructParser  # Main entry point
