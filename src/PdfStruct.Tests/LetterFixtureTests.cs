@@ -19,31 +19,26 @@ namespace PdfStruct.Tests;
 public sealed class LetterFixtureTests
 {
     /// <summary>
-    /// Asserts that the letter-spaced title's glyphs are joined into the
-    /// contiguous words <c>MY</c> and <c>DEAREST</c> — the regression that
-    /// motivated the in-tree word extractor. The two words may still land on
-    /// separate elements because <c>MY</c> and <c>DEAREST</c> sit on
-    /// independent baselines that the line-to-block merger does not yet
-    /// join; that is tracked separately and is not what this test guards.
+    /// Asserts that the letter-spaced title is recovered as the contiguous
+    /// string <c>MY DEAREST</c> on a single text-bearing element. The
+    /// <see cref="Analysis.LetterGrouper"/> joins the per-glyph runs into
+    /// the words <c>MY</c> and <c>DEAREST</c>; the relative-threshold line
+    /// grouper in <c>PdfStructParser.GroupWordsIntoLines</c> then lands them
+    /// on the same line because the title's only intra-line gap (≈48pt)
+    /// stays below all three outlier thresholds.
     /// </summary>
     [Fact]
-    public void LetterSpacedTitle_GlyphsJoinIntoContiguousWords()
+    public void LetterSpacedTitle_IsRecoveredAsContiguousMyDearest()
     {
         var path = Path.Combine(AppContext.BaseDirectory, "Fixtures", "letter.pdf");
         Assert.True(File.Exists(path), $"Fixture missing on disk: {path}");
 
         var result = new PdfStructParser().Parse(path);
-        var allText = string.Join(
-            "\n",
-            result.Document.Kids
-                .Select(GetText)
-                .Where(text => !string.IsNullOrEmpty(text)));
+        var titleHolder = result.Document.Kids
+            .Select(GetText)
+            .FirstOrDefault(text => text is not null && text.Contains("MY DEAREST"));
 
-        Assert.Contains("MY", allText);
-        Assert.Contains("DEAREST", allText);
-
-        Assert.DoesNotContain("M Y", allText);
-        Assert.DoesNotContain("D E A R E S T", allText);
+        Assert.NotNull(titleHolder);
     }
 
     /// <summary>

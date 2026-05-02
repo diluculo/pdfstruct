@@ -997,52 +997,186 @@ public sealed class PdfStructParser
         }).ToList();
     }
 
+    /// <summary>
+    /// Groups a page's words into baseline-aligned text lines using a two-phase
+    /// relative-threshold strategy.
+    /// </summary>
+    /// <remarks>
+    /// Phase 1 clusters words by baseline proximity only — words that share a
+    /// vertical band within half the local glyph height belong to the same
+    /// "raw line" regardless of horizontal distance. Phase 2 then walks each
+    /// raw line left-to-right and splits at any gap that exceeds an adaptive
+    /// threshold: <c>min(medianGap × 3, avgHeight × 4)</c>. The median-relative
+    /// arm catches column boundaries (a rare wide gap among many tight ones in
+    /// a multi-column row) while the height-relative arm provides a floor for
+    /// pathological cases where the median is unhelpful (single-word raw
+    /// lines, lines with all-tiny intra-glyph kerning gaps).
+    ///
+    /// <para>
+    /// The earlier implementation used an absolute <c>min(35, max(15, h * 1.5))</c>
+    /// gap cap. That worked for normal body text but split justified
+    /// short-line paragraphs (inter-word gaps just over 15pt) and
+    /// letter-spaced display titles like <c>MY DEAREST</c> (a 48pt
+    /// title-internal gap). The relative thresholds keep both cases on a
+    /// single line while still cutting at multi-column boundaries.
+    /// </para>
+    /// </remarks>
     private static List<TextLineBlock> GroupWordsIntoLines(List<Word> words)
     {
         if (words.Count == 0) return [];
 
-        // Sort top-to-bottom, then left-to-right. PdfPig's Word.BoundingBox.Bottom
-        // is the higher visual Y for rotated glyphs and the lower visual Y for
-        // regular glyphs, so sorting on it descending happens to keep
-        // top-of-page words first in either orientation.
         var sorted = words
             .OrderByDescending(w => w.BoundingBox.Bottom)
             .ThenBy(w => w.BoundingBox.Left)
             .ToList();
 
-
-        // Group words into lines by baseline proximity AND horizontal proximity.
-        // The X-gap check prevents words at similar Y but in different columns
-        // (e.g. an arxiv left-margin watermark glyph next to a body line, or
-        // the left and right columns of a two-column paper) from being merged
-        // into a single line just because they share a baseline.
-        var lines = new List<TextLineBlock>();
-        var current = new TextLineBuilder(sorted[0]);
+        var rawLines = new List<List<Word>>();
+        var currentRawLine = new List<Word> { sorted[0] };
+        var currentBaselineY = Math.Min(sorted[0].BoundingBox.Bottom, sorted[0].BoundingBox.Top);
+        var currentMaxHeight = Math.Abs(sorted[0].BoundingBox.Top - sorted[0].BoundingBox.Bottom);
+        var currentMaxFontSize = WordFontSize(sorted[0]);
 
         for (int i = 1; i < sorted.Count; i++)
         {
             var w = sorted[i];
             var wLowerY = Math.Min(w.BoundingBox.Bottom, w.BoundingBox.Top);
-            var yDist = Math.Abs(wLowerY - current.BaselineY);
-            var xGap = Math.Max(0, Math.Max(
-                current.Left - w.BoundingBox.Right,
-                w.BoundingBox.Left - current.Right));
-            var maxXGap = Math.Min(35.0, Math.Max(15.0, current.AvgHeight * 1.5));
+            var yDist = Math.Abs(wLowerY - currentBaselineY);
+            var wHeight = Math.Abs(w.BoundingBox.Top - w.BoundingBox.Bottom);
+            var wFontSize = WordFontSize(w);
 
-            if (yDist <= current.AvgHeight * 0.5 && xGap <= maxXGap)
+            // Two same-baseline words can have very close `Bottom` values
+            // even when they belong to a different visual line — the canonical
+            // case is a small-font body row in one column with its baseline
+            // 1–2pt off from a large-font heading row in the other column.
+            // Y proximity alone happily merges those, then Phase 2 sees the
+            // body's tight median gap and incorrectly splits the heading's
+            // own intra-word gap. Reject the merge whenever font sizes
+            // diverge by more than ~50% of the larger size, which cleanly
+            // separates body from heading without rejecting punctuation
+            // (the bbox height of a comma is much smaller than a letter,
+            // but they share the same point size).
+            var maxFontSize = Math.Max(currentMaxFontSize, wFontSize);
+            var fontSizeDiffRatio = maxFontSize > 0
+                ? Math.Abs(currentMaxFontSize - wFontSize) / maxFontSize
+                : 0.0;
+            var sameLine = yDist <= currentMaxHeight * 0.5 && fontSizeDiffRatio <= 0.5;
+
+            if (sameLine)
             {
-                current.Add(w);
+                currentRawLine.Add(w);
+                currentMaxHeight = Math.Max(currentMaxHeight, wHeight);
+                currentMaxFontSize = Math.Max(currentMaxFontSize, wFontSize);
             }
             else
             {
-                lines.Add(current.ToTextLineBlock());
-                current = new TextLineBuilder(w);
+                rawLines.Add(currentRawLine);
+                currentRawLine = new List<Word> { w };
+                currentBaselineY = wLowerY;
+                currentMaxHeight = wHeight;
+                currentMaxFontSize = wFontSize;
             }
         }
-        lines.Add(current.ToTextLineBlock());
+        rawLines.Add(currentRawLine);
+
+        var lines = new List<TextLineBlock>();
+        foreach (var rawLine in rawLines)
+        {
+            var byX = rawLine.OrderBy(w => w.BoundingBox.Left).ToList();
+            var splitIndices = FindOutlierGapSplits(byX);
+            var start = 0;
+            foreach (var splitIndex in splitIndices)
+            {
+                lines.Add(BuildTextLineBlock(byX, start, splitIndex + 1));
+                start = splitIndex + 1;
+            }
+            lines.Add(BuildTextLineBlock(byX, start, byX.Count));
+        }
 
         return lines;
     }
+
+    /// <summary>
+    /// Hard ceiling, in PDF user-space points, on a single intra-line gap.
+    /// Any gap above this is treated as a column boundary regardless of
+    /// the line's local statistics. The cap exists for sparse single-row
+    /// layouts (e.g. magazine table-of-contents pages where two large
+    /// page-number badges sit on the same baseline at opposite ends of
+    /// the page) — those rows have only one gap, so the median-relative
+    /// rule would never split them. 100pt comfortably covers a
+    /// 30pt-font letter-spaced heading (typical title-internal gaps stay
+    /// under ~50pt) while still cutting page-number badges separated by
+    /// hundreds of points.
+    /// </summary>
+    private const double MaxIntraLineGapPoints = 100.0;
+
+    /// <summary>
+    /// Returns the indices in <paramref name="wordsByX"/> after which a column-like
+    /// outlier gap appears. A gap qualifies when it exceeds three times the
+    /// raw-line median gap, four times the line's average glyph height, or
+    /// the absolute <see cref="MaxIntraLineGapPoints"/> ceiling — whichever
+    /// yields the lowest threshold. The three arms cooperate: the
+    /// median-relative arm catches narrow-column layouts where the absolute
+    /// gap is small but anomalous, the height-relative arm covers single-gap
+    /// raw lines whose median equals the gap itself, and the absolute cap
+    /// handles sparse rows whose font size is so large that the relative
+    /// arms overshoot any plausible same-line gap.
+    /// </summary>
+    private static List<int> FindOutlierGapSplits(IReadOnlyList<Word> wordsByX)
+    {
+        if (wordsByX.Count <= 1) return [];
+
+        var gaps = new double[wordsByX.Count - 1];
+        for (var i = 0; i < gaps.Length; i++)
+        {
+            gaps[i] = Math.Max(
+                0,
+                wordsByX[i + 1].BoundingBox.Left - wordsByX[i].BoundingBox.Right);
+        }
+
+        var sortedGaps = (double[])gaps.Clone();
+        Array.Sort(sortedGaps);
+        var medianGap = sortedGaps[sortedGaps.Length / 2];
+
+        var avgHeight = wordsByX.Average(w => Math.Abs(w.BoundingBox.Top - w.BoundingBox.Bottom));
+        var threshold = Math.Min(
+            Math.Min(medianGap * 3.0, avgHeight * 4.0),
+            MaxIntraLineGapPoints);
+
+        var splits = new List<int>();
+        for (var i = 0; i < gaps.Length; i++)
+        {
+            if (gaps[i] > threshold)
+            {
+                splits.Add(i);
+            }
+        }
+        return splits;
+    }
+
+    /// <summary>
+    /// Constructs a <see cref="TextLineBlock"/> from a half-open slice
+    /// <c>[start, endExclusive)</c> of <paramref name="words"/>, using the
+    /// existing <see cref="TextLineBuilder"/> aggregator to keep bounding-box
+    /// and font-statistic computation in one place.
+    /// </summary>
+    private static TextLineBlock BuildTextLineBlock(IReadOnlyList<Word> words, int start, int endExclusive)
+    {
+        var builder = new TextLineBuilder(words[start]);
+        for (var i = start + 1; i < endExclusive; i++)
+        {
+            builder.Add(words[i]);
+        }
+        return builder.ToTextLineBlock();
+    }
+
+    /// <summary>
+    /// Returns the point size of <paramref name="word"/>'s first letter,
+    /// or zero when the word carries no letter information. Word font size
+    /// is uniform within a <see cref="LetterGrouper"/>-produced word, so
+    /// the first-letter sample is sufficient and cheaper than averaging.
+    /// </summary>
+    private static double WordFontSize(Word word) =>
+        word.Letters.Count > 0 ? word.Letters[0].PointSize : 0.0;
 
     private static List<TextBlock> MergeLinesIntoBlocks(IReadOnlyList<TextLineBlock> lines)
     {
