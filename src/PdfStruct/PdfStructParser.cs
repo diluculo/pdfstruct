@@ -996,6 +996,12 @@ public sealed class PdfStructParser
         if (!IsSameFontSize(previous, next))
             return false;
 
+        if (previous.IsBold != next.IsBold)
+            return false;
+
+        if (!IsSameFontFace(previous, next))
+            return false;
+
         if (!AreHorizontallyOverlapping(previous, next))
             return false;
 
@@ -1093,6 +1099,37 @@ public sealed class PdfStructParser
         var delta = Math.Abs(a.FontSize - b.FontSize);
         var tolerance = Math.Max(1.0, 0.1 * Math.Max(a.FontSize, b.FontSize));
         return delta <= tolerance;
+    }
+
+    /// <summary>
+    /// Returns <c>true</c> when two lines use the same font face. Compares
+    /// names with the PDF subset prefix stripped — embedded subset fonts
+    /// carry a synthetic six-uppercase-letter tag (for example
+    /// <c>INPILL+HCRDotum</c>) that varies between embedding passes and
+    /// must be ignored. A bold face and its regular sibling
+    /// (<c>HCRDotum-Bold</c> vs <c>HCRDotum</c>) deliberately do <em>not</em>
+    /// match — splitting on weight changes is what keeps a bold title
+    /// from being merged into the regular-weight body that follows it.
+    /// </summary>
+    private static bool IsSameFontFace(TextLineBlock a, TextLineBlock b) =>
+        StripSubsetPrefix(a.FontName) == StripSubsetPrefix(b.FontName);
+
+    /// <summary>
+    /// Strips the six-uppercase-letter subset prefix and trailing <c>+</c>
+    /// from a PDF font name, leaving the underlying face identifier. Returns
+    /// the input unchanged when no prefix is present.
+    /// </summary>
+    private static string StripSubsetPrefix(string fontName)
+    {
+        if (fontName.Length <= 7 || fontName[6] != '+')
+            return fontName;
+
+        for (var i = 0; i < 6; i++)
+        {
+            var c = fontName[i];
+            if (c < 'A' || c > 'Z') return fontName;
+        }
+        return fontName[7..];
     }
 
     private static readonly Regex s_digitRun = new(@"\d+", RegexOptions.Compiled | RegexOptions.CultureInvariant);
