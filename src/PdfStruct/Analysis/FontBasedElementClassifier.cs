@@ -174,29 +174,104 @@ public sealed class FontBasedElementClassifier : IElementClassifier
     public IReadOnlyList<ContentElement> Classify(
         IReadOnlyList<DocumentTextBlock> documentBlocks, ref int startId)
     {
-        var elements = new List<ContentElement>(documentBlocks.Count);
         var stats = new DocumentStatistics(documentBlocks.Select(d => d.Block));
-        var classifiedAsHeading = new bool[documentBlocks.Count];
         var initialIndex = FindFirstNonStatsOnlyIndex(documentBlocks);
+        var classifiedAsHeading = ScoreAndClassify(documentBlocks, stats, initialIndex);
+        DemoteConsecutiveSameStyleHeadings(classifiedAsHeading, documentBlocks);
 
+        var elements = new List<ContentElement>(documentBlocks.Count);
         for (var i = 0; i < documentBlocks.Count; i++)
         {
             var entry = documentBlocks[i];
             if (entry.IsStatsOnly) continue;
-
-            var breakdown = ComputeBreakdown(i, documentBlocks, classifiedAsHeading, initialIndex, stats);
-            if (breakdown.Total > _headingProbabilityThreshold)
-            {
-                classifiedAsHeading[i] = true;
-                elements.Add(CreateHeading(entry.Block, entry.PageNumber, ref startId));
-            }
-            else
-            {
-                elements.Add(CreateParagraph(entry.Block, entry.PageNumber, ref startId));
-            }
+            elements.Add(classifiedAsHeading[i]
+                ? CreateHeading(entry.Block, entry.PageNumber, ref startId)
+                : CreateParagraph(entry.Block, entry.PageNumber, ref startId));
         }
         return elements;
     }
+
+    /// <summary>
+    /// Pass 1 — scores every non-stats-only block in reading order and marks
+    /// those above threshold as headings. The boolean array returned uses
+    /// indices into <paramref name="documentBlocks"/>; stats-only entries
+    /// remain <c>false</c>.
+    /// </summary>
+    private bool[] ScoreAndClassify(
+        IReadOnlyList<DocumentTextBlock> documentBlocks,
+        DocumentStatistics stats,
+        int initialIndex)
+    {
+        var classifiedAsHeading = new bool[documentBlocks.Count];
+        for (var i = 0; i < documentBlocks.Count; i++)
+        {
+            if (documentBlocks[i].IsStatsOnly) continue;
+            var breakdown = ComputeBreakdown(i, documentBlocks, classifiedAsHeading, initialIndex, stats);
+            classifiedAsHeading[i] = breakdown.Total > _headingProbabilityThreshold;
+        }
+        return classifiedAsHeading;
+    }
+
+    /// <summary>
+    /// Pass 2 — demotes consecutive heading runs that share a typographic
+    /// style. Real heading hierarchies use distinct styles for distinct
+    /// levels (chapter big, section smaller); a sequence of similarly-styled
+    /// "headings" with no body between them is more often a metadata cluster
+    /// (paper cover-page authors, affiliations, citations) that the
+    /// per-block scoring failed to discriminate. Keeps the first member of
+    /// each run, demotes the rest. The chain is broken by any substantial
+    /// body block — a multi-line paragraph or a single line longer than
+    /// roughly half a body line.
+    /// </summary>
+    private static void DemoteConsecutiveSameStyleHeadings(
+        bool[] classifiedAsHeading,
+        IReadOnlyList<DocumentTextBlock> documentBlocks)
+    {
+        TextBlock? lastHeadingBlock = null;
+        for (var i = 0; i < documentBlocks.Count; i++)
+        {
+            if (documentBlocks[i].IsStatsOnly) continue;
+
+            var block = documentBlocks[i].Block;
+            if (classifiedAsHeading[i])
+            {
+                if (lastHeadingBlock is { } previous && IsSameHeadingStyle(block, previous))
+                {
+                    classifiedAsHeading[i] = false;
+                }
+                else
+                {
+                    lastHeadingBlock = block;
+                }
+            }
+            else if (IsSubstantialBody(block))
+            {
+                lastHeadingBlock = null;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Two heading-classified blocks count as the same style when their
+    /// font weight matches and their sizes are within 1.5 points. Font
+    /// face is intentionally not part of the test — embedded fonts on
+    /// cover pages frequently mix related faces (Bold and BoldCondensed,
+    /// for example) for visually equivalent metadata.
+    /// </summary>
+    private static bool IsSameHeadingStyle(TextBlock a, TextBlock b)
+    {
+        if (a.IsBold != b.IsBold) return false;
+        return Math.Abs(a.FontSize - b.FontSize) <= 1.5;
+    }
+
+    /// <summary>
+    /// Returns <c>true</c> when a paragraph block is "substantial enough"
+    /// to break a same-style heading run. Multi-line paragraphs always
+    /// qualify; single-line paragraphs need to carry a recognisable amount
+    /// of running text rather than a stray label or marker.
+    /// </summary>
+    private static bool IsSubstantialBody(TextBlock block) =>
+        block.LineCount >= 2 || block.Text.Trim().Length > 60;
 
     /// <summary>
     /// Runs the neighbour-aware classification pass without producing
@@ -213,16 +288,23 @@ public sealed class FontBasedElementClassifier : IElementClassifier
         var stats = new DocumentStatistics(documentBlocks.Select(d => d.Block));
         var classifiedAsHeading = new bool[documentBlocks.Count];
         var initialIndex = FindFirstNonStatsOnlyIndex(documentBlocks);
-        var entries = new List<HeadingScoreEntry>(documentBlocks.Count);
+        var breakdowns = new HeadingProbabilityBreakdown[documentBlocks.Count];
 
         for (var i = 0; i < documentBlocks.Count; i++)
         {
             if (documentBlocks[i].IsStatsOnly) continue;
 
-            var breakdown = ComputeBreakdown(i, documentBlocks, classifiedAsHeading, initialIndex, stats);
-            var isHeading = breakdown.Total > _headingProbabilityThreshold;
-            classifiedAsHeading[i] = isHeading;
-            entries.Add(new HeadingScoreEntry(i, breakdown, isHeading));
+            breakdowns[i] = ComputeBreakdown(i, documentBlocks, classifiedAsHeading, initialIndex, stats);
+            classifiedAsHeading[i] = breakdowns[i].Total > _headingProbabilityThreshold;
+        }
+
+        DemoteConsecutiveSameStyleHeadings(classifiedAsHeading, documentBlocks);
+
+        var entries = new List<HeadingScoreEntry>(documentBlocks.Count);
+        for (var i = 0; i < documentBlocks.Count; i++)
+        {
+            if (documentBlocks[i].IsStatsOnly) continue;
+            entries.Add(new HeadingScoreEntry(i, breakdowns[i], classifiedAsHeading[i]));
         }
         return entries;
     }
@@ -247,8 +329,17 @@ public sealed class FontBasedElementClassifier : IElementClassifier
         var nextIndex = FindNextNonStatsOnly(documentBlocks, index);
         var prevIsHeading = prevIndex >= 0 && classifiedAsHeading[prevIndex];
 
+        // The veraPDF prev-is-heading shortcut (compare only against the next
+        // neighbour) only makes sense when the candidate is itself
+        // typographically distinct enough to be a heading. Without this guard,
+        // body text immediately following a heading inherits a strong
+        // next-neighbour score against the next paragraph and cascades into a
+        // false positive. Treat the candidate as heading-like only when it is
+        // bold or notably larger than the document's body baseline.
+        var headingLike = current.IsBold || current.FontSize > stats.ModeFontSize + 0.5;
+
         double neighbourScore;
-        if (prevIsHeading)
+        if (prevIsHeading && headingLike)
         {
             if (nextIndex < 0)
             {
@@ -282,7 +373,7 @@ public sealed class FontBasedElementClassifier : IElementClassifier
                 + verticalGapBoost + allCapsBoost + nextPagePenalty
                 + sizeRarityBoost + weightRarityBoost + bulletedBoost;
         var lineDecay = LineCountDecay(current.LineCount);
-        var sentenceFlowDemotion = ComputeSentenceFlowDemotion(currentEntry, documentBlocks, prevIndex, classifiedAsHeading);
+        var sentenceFlowDemotion = ComputeSentenceFlowDemotion(current, currentEntry, documentBlocks, prevIndex, classifiedAsHeading);
         var total = Math.Clamp(sum * lineDecay * sentenceFlowDemotion, 0.0, 1.0);
 
         return new HeadingProbabilityBreakdown(
@@ -339,15 +430,19 @@ public sealed class FontBasedElementClassifier : IElementClassifier
 
     /// <summary>
     /// Returns a multiplier in <c>(0, 1]</c> demoting candidates that sit
-    /// inside body flow. When the previous same-page block ends mid-sentence
-    /// (no terminator on its last line), the candidate is sandwiched in a
-    /// paragraph rather than introducing one — magazine pull-quotes are the
-    /// canonical case. Returns <c>1.0</c> (no demotion) when the previous
-    /// block sits on a different page, was already classified as a heading,
-    /// is a single short line (likely a title or fragment rather than body),
-    /// or ends with a sentence terminator.
+    /// inside body flow. The signal targets the magazine pull-quote pattern:
+    /// a multi-line display-type block embedded inside a paragraph that
+    /// continues across it. Demotion fires only when every guard passes,
+    /// otherwise returns <c>1.0</c>. Guards:
+    /// <list type="bullet">
+    ///   <item><description><c>prev</c> exists, on the same page, and was not classified as a heading.</description></item>
+    ///   <item><description><c>prev</c> is multi-line body — a one-line prev is far more likely a title or fragment than a paragraph the candidate could be sandwiched inside.</description></item>
+    ///   <item><description><c>current</c> itself is multi-line (≥ 3 lines). Pull quotes are visually substantial; a one- or two-line candidate that follows an unterminated paragraph is more often a real heading whose neighbour just happens to lack a terminator (e.g. a preamble that ends without a period in the source PDF).</description></item>
+    ///   <item><description><c>prev</c>'s last line ends mid-sentence — no Korean terminator and no Latin period/colon/etc.</description></item>
+    /// </list>
     /// </summary>
     private static double ComputeSentenceFlowDemotion(
+        TextBlock current,
         DocumentTextBlock currentEntry,
         IReadOnlyList<DocumentTextBlock> documentBlocks,
         int prevIndex,
@@ -356,12 +451,9 @@ public sealed class FontBasedElementClassifier : IElementClassifier
         if (prevIndex < 0) return 1.0;
         if (documentBlocks[prevIndex].PageNumber != currentEntry.PageNumber) return 1.0;
         if (classifiedAsHeading[prevIndex]) return 1.0;
+        if (current.LineCount < 3) return 1.0;
 
         var prev = documentBlocks[prevIndex].Block;
-        // A single-line prev is more likely a title or short fragment than
-        // body text — e.g. the document's untyped title "대한민국헌법" has no
-        // sentence terminator but is not a paragraph the candidate could
-        // sandwich. Demoting on such a prev produces false positives.
         if (prev.LineCount < 2) return 1.0;
 
         var prevLastLine = LastLine(prev.Text);
