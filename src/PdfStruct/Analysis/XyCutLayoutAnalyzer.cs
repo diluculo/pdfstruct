@@ -29,6 +29,22 @@ public interface ILayoutAnalyzer
 /// <c>true</c> when no other block on the page shares this block's vertical row by more
 /// than 50%. Used as a strong "this is a heading or pull-quote, not body text" signal.
 /// </param>
+/// <param name="FirstLineLeft">
+/// Left x-coordinate of the block's first constituent line. Preserved
+/// separately from <see cref="BoundingBox"/> because the merged bbox uses
+/// the minimum left across all lines, which masks first-line-indented or
+/// hanging-indented paragraphs and discards the indentation signal that
+/// distinguishes structural levels in documents like the Korean
+/// Constitution. Defaults to <see cref="double.NaN"/> for blocks
+/// constructed without this signal (e.g. short-form test fixtures);
+/// consumers that need the value should fall back to <see cref="BoundingBox"/>
+/// in that case.
+/// </param>
+/// <param name="MedianLineLeft">Median (upper-median for even line counts) left x-coordinate across the block's constituent lines. NaN when not populated.</param>
+/// <param name="LastLineLeft">Left x-coordinate of the block's last constituent line. NaN when not populated.</param>
+/// <param name="FirstLineRight">Right x-coordinate of the block's first constituent line. NaN when not populated.</param>
+/// <param name="MedianLineRight">Median (upper-median for even line counts) right x-coordinate across the block's constituent lines. NaN when not populated.</param>
+/// <param name="LastLineRight">Right x-coordinate of the block's last constituent line. NaN when not populated.</param>
 public sealed record TextBlock(
     BoundingBox BoundingBox,
     string Text,
@@ -36,7 +52,13 @@ public sealed record TextBlock(
     double FontSize = 0,
     bool IsBold = false,
     int LineCount = 1,
-    bool IsStandalone = false);
+    bool IsStandalone = false,
+    double FirstLineLeft = double.NaN,
+    double MedianLineLeft = double.NaN,
+    double LastLineLeft = double.NaN,
+    double FirstLineRight = double.NaN,
+    double MedianLineRight = double.NaN,
+    double LastLineRight = double.NaN);
 
 /// <summary>
 /// Implements the XY-Cut++ algorithm for determining reading order on PDF pages.

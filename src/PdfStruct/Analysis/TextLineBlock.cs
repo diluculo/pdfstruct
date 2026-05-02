@@ -45,7 +45,9 @@ internal readonly record struct TextLineBlock(
     /// <summary>
     /// Lifts the line into a single-line <see cref="TextBlock"/>, used when
     /// the layout analyzer or the sanitizer must operate on the unmerged
-    /// line stream.
+    /// line stream. Populates the line-level indent fields with the line's
+    /// own bbox edges so that consumers see the same value whether the
+    /// line is processed standalone or inside a multi-line merged block.
     /// </summary>
     public TextBlock ToTextBlock() => new(
         BoundingBox,
@@ -53,5 +55,11 @@ internal readonly record struct TextLineBlock(
         FontName,
         FontSize,
         IsBold,
-        LineCount: 1);
+        LineCount: 1,
+        FirstLineLeft: BoundingBox.Left,
+        MedianLineLeft: BoundingBox.Left,
+        LastLineLeft: BoundingBox.Left,
+        FirstLineRight: BoundingBox.Right,
+        MedianLineRight: BoundingBox.Right,
+        LastLineRight: BoundingBox.Right);
 }

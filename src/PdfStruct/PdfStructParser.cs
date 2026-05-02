@@ -519,7 +519,13 @@ public sealed class PdfStructParser
         list.FontName,
         list.FontSize,
         IsBold: false,
-        LineCount: 1);
+        LineCount: 1,
+        FirstLineLeft: item.BoundingBox.Left,
+        MedianLineLeft: item.BoundingBox.Left,
+        LastLineLeft: item.BoundingBox.Left,
+        FirstLineRight: item.BoundingBox.Right,
+        MedianLineRight: item.BoundingBox.Right,
+        LastLineRight: item.BoundingBox.Right);
 
     private static TextBlock MakeListPlaceholder(DetectedList list, int pageNumber, int indexOnPage)
     {
@@ -530,7 +536,13 @@ public sealed class PdfStructParser
             list.FontName,
             list.FontSize,
             IsBold: false,
-            LineCount: list.Items.Count) with
+            LineCount: list.Items.Count,
+            FirstLineLeft: list.BoundingBox.Left,
+            MedianLineLeft: list.BoundingBox.Left,
+            LastLineLeft: list.BoundingBox.Left,
+            FirstLineRight: list.BoundingBox.Right,
+            MedianLineRight: list.BoundingBox.Right,
+            LastLineRight: list.BoundingBox.Right) with
         { IsStandalone = false };
     }
 
@@ -1034,13 +1046,26 @@ public sealed class PdfStructParser
         var text = string.Join("\n", lines.Select(l => l.Text));
         var bbox = lines.Select(l => l.BoundingBox).Aggregate((a, b) => a.Merge(b));
         var first = lines[0];
+        var last = lines[^1];
+
+        var sortedLefts = lines.Select(l => l.Left).OrderBy(v => v).ToArray();
+        var sortedRights = lines.Select(l => l.Right).OrderBy(v => v).ToArray();
+        var medianLeft = sortedLefts[sortedLefts.Length / 2];
+        var medianRight = sortedRights[sortedRights.Length / 2];
+
         return new TextBlock(
             bbox,
             text,
             first.FontName,
             first.FontSize,
             first.IsBold,
-            LineCount: lines.Count);
+            LineCount: lines.Count,
+            FirstLineLeft: first.Left,
+            MedianLineLeft: medianLeft,
+            LastLineLeft: last.Left,
+            FirstLineRight: first.Right,
+            MedianLineRight: medianRight,
+            LastLineRight: last.Right);
     }
 
     /// <summary>Returns <c>true</c> when two lines have effectively the same font size (within 10% or 1pt).</summary>
