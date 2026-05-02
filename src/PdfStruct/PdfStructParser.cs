@@ -266,7 +266,8 @@ public sealed class PdfStructParser
 
         TemplateClassConsistency.PromoteSharedTemplates(doc.Kids);
 
-        AssignHeadingLevels(doc.Kids);
+        var pageWidths = pageGeometries.ToDictionary(pair => pair.Key, pair => pair.Value.Width);
+        AssignHeadingLevels(doc.Kids, pageWidths);
 
         if (_options.ExcludeHeadersFooters)
         {
@@ -287,27 +288,40 @@ public sealed class PdfStructParser
 
     /// <summary>
     /// Assigns numeric heading levels 1..N to <see cref="Models.HeadingElement"/>
-    /// instances by clustering them on typographic style (font size, font name,
-    /// derived bold flag) and ordering style groups from largest/heaviest to
+    /// instances by clustering them on typographic and layout style
+    /// (font size, font name, derived bold flag, indent bucket, page
+    /// alignment) and ordering the resulting groups from largest/heaviest to
     /// smallest/lightest. Levels are uncapped on the data model; the Markdown
     /// renderer clamps to H6 at output time.
     /// </summary>
     /// <remarks>
     /// Ports the OpenDataLoader-pdf <c>HeadingProcessor</c> level-assignment
-    /// pass: a document's distinct heading styles form a hierarchy without
-    /// the parser needing to reason about specific heading semantics. If
-    /// every heading shares the same style, all become level 1, which is
-    /// consistent if uninformative.
+    /// pass with two extensions: indent and alignment join the style key
+    /// (so a document whose chapter/section/sub-section headings share font
+    /// and weight but sit at distinct left margins can still cluster into
+    /// distinct levels), and headings that arrive with a non-zero
+    /// <see cref="Models.HeadingElement.HeadingLevel"/> are treated as
+    /// already-authoritative and left unchanged. The latter preserves the
+    /// hierarchy a pattern-driven classifier (e.g.
+    /// <see cref="Analysis.RegexHeadingClassifier"/>) intentionally
+    /// assigned per pattern.
     /// </remarks>
-    private static void AssignHeadingLevels(List<Models.ContentElement> kids)
+    private static void AssignHeadingLevels(
+        List<Models.ContentElement> kids,
+        IReadOnlyDictionary<int, double> pageWidths)
     {
-        var headings = kids.OfType<Models.HeadingElement>().ToList();
-        if (headings.Count == 0) return;
+        var unassigned = kids
+            .OfType<Models.HeadingElement>()
+            .Where(h => h.HeadingLevel == 0)
+            .ToList();
+        if (unassigned.Count == 0) return;
 
-        var styleGroups = headings
-            .GroupBy(h => new TextStyleKey(h.Text.FontSize, IsBoldFontName(h.Text.Font), h.Text.Font))
+        var styleGroups = unassigned
+            .GroupBy(h => BuildStyleKey(h, pageWidths))
             .OrderByDescending(g => g.Key.FontSize)
             .ThenByDescending(g => g.Key.IsBold)
+            .ThenBy(g => g.Key.AlignmentRank)
+            .ThenBy(g => g.Key.IndentBucket)
             .ThenBy(g => g.Key.FontName, StringComparer.Ordinal)
             .ToList();
 
@@ -323,8 +337,56 @@ public sealed class PdfStructParser
         }
     }
 
-    /// <summary>Composite typographic-style key used for grouping headings.</summary>
-    private readonly record struct TextStyleKey(double FontSize, bool IsBold, string FontName);
+    /// <summary>
+    /// Builds the composite style key used to group headings in
+    /// <see cref="AssignHeadingLevels"/>. Font size, bold, and font name
+    /// remain the primary axes; indent (rounded to a 5pt bucket) and
+    /// alignment (centered vs left-aligned) are added so headings that
+    /// share typography but differ in layout role end up in distinct
+    /// groups — a sub-section indented one column further than its
+    /// parent chapter, for example, or a centred document title above
+    /// left-aligned section headings of the same font size.
+    /// </summary>
+    private static TextStyleKey BuildStyleKey(Models.HeadingElement heading, IReadOnlyDictionary<int, double> pageWidths)
+    {
+        var indentBucket = (int)Math.Round(heading.BoundingBox.Left / 5.0);
+        var alignmentRank = ClassifyAlignment(heading, pageWidths);
+        return new TextStyleKey(
+            FontSize: heading.Text.FontSize,
+            IsBold: IsBoldFontName(heading.Text.Font),
+            FontName: heading.Text.Font,
+            IndentBucket: indentBucket,
+            AlignmentRank: alignmentRank);
+    }
+
+    /// <summary>
+    /// Maps a heading's horizontal position on its page to a coarse rank:
+    /// <c>0</c> for centred (both side margins substantial and roughly
+    /// equal), <c>1</c> for left-aligned, <c>2</c> when page geometry is
+    /// unknown. The rank doubles as the within-cluster sort order, so a
+    /// centred title naturally precedes a left-aligned heading of the
+    /// same font size when both groups need to be ranked.
+    /// </summary>
+    private static int ClassifyAlignment(
+        Models.HeadingElement heading,
+        IReadOnlyDictionary<int, double> pageWidths)
+    {
+        if (!pageWidths.TryGetValue(heading.PageNumber, out var pageWidth) || pageWidth <= 0)
+            return 2;
+
+        var leftMargin = heading.BoundingBox.Left;
+        var rightMargin = pageWidth - heading.BoundingBox.Right;
+        if (leftMargin <= 0 || rightMargin <= 0) return 1;
+
+        var minMargin = pageWidth * 0.15;
+        if (leftMargin < minMargin || rightMargin < minMargin) return 1;
+
+        var asymmetry = Math.Abs(leftMargin - rightMargin) / pageWidth;
+        return asymmetry < 0.05 ? 0 : 1;
+    }
+
+    /// <summary>Composite typographic-and-layout style key used for grouping headings.</summary>
+    private readonly record struct TextStyleKey(double FontSize, bool IsBold, string FontName, int IndentBucket, int AlignmentRank);
 
     /// <summary>
     /// Heuristic bold detection from a font name. Mirrors the

@@ -581,14 +581,21 @@ public sealed class FontBasedElementClassifier : IElementClassifier
       + "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳"
       + "❶❷❸❹❺❻❼❽❾❿";
 
-    /// <summary>Creates a <see cref="HeadingElement"/> for the given block. Heading level is provisional (always 1) and is refined by a later pass that clusters headings by typographic style.</summary>
+    /// <summary>
+    /// Creates a <see cref="HeadingElement"/> for the given block. The heading
+    /// level is left unassigned (<c>0</c>) and the label empty so the
+    /// downstream <c>AssignHeadingLevels</c> pass can cluster the heading
+    /// alongside its style siblings. A regex- or pattern-driven classifier
+    /// that knows the heading's hierarchical level emits non-zero values
+    /// directly; <c>AssignHeadingLevels</c> preserves those.
+    /// </summary>
     private static HeadingElement CreateHeading(TextBlock block, int pageNumber, ref int id) => new()
     {
         Id = id++,
         PageNumber = pageNumber,
         BoundingBox = block.BoundingBox,
-        HeadingLevel = 1,
-        Level = "Doctitle",
+        HeadingLevel = 0,
+        Level = string.Empty,
         Text = ToTextProperties(block)
     };
 
