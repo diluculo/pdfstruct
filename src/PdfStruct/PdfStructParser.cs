@@ -1023,23 +1023,32 @@ public sealed class PdfStructParser
     /// relative-threshold strategy.
     /// </summary>
     /// <remarks>
-    /// Phase 1 clusters words by baseline proximity only — words that share a
-    /// vertical band within half the local glyph height belong to the same
-    /// "raw line" regardless of horizontal distance. Phase 2 then walks each
-    /// raw line left-to-right and splits at any gap that exceeds an adaptive
-    /// threshold: <c>min(medianGap × 3, avgHeight × 4)</c>. The median-relative
-    /// arm catches column boundaries (a rare wide gap among many tight ones in
-    /// a multi-column row) while the height-relative arm provides a floor for
-    /// pathological cases where the median is unhelpful (single-word raw
-    /// lines, lines with all-tiny intra-glyph kerning gaps).
+    /// Phase 1 clusters words by typesetting baseline (PdfPig's
+    /// <c>Letter.StartBaseLine.Y</c>) and font-size similarity. Two words
+    /// belong to the same raw line when their baselines fall within ~30% of
+    /// the smaller font's point size and their point sizes differ by less
+    /// than ~50%. The smaller-font-relative tolerance is what cleanly
+    /// separates a 10pt body row from a 13pt heading row whose baselines
+    /// are only a few points apart — using the larger font's height (or
+    /// the bbox height of either word) for tolerance lets body and heading
+    /// merge incorrectly on densely packed cover-page layouts.
     ///
     /// <para>
-    /// The earlier implementation used an absolute <c>min(35, max(15, h * 1.5))</c>
-    /// gap cap. That worked for normal body text but split justified
-    /// short-line paragraphs (inter-word gaps just over 15pt) and
-    /// letter-spaced display titles like <c>MY DEAREST</c> (a 48pt
-    /// title-internal gap). The relative thresholds keep both cases on a
-    /// single line while still cutting at multi-column boundaries.
+    /// Phase 2 walks each raw line left-to-right and splits at any gap that
+    /// exceeds the minimum of <c>medianGap × 3</c>, <c>avgHeight × 4</c>, or
+    /// the absolute <see cref="MaxIntraLineGapPoints"/> ceiling. The
+    /// median-relative arm catches column boundaries, the height-relative
+    /// arm covers single-gap raw lines, and the absolute cap handles sparse
+    /// rows with very large fonts.
+    /// </para>
+    ///
+    /// <para>
+    /// Earlier revisions used <c>BoundingBox.Bottom</c> for the line-cluster
+    /// signal and <c>currentMaxHeight × 0.5</c> for the tolerance. That
+    /// pair drifts on glyph descender variation and grows the tolerance as
+    /// the larger of two mixed-font words, which is what merged a Korean
+    /// patent's 13pt office name with the 10pt publication-date row sitting
+    /// 3.6pt below it.
     /// </para>
     /// </remarks>
     private static List<TextLineBlock> GroupWordsIntoLines(List<Word> words)
@@ -1047,53 +1056,49 @@ public sealed class PdfStructParser
         if (words.Count == 0) return [];
 
         var sorted = words
-            .OrderByDescending(w => w.BoundingBox.Bottom)
+            .OrderByDescending(WordBaselineY)
             .ThenBy(w => w.BoundingBox.Left)
             .ToList();
 
         var rawLines = new List<List<Word>>();
         var currentRawLine = new List<Word> { sorted[0] };
-        var currentBaselineY = Math.Min(sorted[0].BoundingBox.Bottom, sorted[0].BoundingBox.Top);
-        var currentMaxHeight = Math.Abs(sorted[0].BoundingBox.Top - sorted[0].BoundingBox.Bottom);
-        var currentMaxFontSize = WordFontSize(sorted[0]);
+        var currentBaselineY = WordBaselineY(sorted[0]);
+        var currentMinFontSize = WordFontSize(sorted[0]);
+        var currentMaxFontSize = currentMinFontSize;
 
         for (int i = 1; i < sorted.Count; i++)
         {
             var w = sorted[i];
-            var wLowerY = Math.Min(w.BoundingBox.Bottom, w.BoundingBox.Top);
-            var yDist = Math.Abs(wLowerY - currentBaselineY);
-            var wHeight = Math.Abs(w.BoundingBox.Top - w.BoundingBox.Bottom);
+            var wBaselineY = WordBaselineY(w);
+            var baselineDiff = Math.Abs(wBaselineY - currentBaselineY);
             var wFontSize = WordFontSize(w);
 
-            // Two same-baseline words can have very close `Bottom` values
-            // even when they belong to a different visual line — the canonical
-            // case is a small-font body row in one column with its baseline
-            // 1–2pt off from a large-font heading row in the other column.
-            // Y proximity alone happily merges those, then Phase 2 sees the
-            // body's tight median gap and incorrectly splits the heading's
-            // own intra-word gap. Reject the merge whenever font sizes
-            // diverge by more than ~50% of the larger size, which cleanly
-            // separates body from heading without rejecting punctuation
-            // (the bbox height of a comma is much smaller than a letter,
-            // but they share the same point size).
             var maxFontSize = Math.Max(currentMaxFontSize, wFontSize);
             var fontSizeDiffRatio = maxFontSize > 0
                 ? Math.Abs(currentMaxFontSize - wFontSize) / maxFontSize
                 : 0.0;
-            var sameLine = yDist <= currentMaxHeight * 0.5 && fontSizeDiffRatio <= 0.5;
+
+            var smallerFontSize = currentMinFontSize > 0 && wFontSize > 0
+                ? Math.Min(currentMinFontSize, wFontSize)
+                : Math.Max(currentMinFontSize, wFontSize);
+            var baselineTolerance = Math.Max(0.5, smallerFontSize * 0.3);
+            var sameLine = baselineDiff <= baselineTolerance && fontSizeDiffRatio <= 0.5;
 
             if (sameLine)
             {
                 currentRawLine.Add(w);
-                currentMaxHeight = Math.Max(currentMaxHeight, wHeight);
                 currentMaxFontSize = Math.Max(currentMaxFontSize, wFontSize);
+                if (wFontSize > 0)
+                    currentMinFontSize = currentMinFontSize > 0
+                        ? Math.Min(currentMinFontSize, wFontSize)
+                        : wFontSize;
             }
             else
             {
                 rawLines.Add(currentRawLine);
                 currentRawLine = new List<Word> { w };
-                currentBaselineY = wLowerY;
-                currentMaxHeight = wHeight;
+                currentBaselineY = wBaselineY;
+                currentMinFontSize = wFontSize;
                 currentMaxFontSize = wFontSize;
             }
         }
@@ -1198,6 +1203,20 @@ public sealed class PdfStructParser
     /// </summary>
     private static double WordFontSize(Word word) =>
         word.Letters.Count > 0 ? word.Letters[0].PointSize : 0.0;
+
+    /// <summary>
+    /// Returns the typesetting baseline Y of <paramref name="word"/>'s first
+    /// letter, or — when the word carries no letter information — falls back
+    /// to the lower edge of the bounding box. Using the actual baseline
+    /// instead of <see cref="UglyToad.PdfPig.Core.PdfRectangle.Bottom"/>
+    /// keeps line clustering stable for glyphs with descenders (the bbox
+    /// bottom drops below the baseline by the descender depth) and matches
+    /// PDF's typesetting model — every glyph in a line shares one baseline.
+    /// </summary>
+    private static double WordBaselineY(Word word) =>
+        word.Letters.Count > 0
+            ? word.Letters[0].StartBaseLine.Y
+            : Math.Min(word.BoundingBox.Bottom, word.BoundingBox.Top);
 
     private static List<TextBlock> MergeLinesIntoBlocks(IReadOnlyList<TextLineBlock> lines)
     {
