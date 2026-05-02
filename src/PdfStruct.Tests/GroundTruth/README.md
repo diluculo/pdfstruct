@@ -31,7 +31,7 @@ When in doubt, the human marker should mark what they would *want* the extractor
 
 ## Coverage
 
-Six fixtures cover PdfStruct's regression matrix. They are added one at a time as time permits.
+Ground-truth fixtures cover PdfStruct's regression matrix. They are added one at a time as time permits.
 
 | fixture | added | notes |
 |---|---|---|
@@ -40,6 +40,7 @@ Six fixtures cover PdfStruct's regression matrix. They are added one at a time a
 | `kr_lorem_ipsum` | 2026-05-02 | Korean lorem-ipsum body; tests CJK line-joining inside a paragraph (no separator at mid-word wrap points) |
 | `kr_constitution` | 2026-05-02 | Korean legal text with `제N조` headings and `①②③` clauses; tests deep heading hierarchy (5 levels) and ordered lists inside articles |
 | `us_constitution` | 2026-05-02 | Western legal text with Article / Amendment hierarchy and a state-name signatory block |
+| `letter` | 2026-05-04 | hand-written-style personal letter; the title `MY DEAREST` is rendered as letter-spaced glyphs (`M Y   D E A R E S T`) which the extractor cannot recover without a normalisation pass that would distort other fixtures, so this entry sits at the upper bound of what is reachable rather than what is currently produced |
 | `plos_utilizing_llm` | — | two-column academic with references and bullet lists |
 
 When all six exist, `compare-to-ground-truth.ps1` (not yet written) will compute element-level precision and recall for both PdfStruct and ODL against this set.
