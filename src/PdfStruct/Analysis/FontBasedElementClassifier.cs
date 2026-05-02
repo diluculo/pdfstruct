@@ -329,6 +329,18 @@ public sealed class FontBasedElementClassifier : IElementClassifier
         var nextIndex = FindNextNonStatsOnly(documentBlocks, index);
         var prevIsHeading = prevIndex >= 0 && classifiedAsHeading[prevIndex];
 
+        if (prevIsHeading && nextIndex < 0)
+        {
+            // veraPDF tail-block rule: when the previous block is already a
+            // heading and there is no next neighbour to compare against,
+            // refuse to chain another heading at the document's tail.
+            // Applies regardless of how heading-like the candidate looks —
+            // the chain has nowhere to extend, and a body-like candidate
+            // could still pick up a positive prev_score against the
+            // immediately-preceding heading without the rule firing.
+            return new HeadingProbabilityBreakdown(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
+        }
+
         // The veraPDF prev-is-heading shortcut (compare only against the next
         // neighbour) only makes sense when the candidate is itself
         // typographically distinct enough to be a heading. Without this guard,
@@ -345,13 +357,6 @@ public sealed class FontBasedElementClassifier : IElementClassifier
         double neighbourScore;
         if (prevIsHeading && headingLike)
         {
-            if (nextIndex < 0)
-            {
-                // veraPDF tail-block rule: when the previous block is already a
-                // heading and there is no next neighbour to compare against,
-                // refuse to chain a second heading at the document's tail.
-                return new HeadingProbabilityBreakdown(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
-            }
             neighbourScore = ScoreVsNeighbour(current, documentBlocks[nextIndex].Block);
         }
         else
