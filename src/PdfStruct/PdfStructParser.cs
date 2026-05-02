@@ -672,7 +672,8 @@ public sealed class PdfStructParser
                 var normalized = NormalizeRunningFurnitureText(lines[index].Text);
                 if (string.IsNullOrWhiteSpace(normalized)) continue;
 
-                candidates.Add(new RunningLineCandidate(pageNumber, index, band.Value, normalized));
+                var quantisedLeft = Math.Round(lines[index].BoundingBox.Left / 10.0) * 10.0;
+                candidates.Add(new RunningLineCandidate(pageNumber, index, band.Value, normalized, quantisedLeft));
             }
         }
 
@@ -680,8 +681,12 @@ public sealed class PdfStructParser
             .Where(candidate => candidate.Band is not RunningFurnitureBand.Side);
 
         var minPagesForRepeat = Math.Max(2, (int)Math.Ceiling(pageLines.Count * RunningFurnitureDetector.RepeatRatioThreshold));
+        // Group by position too (quantised to 10pt buckets) — two lines that share
+        // text content but appear at very different lefts are not the same running
+        // element. Without this, a centred document title is removed alongside a
+        // recurring page header that happens to share the same text.
         var rejected = repeatedHeaderFooter
-            .GroupBy(candidate => (candidate.Band, candidate.NormalizedText))
+            .GroupBy(candidate => (candidate.Band, candidate.NormalizedText, candidate.QuantisedLeft))
             .Where(group => group.Select(candidate => candidate.PageNumber).Distinct().Count() >= minPagesForRepeat)
             .SelectMany(group => group.Select(candidate => (candidate.PageNumber, candidate.LineIndex)))
             .ToHashSet();
@@ -1118,7 +1123,8 @@ public sealed class PdfStructParser
         int PageNumber,
         int LineIndex,
         RunningFurnitureBand Band,
-        string NormalizedText);
+        string NormalizedText,
+        double QuantisedLeft);
 
     private enum RunningFurnitureBand { Header, Footer, Side }
 
