@@ -160,35 +160,6 @@ A `diagnose` subcommand emits a per-block CSV with the heading-probability break
 dotnet run --project src/PdfStruct.Cli -- diagnose playground/document.pdf -o scores.csv
 ```
 
-## Custom heading patterns
-
-When a corpus has section markers that are not typographically distinct (Korean legal documents, contracts using "Article N." conventions, etc.), wire a `RegexHeadingClassifier` ahead of the default font-based classifier:
-
-```csharp
-using System.Text.RegularExpressions;
-using PdfStruct;
-using PdfStruct.Analysis;
-
-var koreanLegalPatterns = new[]
-{
-    new HeadingPattern(new Regex(@"^(제\s*\d+\s*(편|장)|전문|부칙)(\s|$)"), HeadingLevel: 2),
-    new HeadingPattern(new Regex(@"^제\s*\d+\s*절(\s|$)"), HeadingLevel: 3),
-    new HeadingPattern(new Regex(@"^제\s*\d+\s*(관|항)(\s|$)"), HeadingLevel: 4),
-};
-
-var options = new PdfStructOptions();
-var parser = new PdfStructParser(
-    options,
-    new XyCutLayoutAnalyzer(options.MinGapRatioX, options.MinGapRatioY),
-    new CompositeElementClassifier(
-        new RegexHeadingClassifier(koreanLegalPatterns),
-        new FontBasedElementClassifier(options.HeadingProbabilityThreshold)));
-
-var result = parser.Parse("kr_constitution.pdf");
-```
-
-The composite tries each classifier in order and takes the first non-paragraph result for any block. The library ships no patterns by default — corpus knowledge stays with the caller.
-
 ## Development
 
 ### Prerequisites
