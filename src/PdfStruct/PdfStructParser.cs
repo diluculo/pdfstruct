@@ -7,6 +7,7 @@ using PdfStruct.Rendering;
 using PdfStruct.Safety;
 using UglyToad.PdfPig;
 using UglyToad.PdfPig.Content;
+using UglyToad.PdfPig.Core;
 
 namespace PdfStruct;
 
@@ -919,7 +920,17 @@ public sealed class PdfStructParser
     /// </summary>
     private IReadOnlyList<TextLineBlock> ExtractPageTextLines(Page page)
     {
-        var words = page.GetWords(LetterGrouper.Instance).ToList();
+        // Drop invisible glyphs (typically the OCR text layer of scanned PDFs)
+        // before letter-to-word grouping. Doing it at the letter level — rather
+        // than the line-bbox level — keeps `Page.Letters` from leaking
+        // never-drawn ink into the visible word stream, where it would
+        // distort font and gap statistics computed downstream.
+        IReadOnlyList<Letter> letters = _options.FilterHiddenText
+            ? page.Letters.Where(IsVisibleLetter).ToList()
+            : page.Letters;
+        var words = letters.Count > 0
+            ? LetterGrouper.Instance.GetWords(letters).ToList()
+            : [];
         if (words.Count == 0) return [];
 
         var lines = GroupWordsIntoLines(words);
@@ -928,6 +939,16 @@ public sealed class PdfStructParser
 
         return ProcessTextLines(lines);
     }
+
+    /// <summary>
+    /// Returns <c>true</c> for letters whose rendering mode draws to the
+    /// page (fill, stroke, or both, with or without clipping). Returns
+    /// <c>false</c> for the <c>Neither</c> and <c>NeitherClip</c> modes,
+    /// which are typically the invisible OCR text layer in scanned PDFs.
+    /// </summary>
+    private static bool IsVisibleLetter(Letter letter) =>
+        letter.RenderingMode != TextRenderingMode.Neither
+        && letter.RenderingMode != TextRenderingMode.NeitherClip;
 
     /// <summary>
     /// Returns a copy of <paramref name="blocks"/> with each block's
@@ -1346,7 +1367,13 @@ public sealed class PdfStructParser
         public double Width => Right - Left;
         public double AvgHeight => _words.Average(w => Math.Abs(w.BoundingBox.Top - w.BoundingBox.Bottom));
         public double AvgFontSize => _words.Average(w => w.Letters.FirstOrDefault()?.PointSize ?? 12.0);
-        public string FontName => _words[0].Letters.FirstOrDefault()?.FontName ?? "";
+        // Embedded subset fonts carry a six-uppercase-letter tag prefix
+        // (`BFSYCV+Garamond`) that is regenerated each embedding pass — two
+        // passes of the same source font yield different prefixes. Strip it
+        // at the source so downstream callers, the JSON renderer, font-face
+        // comparisons, and the heading style-key clustering all see the
+        // stable family identifier.
+        public string FontName => StripSubsetPrefix(_words[0].Letters.FirstOrDefault()?.FontName ?? "");
 
         // Authoritative typographic flags come from PdfPig's parsed FontDetails
         // (set during font dictionary parsing). The fallback to font-name
