@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0.
 
 using UglyToad.PdfPig.Content;
+using UglyToad.PdfPig.DocumentLayoutAnalysis.WordExtractor;
 using UglyToad.PdfPig.Util;
 
 namespace PdfStruct.Analysis;
@@ -46,12 +47,50 @@ internal sealed class LetterGrouper : IWordExtractor
     /// behavioural divergence is the absence of the <c>gap &gt; height * 0.39</c>
     /// word-boundary trigger.
     /// </summary>
+    /// <remarks>
+    /// Only horizontally oriented letters flow through the in-tree path; the
+    /// algorithm's Y-descending sort and X-ordered gap arithmetic assume
+    /// left-to-right text. Rotated and non-axis-aligned glyphs are delegated
+    /// to PdfPig's bbox-driven <see cref="NearestNeighbourWordExtractor"/>,
+    /// which clusters letters in their own reading direction. Rotated glyphs
+    /// fed through the horizontal path would line-break on every Y change
+    /// and emit a separate word per glyph (the canonical failure is the
+    /// rotated arXiv watermark in the page margin).
+    /// </remarks>
     /// <param name="letters">The page's letters in extraction order.</param>
     /// <returns>Words formed by sequential letter accumulation.</returns>
     public IEnumerable<Word> GetWords(IReadOnlyList<Letter> letters)
     {
         if (letters.Count == 0) yield break;
 
+        var horizontal = new List<Letter>();
+        var rotated = new List<Letter>();
+        foreach (var letter in letters)
+        {
+            if (letter.TextOrientation == TextOrientation.Horizontal)
+                horizontal.Add(letter);
+            else
+                rotated.Add(letter);
+        }
+
+        if (rotated.Count > 0)
+        {
+            foreach (var word in NearestNeighbourWordExtractor.Instance.GetWords(rotated))
+                yield return word;
+        }
+
+        if (horizontal.Count == 0) yield break;
+
+        foreach (var word in GroupHorizontalLetters(horizontal))
+            yield return word;
+    }
+
+    /// <summary>
+    /// Applies the in-tree horizontal letter-grouping algorithm to letters
+    /// confirmed to be in <see cref="TextOrientation.Horizontal"/>.
+    /// </summary>
+    private static IEnumerable<Word> GroupHorizontalLetters(IReadOnlyList<Letter> letters)
+    {
         var ordered = letters
             .OrderByDescending(l => l.Location.Y)
             .ThenBy(l => l.Location.X);
