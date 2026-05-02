@@ -920,14 +920,27 @@ public sealed class PdfStructParser
     /// </summary>
     private IReadOnlyList<TextLineBlock> ExtractPageTextLines(Page page)
     {
-        // Drop invisible glyphs (typically the OCR text layer of scanned PDFs)
-        // before letter-to-word grouping. Doing it at the letter level — rather
-        // than the line-bbox level — keeps `Page.Letters` from leaking
-        // never-drawn ink into the visible word stream, where it would
-        // distort font and gap statistics computed downstream.
-        IReadOnlyList<Letter> letters = _options.FilterHiddenText
-            ? page.Letters.Where(IsVisibleLetter).ToList()
-            : page.Letters;
+        // The "Neither" / "NeitherClip" rendering modes (Tr 3 / Tr 7) are the
+        // PDF spec's way of saying "do not draw this glyph". Some scanned
+        // PDFs use them for an OCR text layer that duplicates the visible
+        // glyphs and distorts font and gap statistics — we want those
+        // dropped. But other generators (notably some patent-office
+        // pipelines) tag legitimate, visually rendered text with the same
+        // mode. Use a per-page guard: drop the never-drawn glyphs only when
+        // the page also carries visibly drawn ones, so a page whose entire
+        // letter stream reports never-drawn keeps its content rather than
+        // disappearing.
+        IReadOnlyList<Letter> letters;
+        if (_options.FilterHiddenText)
+        {
+            var visibleLetters = page.Letters.Where(IsVisibleLetter).ToList();
+            letters = visibleLetters.Count > 0 ? visibleLetters : page.Letters;
+        }
+        else
+        {
+            letters = page.Letters;
+        }
+
         var words = letters.Count > 0
             ? LetterGrouper.Instance.GetWords(letters).ToList()
             : [];
