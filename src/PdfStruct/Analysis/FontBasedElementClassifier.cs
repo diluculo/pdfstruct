@@ -19,6 +19,11 @@ namespace PdfStruct.Analysis;
 /// </param>
 /// <param name="Initial">Bonus added when the block is the document's first non-stats-only entry.</param>
 /// <param name="Standalone">Bonus added when no other block on the page overlaps the candidate's row.</param>
+/// <param name="CenterAligned">
+/// Bonus added when the block is visually centred on its page (both side
+/// margins substantial and approximately equal). Captures display-style
+/// titles like a centred document title at the top of page 1.
+/// </param>
 /// <param name="VerticalGap">Bonus added when the candidate has unusually large whitespace above or below it (within the same page).</param>
 /// <param name="AllCaps">Bonus added when every cased letter in the block is uppercase (Latin script only — CJK has no case and is skipped).</param>
 /// <param name="NextPagePenalty">
@@ -46,6 +51,7 @@ public readonly record struct HeadingProbabilityBreakdown(
     double Neighbour,
     double Initial,
     double Standalone,
+    double CenterAligned,
     double VerticalGap,
     double AllCaps,
     double NextPagePenalty,
@@ -116,6 +122,7 @@ public sealed class FontBasedElementClassifier : IElementClassifier
 {
     private const double InitialHeadingBoost = 0.27;
     private const double StandaloneBoost = 0.15;
+    private const double CenterAlignedBoost = 0.30;
     private const double VerticalGapBoost = 0.20;
     private const double VerticalGapThresholdRatio = 0.5;
     private const double AllCapsBoost = 0.15;
@@ -248,7 +255,7 @@ public sealed class FontBasedElementClassifier : IElementClassifier
                 // veraPDF tail-block rule: when the previous block is already a
                 // heading and there is no next neighbour to compare against,
                 // refuse to chain a second heading at the document's tail.
-                return new HeadingProbabilityBreakdown(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
+                return new HeadingProbabilityBreakdown(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
             }
             neighbourScore = ScoreVsNeighbour(current, documentBlocks[nextIndex].Block);
         }
@@ -261,6 +268,8 @@ public sealed class FontBasedElementClassifier : IElementClassifier
 
         var initialBoost = index == initialIndex && initialIndex >= 0 ? InitialHeadingBoost : 0.0;
         var standaloneBoost = current.IsStandalone ? StandaloneBoost : 0.0;
+        var centerAlignedBoost = DocumentLayoutStatistics.IsCenterAligned(current, currentEntry.PageWidth)
+            ? CenterAlignedBoost : 0.0;
         var verticalGapBoost = ComputeVerticalGapBoost(currentEntry, documentBlocks, prevIndex, nextIndex);
         var allCapsBoost = IsAllCaps(current.Text) ? AllCapsBoost : 0.0;
         var nextPagePenalty = nextIndex >= 0 && documentBlocks[nextIndex].PageNumber != currentEntry.PageNumber
@@ -269,8 +278,8 @@ public sealed class FontBasedElementClassifier : IElementClassifier
         var weightRarityBoost = stats.FontWeightRarity.GetBoost(DocumentStatistics.WeightFor(current.IsBold)) * _fontWeightRarityWeight;
         var bulletedBoost = IsBulleted(current.Text) ? _bulletedBoost : 0.0;
 
-        var sum = neighbourScore + initialBoost + standaloneBoost + verticalGapBoost
-                + allCapsBoost + nextPagePenalty
+        var sum = neighbourScore + initialBoost + standaloneBoost + centerAlignedBoost
+                + verticalGapBoost + allCapsBoost + nextPagePenalty
                 + sizeRarityBoost + weightRarityBoost + bulletedBoost;
         var lineDecay = LineCountDecay(current.LineCount);
         var sentenceFlowDemotion = ComputeSentenceFlowDemotion(currentEntry, documentBlocks, prevIndex, classifiedAsHeading);
@@ -280,6 +289,7 @@ public sealed class FontBasedElementClassifier : IElementClassifier
             Neighbour: neighbourScore,
             Initial: initialBoost,
             Standalone: standaloneBoost,
+            CenterAligned: centerAlignedBoost,
             VerticalGap: verticalGapBoost,
             AllCaps: allCapsBoost,
             NextPagePenalty: nextPagePenalty,

@@ -164,8 +164,9 @@ public sealed class PdfStructParser
         var documentBlocks = new List<DocumentTextBlock>();
         for (var p = 1; p <= pdf.NumberOfPages; p++)
         {
-            foreach (var block in ExtractPageBlocks(pdf.GetPage(p)))
-                documentBlocks.Add(new DocumentTextBlock(p, block));
+            var page = pdf.GetPage(p);
+            foreach (var block in ExtractPageBlocks(page))
+                documentBlocks.Add(new DocumentTextBlock(p, block, IsStatsOnly: false, PageWidth: page.Width));
         }
 
         var classifier = new FontBasedElementClassifier(_options.HeadingProbabilityThreshold);
@@ -250,8 +251,9 @@ public sealed class PdfStructParser
         var documentBlocks = new List<DocumentTextBlock>(totalCount);
         for (var p = 1; p <= pdf.NumberOfPages; p++)
         {
+            var pageWidth = pageGeometries[p].Width;
             foreach (var block in pageBlocks[p])
-                documentBlocks.Add(new DocumentTextBlock(p, block));
+                documentBlocks.Add(new DocumentTextBlock(p, block, IsStatsOnly: false, PageWidth: pageWidth));
         }
         documentBlocks.AddRange(statsOnlyBlocks);
 

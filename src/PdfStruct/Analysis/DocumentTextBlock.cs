@@ -32,7 +32,17 @@ namespace PdfStruct.Analysis;
 /// pollute neighbour comparisons with synthesised blocks that do not
 /// belong to the visible document flow.
 /// </param>
+/// <param name="PageWidth">
+/// Width of the page the block sits on, in PDF points. Carried with the
+/// block so layout signals that need the page's horizontal extent
+/// (centre-alignment detection, normalised indent) can be computed
+/// without the classifier reaching back to the parser. Defaults to
+/// <c>0</c>, which consumers must treat as "page geometry not supplied"
+/// and silently skip — short-form test fixtures construct
+/// <see cref="DocumentTextBlock"/> without page geometry.
+/// </param>
 public readonly record struct DocumentTextBlock(
     int PageNumber,
     TextBlock Block,
-    bool IsStatsOnly = false);
+    bool IsStatsOnly = false,
+    double PageWidth = 0);
