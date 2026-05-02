@@ -61,7 +61,6 @@ public static partial class RunningFurnitureDetector
         var candidates = new List<Candidate>();
         foreach (var element in elements)
         {
-            if (element is HeadingElement) continue;
             if (!pageHeights.TryGetValue(element.PageNumber, out var pageHeight) || pageHeight <= 0) continue;
 
             var band = ClassifyBand(element.BoundingBox, pageHeight);
@@ -70,15 +69,24 @@ public static partial class RunningFurnitureDetector
             var content = ContentOf(element);
             if (string.IsNullOrWhiteSpace(content)) continue;
 
+            var quantisedLeft = Math.Round(element.BoundingBox.Left / 10.0) * 10.0;
             candidates.Add(new Candidate(
                 ElementId: element.Id,
                 PageNumber: element.PageNumber,
                 Band: band.Value,
-                NormalizedText: Normalize(content)));
+                NormalizedText: Normalize(content),
+                QuantisedLeft: quantisedLeft));
         }
 
+        // Group by position too (10pt buckets) so a centred document title and
+        // a top-right running header that share the same text remain in
+        // separate groups. Heading-classified elements are intentionally not
+        // skipped: a header/footer-band element that repeats on 70%+ of pages
+        // is furniture regardless of its classification, and the upstream
+        // template-class promotion can lift such repeats into the heading
+        // set en masse.
         return candidates
-            .GroupBy(c => (c.Band, c.NormalizedText))
+            .GroupBy(c => (c.Band, c.NormalizedText, c.QuantisedLeft))
             .Where(g => g.Select(c => c.PageNumber).Distinct().Count() >= minPagesForRepeat)
             .SelectMany(g => g.Select(c => c.ElementId))
             .ToHashSet();
@@ -111,7 +119,7 @@ public static partial class RunningFurnitureDetector
     [GeneratedRegex(@"\d+", RegexOptions.Compiled)]
     private static partial Regex DigitRun();
 
-    private readonly record struct Candidate(int ElementId, int PageNumber, FurnitureBand Band, string NormalizedText);
+    private readonly record struct Candidate(int ElementId, int PageNumber, FurnitureBand Band, string NormalizedText, double QuantisedLeft);
 
     /// <summary>Page-furniture spatial band.</summary>
     private enum FurnitureBand { Header, Footer }
