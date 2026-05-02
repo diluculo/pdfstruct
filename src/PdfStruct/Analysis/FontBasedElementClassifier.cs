@@ -335,8 +335,12 @@ public sealed class FontBasedElementClassifier : IElementClassifier
         // body text immediately following a heading inherits a strong
         // next-neighbour score against the next paragraph and cascades into a
         // false positive. Treat the candidate as heading-like only when it is
-        // bold or notably larger than the document's body baseline.
-        var headingLike = current.IsBold || current.FontSize > stats.ModeFontSize + 0.5;
+        // bold or substantially larger than the document's body baseline —
+        // additive thresholds are too lenient on dense cover pages where the
+        // mode is small (e.g. PLOS papers at 8pt) and a 10pt regular body
+        // paragraph would qualify as "heading-like" by a +0.5 margin.
+        var headingLike = current.IsBold
+            || (stats.ModeFontSize > 0 && current.FontSize >= stats.ModeFontSize * 1.3);
 
         double neighbourScore;
         if (prevIsHeading && headingLike)
