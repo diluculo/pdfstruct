@@ -375,7 +375,7 @@ public sealed class FontBasedElementClassifier : IElementClassifier
         var nextPagePenalty = nextIndex >= 0 && documentBlocks[nextIndex].PageNumber != currentEntry.PageNumber
             ? NextPagePenalty : 0.0;
         var sizeRarityBoost = stats.FontSizeRarity.GetBoost(stats.RoundFontSize(current.FontSize)) * _fontSizeRarityWeight;
-        var weightRarityBoost = stats.FontWeightRarity.GetBoost(DocumentStatistics.WeightFor(current.IsBold)) * _fontWeightRarityWeight;
+        var weightRarityBoost = stats.FontWeightRarity.GetBoost(current.FontWeight) * _fontWeightRarityWeight;
         var bulletedBoost = IsBulleted(current.Text) ? _bulletedBoost : 0.0;
 
         var sum = neighbourScore + initialBoost + standaloneBoost + centerAlignedBoost

@@ -45,6 +45,8 @@ public interface ILayoutAnalyzer
 /// <param name="FirstLineRight">Right x-coordinate of the block's first constituent line. NaN when not populated.</param>
 /// <param name="MedianLineRight">Median (upper-median for even line counts) right x-coordinate across the block's constituent lines. NaN when not populated.</param>
 /// <param name="LastLineRight">Right x-coordinate of the block's last constituent line. NaN when not populated.</param>
+/// <param name="IsItalic">Whether the dominant font signals italic style, sourced from PdfPig's <c>FontDetails.IsItalic</c>. Defaults to <c>false</c> for blocks constructed without this signal.</param>
+/// <param name="FontWeight">Numeric font weight (typically 100..900 in 100 increments), sourced from PdfPig's <c>FontDetails.Weight</c>. Defaults to <c>400</c> (regular).</param>
 public sealed record TextBlock(
     BoundingBox BoundingBox,
     string Text,
@@ -58,7 +60,9 @@ public sealed record TextBlock(
     double LastLineLeft = double.NaN,
     double FirstLineRight = double.NaN,
     double MedianLineRight = double.NaN,
-    double LastLineRight = double.NaN);
+    double LastLineRight = double.NaN,
+    bool IsItalic = false,
+    int FontWeight = 400);
 
 /// <summary>
 /// Implements the XY-Cut++ algorithm for determining reading order on PDF pages.

@@ -15,9 +15,11 @@ namespace PdfStruct.Analysis;
 /// <param name="Text">Visible text content of the line.</param>
 /// <param name="FontName">Predominant font name across the line.</param>
 /// <param name="FontSize">Predominant font size in points.</param>
-/// <param name="IsBold">Whether the predominant font signals bold weight.</param>
+/// <param name="IsBold">Whether the predominant font signals bold weight, sourced from PdfPig's <c>FontDetails.IsBold</c> when available.</param>
 /// <param name="BaselineY">Baseline y-coordinate, normalised so that horizontal lines have a stable value across glyph orientations.</param>
 /// <param name="AvgHeight">Average glyph height, used as a proxy for typical inter-line spacing.</param>
+/// <param name="IsItalic">Whether the predominant font signals italic style, sourced from PdfPig's <c>FontDetails.IsItalic</c>.</param>
+/// <param name="FontWeight">Numeric font weight (typically 100..900 in 100 increments), sourced from PdfPig's <c>FontDetails.Weight</c>. Defaults to 400 (regular) when no font information is available.</param>
 internal readonly record struct TextLineBlock(
     BoundingBox BoundingBox,
     string Text,
@@ -25,7 +27,9 @@ internal readonly record struct TextLineBlock(
     double FontSize,
     bool IsBold,
     double BaselineY,
-    double AvgHeight)
+    double AvgHeight,
+    bool IsItalic = false,
+    int FontWeight = 400)
 {
     /// <summary>Convenience accessor for <c>BoundingBox.Left</c>.</summary>
     public double Left => BoundingBox.Left;
@@ -61,5 +65,7 @@ internal readonly record struct TextLineBlock(
         LastLineLeft: BoundingBox.Left,
         FirstLineRight: BoundingBox.Right,
         MedianLineRight: BoundingBox.Right,
-        LastLineRight: BoundingBox.Right);
+        LastLineRight: BoundingBox.Right,
+        IsItalic: IsItalic,
+        FontWeight: FontWeight);
 }

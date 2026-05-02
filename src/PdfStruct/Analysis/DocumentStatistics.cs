@@ -20,7 +20,14 @@ public sealed class DocumentStatistics
     /// <summary>Rarity table over rounded font sizes across the document.</summary>
     public RarityTable FontSizeRarity { get; }
 
-    /// <summary>Rarity table over derived font weights (regular = 400, bold = 700) across the document.</summary>
+    /// <summary>
+    /// Rarity table over numeric font weights (typically 100..900 in 100
+    /// increments) across the document. Weights come from PdfPig's
+    /// <c>FontDetails.Weight</c> via <see cref="TextBlock.FontWeight"/>, so
+    /// the table can distinguish three or more typographic weight levels —
+    /// e.g. body 400, semibold 600, bold 700 — rather than collapsing
+    /// everything to a binary regular/bold flag.
+    /// </summary>
     public RarityTable FontWeightRarity { get; }
 
     /// <summary>Median rounded font size across the document — useful as a body-size baseline.</summary>
@@ -30,8 +37,8 @@ public sealed class DocumentStatistics
     public double ModeFontSize => FontSizeRarity.Mode;
 
     private const double FontSizeRoundingPrecision = 0.5;
-    private const double RegularFontWeight = 400.0;
-    private const double BoldFontWeight = 700.0;
+    private const double MinFontWeightForRarity = 100.0;
+    private const double MaxFontWeightForRarity = 900.0;
 
     /// <summary>
     /// Initializes statistics from every block in the document.
@@ -46,19 +53,17 @@ public sealed class DocumentStatistics
             .Where(s => s > 0)
             .ToArray();
         var weights = blockArray
-            .Select(b => b.IsBold ? BoldFontWeight : RegularFontWeight)
+            .Select(b => (double)b.FontWeight)
+            .Where(w => w > 0)
             .ToArray();
 
         FontSizeRarity = new RarityTable(sizes, scoreMin: 6.0, scoreMax: 200.0);
-        FontWeightRarity = new RarityTable(weights, scoreMin: RegularFontWeight, scoreMax: 900.0);
+        FontWeightRarity = new RarityTable(weights, scoreMin: MinFontWeightForRarity, scoreMax: MaxFontWeightForRarity);
         MedianFontSize = Median(sizes);
     }
 
     /// <summary>Returns the rounded font size used for rarity lookup, matching the rounding applied during construction.</summary>
     public double RoundFontSize(double value) => RoundTo(value, FontSizeRoundingPrecision);
-
-    /// <summary>Maps a block's <see cref="TextBlock.IsBold"/> flag to the synthetic font-weight value used by the rarity table.</summary>
-    public static double WeightFor(bool isBold) => isBold ? BoldFontWeight : RegularFontWeight;
 
     /// <summary>Rounds a value to the supplied precision (e.g. <c>0.5</c> rounds to half-points).</summary>
     private static double RoundTo(double value, double precision) =>

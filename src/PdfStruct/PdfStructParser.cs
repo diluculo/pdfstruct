@@ -1270,7 +1270,9 @@ public sealed class PdfStructParser
             LastLineLeft: last.Left,
             FirstLineRight: first.Right,
             MedianLineRight: medianRight,
-            LastLineRight: last.Right);
+            LastLineRight: last.Right,
+            IsItalic: first.IsItalic,
+            FontWeight: first.FontWeight);
     }
 
     /// <summary>Returns <c>true</c> when two lines have effectively the same font size (within 10% or 1pt).</summary>
@@ -1345,7 +1347,26 @@ public sealed class PdfStructParser
         public double AvgHeight => _words.Average(w => Math.Abs(w.BoundingBox.Top - w.BoundingBox.Bottom));
         public double AvgFontSize => _words.Average(w => w.Letters.FirstOrDefault()?.PointSize ?? 12.0);
         public string FontName => _words[0].Letters.FirstOrDefault()?.FontName ?? "";
-        public bool IsBold => FontName.Contains("Bold", StringComparison.OrdinalIgnoreCase);
+
+        // Authoritative typographic flags come from PdfPig's parsed FontDetails
+        // (set during font dictionary parsing). The fallback to font-name
+        // substring matching only fires when FontDetails is unavailable, which
+        // happens for synthetic glyph streams without an embedded font
+        // descriptor.
+        private UglyToad.PdfPig.PdfFonts.FontDetails? FirstFontDetails =>
+            _words[0].Letters.FirstOrDefault()?.FontDetails;
+
+        public bool IsBold => FirstFontDetails?.IsBold
+            ?? FontName.Contains("Bold", StringComparison.OrdinalIgnoreCase)
+            || FontName.Contains("Heavy", StringComparison.OrdinalIgnoreCase)
+            || FontName.Contains("Black", StringComparison.OrdinalIgnoreCase);
+
+        public bool IsItalic => FirstFontDetails?.IsItalic
+            ?? FontName.Contains("Italic", StringComparison.OrdinalIgnoreCase)
+            || FontName.Contains("Oblique", StringComparison.OrdinalIgnoreCase);
+
+        public int FontWeight => FirstFontDetails?.Weight ?? (IsBold ? 700 : 400);
+
         public string Text => string.Join(" ", _words.OrderBy(w => w.BoundingBox.Left).Select(w => w.Text));
 
         public Models.BoundingBox Bbox => new(Left, Bottom, Right, Top);
@@ -1357,6 +1378,8 @@ public sealed class PdfStructParser
             AvgFontSize,
             IsBold,
             BaselineY,
-            AvgHeight);
+            AvgHeight,
+            IsItalic: IsItalic,
+            FontWeight: FontWeight);
     }
 }
