@@ -19,6 +19,13 @@ namespace PdfStruct.Analysis;
 /// </param>
 /// <param name="Initial">Bonus added when the block is the document's first non-stats-only entry.</param>
 /// <param name="Standalone">Bonus added when no other block on the page overlaps the candidate's row.</param>
+/// <param name="VerticalGap">Bonus added when the candidate has unusually large whitespace above or below it (within the same page).</param>
+/// <param name="AllCaps">Bonus added when every cased letter in the block is uppercase (Latin script only — CJK has no case and is skipped).</param>
+/// <param name="NextPagePenalty">
+/// Negative contribution applied when the next non-stats-only block is on a
+/// different page. Catches surviving running headers/footers whose natural
+/// successor sits across a page break.
+/// </param>
 /// <param name="FontSizeRarity">Font-size rarity rank, weighted by the classifier's size weight.</param>
 /// <param name="FontWeightRarity">Font-weight rarity rank, weighted by the classifier's weight weight.</param>
 /// <param name="Bulleted">Bonus added when the block begins with a list-label glyph.</param>
@@ -28,15 +35,25 @@ namespace PdfStruct.Analysis;
 /// is unaffected, a 5-line block keeps about 53% of the score, and a
 /// 7-or-more-line block is crushed to zero.
 /// </param>
+/// <param name="SentenceFlowDemotion">
+/// Multiplicative penalty applied when the previous block ends mid-sentence,
+/// signalling that the candidate is sandwiched inside body flow rather than
+/// breaking it. Catches magazine pull-quotes that interrupt a paragraph
+/// visually but not syntactically. <c>1.0</c> when no demotion applies.
+/// </param>
 /// <param name="Total">Final probability, clamped to <c>[0, 1]</c>; classification compares this against the threshold.</param>
 public readonly record struct HeadingProbabilityBreakdown(
     double Neighbour,
     double Initial,
     double Standalone,
+    double VerticalGap,
+    double AllCaps,
+    double NextPagePenalty,
     double FontSizeRarity,
     double FontWeightRarity,
     double Bulleted,
     double LineDecay,
+    double SentenceFlowDemotion,
     double Total);
 
 /// <summary>
@@ -99,6 +116,11 @@ public sealed class FontBasedElementClassifier : IElementClassifier
 {
     private const double InitialHeadingBoost = 0.27;
     private const double StandaloneBoost = 0.15;
+    private const double VerticalGapBoost = 0.20;
+    private const double VerticalGapThresholdRatio = 0.5;
+    private const double AllCapsBoost = 0.15;
+    private const double NextPagePenalty = -0.50;
+    private const double SentenceFlowDemotionMultiplier = 0.30;
     private const double LineDecayCoefficient = 0.0291;
 
     private readonly double _headingProbabilityThreshold;
@@ -212,7 +234,8 @@ public sealed class FontBasedElementClassifier : IElementClassifier
         int initialIndex,
         DocumentStatistics stats)
     {
-        var current = documentBlocks[index].Block;
+        var currentEntry = documentBlocks[index];
+        var current = currentEntry.Block;
         var prevIndex = FindPrevNonStatsOnly(documentBlocks, index);
         var nextIndex = FindNextNonStatsOnly(documentBlocks, index);
         var prevIsHeading = prevIndex >= 0 && classifiedAsHeading[prevIndex];
@@ -225,7 +248,7 @@ public sealed class FontBasedElementClassifier : IElementClassifier
                 // veraPDF tail-block rule: when the previous block is already a
                 // heading and there is no next neighbour to compare against,
                 // refuse to chain a second heading at the document's tail.
-                return new HeadingProbabilityBreakdown(0, 0, 0, 0, 0, 0, 0, 0);
+                return new HeadingProbabilityBreakdown(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
             }
             neighbourScore = ScoreVsNeighbour(current, documentBlocks[nextIndex].Block);
         }
@@ -238,23 +261,131 @@ public sealed class FontBasedElementClassifier : IElementClassifier
 
         var initialBoost = index == initialIndex && initialIndex >= 0 ? InitialHeadingBoost : 0.0;
         var standaloneBoost = current.IsStandalone ? StandaloneBoost : 0.0;
+        var verticalGapBoost = ComputeVerticalGapBoost(currentEntry, documentBlocks, prevIndex, nextIndex);
+        var allCapsBoost = IsAllCaps(current.Text) ? AllCapsBoost : 0.0;
+        var nextPagePenalty = nextIndex >= 0 && documentBlocks[nextIndex].PageNumber != currentEntry.PageNumber
+            ? NextPagePenalty : 0.0;
         var sizeRarityBoost = stats.FontSizeRarity.GetBoost(stats.RoundFontSize(current.FontSize)) * _fontSizeRarityWeight;
         var weightRarityBoost = stats.FontWeightRarity.GetBoost(DocumentStatistics.WeightFor(current.IsBold)) * _fontWeightRarityWeight;
         var bulletedBoost = IsBulleted(current.Text) ? _bulletedBoost : 0.0;
 
-        var sum = neighbourScore + initialBoost + standaloneBoost + sizeRarityBoost + weightRarityBoost + bulletedBoost;
+        var sum = neighbourScore + initialBoost + standaloneBoost + verticalGapBoost
+                + allCapsBoost + nextPagePenalty
+                + sizeRarityBoost + weightRarityBoost + bulletedBoost;
         var lineDecay = LineCountDecay(current.LineCount);
-        var total = Math.Clamp(sum * lineDecay, 0.0, 1.0);
+        var sentenceFlowDemotion = ComputeSentenceFlowDemotion(currentEntry, documentBlocks, prevIndex, classifiedAsHeading);
+        var total = Math.Clamp(sum * lineDecay * sentenceFlowDemotion, 0.0, 1.0);
 
         return new HeadingProbabilityBreakdown(
             Neighbour: neighbourScore,
             Initial: initialBoost,
             Standalone: standaloneBoost,
+            VerticalGap: verticalGapBoost,
+            AllCaps: allCapsBoost,
+            NextPagePenalty: nextPagePenalty,
             FontSizeRarity: sizeRarityBoost,
             FontWeightRarity: weightRarityBoost,
             Bulleted: bulletedBoost,
             LineDecay: lineDecay,
+            SentenceFlowDemotion: sentenceFlowDemotion,
             Total: total);
+    }
+
+    /// <summary>
+    /// Adds a fixed boost when the candidate has unusually large whitespace
+    /// either above (gap to <paramref name="prevIndex"/>) or below (gap to
+    /// <paramref name="nextIndex"/>) within the same page. "Unusually large"
+    /// is defined relative to the candidate's font size: a gap exceeding
+    /// half the font size is treated as the kind of paragraph-break-or-more
+    /// whitespace that surrounds headings. Only same-page neighbours count
+    /// — the gap across a page break is dominated by margins, not content.
+    /// </summary>
+    private static double ComputeVerticalGapBoost(
+        DocumentTextBlock currentEntry,
+        IReadOnlyList<DocumentTextBlock> documentBlocks,
+        int prevIndex,
+        int nextIndex)
+    {
+        var current = currentEntry.Block;
+        if (current.FontSize <= 0) return 0.0;
+        var threshold = current.FontSize * VerticalGapThresholdRatio;
+
+        if (prevIndex >= 0 && documentBlocks[prevIndex].PageNumber == currentEntry.PageNumber)
+        {
+            var prev = documentBlocks[prevIndex].Block;
+            var gapAbove = prev.BoundingBox.Bottom - current.BoundingBox.Top;
+            if (gapAbove > threshold) return VerticalGapBoost;
+        }
+
+        if (nextIndex >= 0 && documentBlocks[nextIndex].PageNumber == currentEntry.PageNumber)
+        {
+            var next = documentBlocks[nextIndex].Block;
+            var gapBelow = current.BoundingBox.Bottom - next.BoundingBox.Top;
+            if (gapBelow > threshold) return VerticalGapBoost;
+        }
+
+        return 0.0;
+    }
+
+    /// <summary>
+    /// Returns a multiplier in <c>(0, 1]</c> demoting candidates that sit
+    /// inside body flow. When the previous same-page block ends mid-sentence
+    /// (no terminator on its last line), the candidate is sandwiched in a
+    /// paragraph rather than introducing one — magazine pull-quotes are the
+    /// canonical case. Returns <c>1.0</c> (no demotion) when the previous
+    /// block sits on a different page, was already classified as a heading,
+    /// is a single short line (likely a title or fragment rather than body),
+    /// or ends with a sentence terminator.
+    /// </summary>
+    private static double ComputeSentenceFlowDemotion(
+        DocumentTextBlock currentEntry,
+        IReadOnlyList<DocumentTextBlock> documentBlocks,
+        int prevIndex,
+        IReadOnlyList<bool> classifiedAsHeading)
+    {
+        if (prevIndex < 0) return 1.0;
+        if (documentBlocks[prevIndex].PageNumber != currentEntry.PageNumber) return 1.0;
+        if (classifiedAsHeading[prevIndex]) return 1.0;
+
+        var prev = documentBlocks[prevIndex].Block;
+        // A single-line prev is more likely a title or short fragment than
+        // body text — e.g. the document's untyped title "대한민국헌법" has no
+        // sentence terminator but is not a paragraph the candidate could
+        // sandwich. Demoting on such a prev produces false positives.
+        if (prev.LineCount < 2) return 1.0;
+
+        var prevLastLine = LastLine(prev.Text);
+        return SentenceFlow.IsLineContinuation(prevLastLine)
+            ? SentenceFlowDemotionMultiplier
+            : 1.0;
+    }
+
+    /// <summary>Returns the last newline-delimited segment of a block's text, trimmed of trailing whitespace.</summary>
+    private static string LastLine(string text)
+    {
+        var newline = text.LastIndexOf('\n');
+        return (newline >= 0 ? text[(newline + 1)..] : text).TrimEnd();
+    }
+
+    /// <summary>
+    /// Returns <c>true</c> when the block contains at least three cased
+    /// letters and every cased letter is uppercase. Cased means the
+    /// character has a meaningful upper/lower distinction — Hangul, CJK
+    /// ideographs, and other case-less scripts are skipped, so a Korean
+    /// block is never reported as ALL CAPS.
+    /// </summary>
+    private static bool IsAllCaps(string text)
+    {
+        var cased = 0;
+        var upper = 0;
+        foreach (var c in text)
+        {
+            if (!char.IsLetter(c)) continue;
+            if (!char.IsUpper(c) && !char.IsLower(c)) continue;
+            cased++;
+            if (char.IsUpper(c)) upper++;
+        }
+        return cased >= 3 && upper == cased;
     }
 
     /// <summary>
