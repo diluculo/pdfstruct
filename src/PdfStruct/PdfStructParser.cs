@@ -1150,15 +1150,20 @@ public sealed class PdfStructParser
 
     /// <summary>
     /// Returns the indices in <paramref name="wordsByX"/> after which a column-like
-    /// outlier gap appears. A gap qualifies when it exceeds three times the
-    /// raw-line median gap, four times the line's average glyph height, or
-    /// the absolute <see cref="MaxIntraLineGapPoints"/> ceiling — whichever
-    /// yields the lowest threshold. The three arms cooperate: the
-    /// median-relative arm catches narrow-column layouts where the absolute
-    /// gap is small but anomalous, the height-relative arm covers single-gap
-    /// raw lines whose median equals the gap itself, and the absolute cap
-    /// handles sparse rows whose font size is so large that the relative
-    /// arms overshoot any plausible same-line gap.
+    /// outlier gap appears. The threshold is the larger of three times the
+    /// raw-line median gap and twice the line's average glyph height,
+    /// capped at the absolute <see cref="MaxIntraLineGapPoints"/> ceiling.
+    /// The two relative arms cooperate: <c>median × 3</c> dominates on
+    /// large-font rows whose intra-word gaps are healthy multiples of the
+    /// glyph height, while <c>avgHeight × 2</c> establishes a glyph-scaled
+    /// floor that prevents the median rule from overreacting on
+    /// tightly-kerned small text — the canonical example is a numbered
+    /// reference list where an 8pt body has ~2pt intra-word gaps and the
+    /// "1." → "Author" indent gap is ~9pt; <c>median × 3</c> alone would
+    /// flag that indent as a column boundary and split the reference into
+    /// "1." and "Author...". The absolute cap still cuts sparse rows whose
+    /// font size pushes both relative arms past any plausible same-line
+    /// gap (large page-number badges in a magazine table of contents).
     /// </summary>
     private static List<int> FindOutlierGapSplits(IReadOnlyList<Word> wordsByX)
     {
@@ -1178,7 +1183,7 @@ public sealed class PdfStructParser
 
         var avgHeight = wordsByX.Average(w => Math.Abs(w.BoundingBox.Top - w.BoundingBox.Bottom));
         var threshold = Math.Min(
-            Math.Min(medianGap * 3.0, avgHeight * 4.0),
+            Math.Max(medianGap * 3.0, avgHeight * 2.0),
             MaxIntraLineGapPoints);
 
         var splits = new List<int>();
