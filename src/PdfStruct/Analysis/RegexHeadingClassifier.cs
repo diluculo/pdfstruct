@@ -54,13 +54,15 @@ public sealed class RegexHeadingClassifier : IElementClassifier
 
     /// <inheritdoc />
     public IReadOnlyList<ContentElement> Classify(
-        IReadOnlyList<TextBlock> blocks, int pageNumber, ref int startId)
+        IReadOnlyList<DocumentTextBlock> documentBlocks, ref int startId)
     {
-        var results = new List<ContentElement>(blocks.Count);
-        foreach (var block in blocks)
+        var results = new List<ContentElement>(documentBlocks.Count);
+        foreach (var entry in documentBlocks)
         {
-            ContentElement element = TryClassifyHeading(block, pageNumber, ref startId)
-                ?? (ContentElement)CreateParagraph(block, pageNumber, ref startId);
+            if (entry.IsStatsOnly) continue;
+
+            ContentElement element = TryClassifyHeading(entry.Block, entry.PageNumber, ref startId)
+                ?? (ContentElement)CreateParagraph(entry.Block, entry.PageNumber, ref startId);
             results.Add(element);
         }
         return results;

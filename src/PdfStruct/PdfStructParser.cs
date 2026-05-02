@@ -171,7 +171,6 @@ public sealed class PdfStructParser
         }
 
         var classifier = new FontBasedElementClassifier(_options.HeadingProbabilityThreshold);
-        classifier.Prepare(allBlocks);
         var stats = new DocumentStatistics(allBlocks);
 
         var rows = new List<HeadingDiagnosticRow>(allBlocks.Count);
@@ -227,7 +226,7 @@ public sealed class PdfStructParser
             ApplyConservativeReconciliation(pageLines, originalPageLines, pageLists);
 
         var pageBlocks = new Dictionary<int, IReadOnlyList<TextBlock>>(pdf.NumberOfPages);
-        var allBlocks = new List<TextBlock>();
+        var statsOnlyBlocks = new List<DocumentTextBlock>();
         for (var p = 1; p <= pdf.NumberOfPages; p++)
         {
             PageGeometry? pageGeometry = _options.ExcludeHeadersFooters ? pageGeometries[p] : null;
@@ -237,7 +236,8 @@ public sealed class PdfStructParser
             {
                 foreach (var list in listsOnPage)
                     foreach (var item in list.Items)
-                        allBlocks.Add(SynthesizeListItemStatsBlock(list, item));
+                        statsOnlyBlocks.Add(new DocumentTextBlock(
+                            p, SynthesizeListItemStatsBlock(list, item), IsStatsOnly: true));
 
                 var augmented = new List<TextBlock>(blocks.Count + listsOnPage.Count);
                 augmented.AddRange(blocks);
@@ -247,18 +247,22 @@ public sealed class PdfStructParser
                 blocks = WithStandaloneFlag(ordered);
             }
 
-            allBlocks.AddRange(blocks);
             pageBlocks[p] = blocks;
         }
 
-        _classifier.Prepare(allBlocks);
-
-        var elementId = 1;
+        var totalCount = statsOnlyBlocks.Count;
+        foreach (var blocks in pageBlocks.Values) totalCount += blocks.Count;
+        var documentBlocks = new List<DocumentTextBlock>(totalCount);
         for (var p = 1; p <= pdf.NumberOfPages; p++)
         {
-            var elements = _classifier.Classify(pageBlocks[p], p, ref elementId);
-            doc.Kids.AddRange(elements);
+            foreach (var block in pageBlocks[p])
+                documentBlocks.Add(new DocumentTextBlock(p, block));
         }
+        documentBlocks.AddRange(statsOnlyBlocks);
+
+        var elementId = 1;
+        var elements = _classifier.Classify(documentBlocks, ref elementId);
+        doc.Kids.AddRange(elements);
 
         if (pageLists.Count > 0)
             ReplaceListPlaceholders(doc.Kids, pageLists, originalPageLines);

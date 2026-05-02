@@ -26,23 +26,26 @@ public readonly record struct HeadingProbabilityBreakdown(
 /// <summary>
 /// Defines a classifier that determines the semantic type of text blocks.
 /// </summary>
+/// <remarks>
+/// Receives every block in the document in reading order, with page numbers
+/// carried on each <see cref="DocumentTextBlock"/>. Implementations are
+/// expected to be stateless — any document-wide statistics they need (font
+/// frequency, neighbour relationships, etc.) are computed from the supplied
+/// sequence on each invocation. This rules out hidden cache-versus-input
+/// mismatches and makes classifiers safe to share across parses.
+/// </remarks>
 public interface IElementClassifier
 {
     /// <summary>
-    /// Optional pre-pass invoked once with every extracted block across the
-    /// whole document, before any per-page <see cref="Classify"/> calls.
-    /// Classifiers that need document-wide signals (font-size frequency,
-    /// font-weight frequency, etc.) override this to compute and cache them.
-    /// The default implementation is a no-op.
+    /// Classifies the document's text blocks into typed content elements,
+    /// in input order. Implementations may consult neighbouring entries in
+    /// <paramref name="documentBlocks"/> for context.
     /// </summary>
-    /// <param name="documentBlocks">Every block extracted from the document, in arbitrary order.</param>
-    void Prepare(IReadOnlyList<TextBlock> documentBlocks) { }
-
-    /// <summary>
-    /// Classifies text blocks into typed content elements.
-    /// </summary>
+    /// <param name="documentBlocks">Every block extracted from the document, in reading order, paired with its 1-indexed page number.</param>
+    /// <param name="startId">The next element ID to assign; advanced by one per produced element.</param>
+    /// <returns>One <see cref="ContentElement"/> per input block, in the same order.</returns>
     IReadOnlyList<ContentElement> Classify(
-        IReadOnlyList<TextBlock> blocks, int pageNumber, ref int startId);
+        IReadOnlyList<DocumentTextBlock> documentBlocks, ref int startId);
 }
 
 /// <summary>
@@ -66,8 +69,6 @@ public sealed class FontBasedElementClassifier : IElementClassifier
     private readonly double _fontSizeRarityWeight;
     private readonly double _fontWeightRarityWeight;
     private readonly double _bulletedBoost;
-
-    private DocumentStatistics? _statistics;
 
     /// <summary>
     /// Initializes a new instance of <see cref="FontBasedElementClassifier"/>.
@@ -102,25 +103,21 @@ public sealed class FontBasedElementClassifier : IElementClassifier
     }
 
     /// <inheritdoc />
-    public void Prepare(IReadOnlyList<TextBlock> documentBlocks)
-    {
-        _statistics = new DocumentStatistics(documentBlocks);
-    }
-
-    /// <inheritdoc />
     public IReadOnlyList<ContentElement> Classify(
-        IReadOnlyList<TextBlock> blocks, int pageNumber, ref int startId)
+        IReadOnlyList<DocumentTextBlock> documentBlocks, ref int startId)
     {
-        var stats = _statistics ?? new DocumentStatistics(blocks);
-        var elements = new List<ContentElement>(blocks.Count);
+        var stats = new DocumentStatistics(documentBlocks.Select(d => d.Block));
+        var elements = new List<ContentElement>(documentBlocks.Count);
 
-        foreach (var block in blocks)
+        foreach (var entry in documentBlocks)
         {
-            var probability = ComputeHeadingProbability(block, stats);
+            if (entry.IsStatsOnly) continue;
+
+            var probability = ComputeHeadingProbability(entry.Block, stats);
             if (probability > _headingProbabilityThreshold)
-                elements.Add(CreateHeading(block, pageNumber, ref startId));
+                elements.Add(CreateHeading(entry.Block, entry.PageNumber, ref startId));
             else
-                elements.Add(CreateParagraph(block, pageNumber, ref startId));
+                elements.Add(CreateParagraph(entry.Block, entry.PageNumber, ref startId));
         }
         return elements;
     }

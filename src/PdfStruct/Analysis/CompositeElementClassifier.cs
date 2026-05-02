@@ -35,29 +35,23 @@ public sealed class CompositeElementClassifier : IElementClassifier
     }
 
     /// <inheritdoc />
-    public void Prepare(IReadOnlyList<TextBlock> documentBlocks)
-    {
-        foreach (var inner in _classifiers)
-            inner.Prepare(documentBlocks);
-    }
-
-    /// <inheritdoc />
     public IReadOnlyList<ContentElement> Classify(
-        IReadOnlyList<TextBlock> blocks, int pageNumber, ref int startId)
+        IReadOnlyList<DocumentTextBlock> documentBlocks, ref int startId)
     {
         if (_classifiers.Length == 0) return [];
         if (_classifiers.Length == 1)
-            return _classifiers[0].Classify(blocks, pageNumber, ref startId);
+            return _classifiers[0].Classify(documentBlocks, ref startId);
 
         var perClassifier = new IReadOnlyList<ContentElement>[_classifiers.Length];
         for (var i = 0; i < _classifiers.Length; i++)
         {
             var throwaway = 0;
-            perClassifier[i] = _classifiers[i].Classify(blocks, pageNumber, ref throwaway);
+            perClassifier[i] = _classifiers[i].Classify(documentBlocks, ref throwaway);
         }
 
-        var final = new List<ContentElement>(blocks.Count);
-        for (var i = 0; i < blocks.Count; i++)
+        var resultCount = perClassifier[0].Count;
+        var final = new List<ContentElement>(resultCount);
+        for (var i = 0; i < resultCount; i++)
         {
             ContentElement chosen = perClassifier[0][i];
             for (var c = 0; c < _classifiers.Length; c++)
