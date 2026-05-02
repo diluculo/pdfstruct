@@ -264,6 +264,8 @@ public sealed class PdfStructParser
         if (pageLists.Count > 0)
             ReplaceListPlaceholders(doc.Kids, pageLists, originalPageLines);
 
+        TemplateClassConsistency.PromoteSharedTemplates(doc.Kids);
+
         AssignHeadingLevels(doc.Kids);
 
         if (_options.ExcludeHeadersFooters)
