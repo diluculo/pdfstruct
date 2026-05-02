@@ -919,7 +919,7 @@ public sealed class PdfStructParser
     /// </summary>
     private IReadOnlyList<TextLineBlock> ExtractPageTextLines(Page page)
     {
-        var words = page.GetWords().ToList();
+        var words = page.GetWords(LetterGrouper.Instance).ToList();
         if (words.Count == 0) return [];
 
         var lines = GroupWordsIntoLines(words);
