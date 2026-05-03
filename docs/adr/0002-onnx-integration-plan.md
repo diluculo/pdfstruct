@@ -227,7 +227,21 @@ Suggested behavior:
 
 ## 6. Validation Spike
 
-### 6.1 Fixtures
+### 6.1 Preliminary proxy result (2026-05-03)
+
+Before building a full oracle-label harness, we ran the existing heading diagnostic pipeline and applied a coarse role-proxy demotion rule to current heading candidates. This is not the final oracle experiment, but it gives an early signal about whether role information targets real failure clusters.
+
+| Fixture | Blocks | Current headings | Coarse role-proxy demotions | Remaining headings | Interpretation |
+|---|---:|---:|---:|---:|---|
+| `table_of_contents.pdf` | 42 | 13 | 11 page-number/furniture headings | 2 | Very strong signal: most false headings are page-number roles. |
+| `magazine_article.pdf` | 14 | 2 | 1 byline/furniture heading | 1 | Pull quote is already controlled; byline still needs role demotion. |
+| `plos_utilizing_llm.pdf` | 299 | 61 | 48 metadata/caption/reference/author headings | 13 | Strong signal: role labels would remove a large false-positive cluster. |
+| `plos_game_based_education.pdf` | 381 | 66 | 30 metadata/caption/reference/author headings | 36 | Moderate-to-strong signal; remaining cases need manual review. |
+| `kr_constitution.pdf` | 264 | 1 | 0 | 1 | Confirms Korean legal hierarchy still needs regex/domain rules, not generic visual roles alone. |
+
+Initial conclusion: role information is likely worth pursuing for furniture, captions, references, and publication metadata. It is not a replacement for domain-specific heading classifiers such as the Korean legal regex path.
+
+### 6.2 Fixtures
 
 Use existing fixtures first where possible:
 
@@ -241,7 +255,7 @@ Additional fixture candidates:
 - US patent front page with INID codes and two-column metadata flow.
 - A page with mid-body figure/table captions.
 
-### 6.2 Oracle role file
+### 6.3 Oracle role file
 
 Create a small JSON file mapping extracted block identity to role. Prefer stable fields over full text when possible:
 
@@ -260,7 +274,7 @@ Create a small JSON file mapping extracted block identity to role. Prefer stable
 
 The first spike can use pattern-based oracle labels if manually audited. The final validation set should store block-level labels generated from diagnostics.
 
-### 6.3 Prototype behavior
+### 6.4 Prototype behavior
 
 For each page:
 
@@ -275,7 +289,7 @@ For each page:
 5. Reinsert side units and footnotes by simple anchor rules.
 6. Compare against current output.
 
-### 6.4 Success criteria
+### 6.5 Success criteria
 
 Continue toward ONNX only if at least two weak fixtures improve without a clear regression in the others.
 
